@@ -1,0 +1,11 @@
+{
+	"name": "openfl-js",
+	"url": "http://www.openfl.org",
+	"license": "MIT",
+	"tags": [],
+	"description": "The \"Open Flash Library\" for fast 2D development (JS version)",
+	"version": "9.0.2",
+	"releasenote": "Initial release",
+	"contributors": [ "singmajesty" ],
+	"classPath": "lib"
+}
