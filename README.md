@@ -14,7 +14,7 @@ Interactive application and game developers need access to productive tools for 
 Two Versions
 ============
 
-There are two versions of OpenFL, the first is primarily distributed using haxelib, and blends native support for Windows, macOS, Linux, iOS, Android, Flash, HTML5 and WebAssembly. You can read more about the haxelib distributed version of OpenFL, [here](README-haxelib.md).
+There are two versions of OpenFL, the first is primarily distributed using haxelib, and blends native support for Windows, macOS, Linux, iOS, Android, Flash, HTML5 and WebAssembly. You can read more about the haxelib distributed version of OpenFL, [here](https://github.com/openfl/openfl).
 
 The second edition of OpenFL is distributed using NPM, and is designed for use from TypeScript, JavaScript (EcmaScript 5 or 6+) or Haxe, the latter of which can be used in both versions of OpenFL. The NPM version of OpenFL is designed to be used in a browser environment. The NPM version also has (beta) support for ActionScript 3.0.
 
@@ -158,16 +158,16 @@ Then extend the `constructor` method so it looks like this:
 
 ```typescript
 constructor () {
-	
+
 	super ();
-	
+
 	BitmapData.loadFromFile ("openfl.png").onComplete ((bitmapData) => {
-		
+
 		var bitmap = new Bitmap (bitmapData);
 		this.addChild (bitmap);
-		
+
 	});
-	
+
 }
 ```
 
@@ -184,16 +184,16 @@ Then extend the `new` method so it looks like this:
 
 ```haxe
 public function new () {
-	
+
 	super ();
-	
+
 	BitmapData.loadFromFile ("openfl.png").onComplete (function (bitmapData) {
-		
+
 		var bitmap = new Bitmap (bitmapData);
 		addChild (bitmap);
-		
+
 	});
-	
+
 }
 ```
 
@@ -210,16 +210,16 @@ Then extend the `constructor` method so it looks like this:
 
 ```typescript
 constructor () {
-	
+
 	super ();
-	
+
 	BitmapData.loadFromFile ("openfl.png").onComplete ((bitmapData) => {
-		
+
 		var bitmap = new Bitmap (bitmapData);
 		this.addChild (bitmap);
-		
+
 	});
-	
+
 }
 ```
 
@@ -236,16 +236,16 @@ Then extend the `App` constructor so it looks like this:
 
 ```typescript
 var App = function () {
-	
+
 	Sprite.call (this);
-	
+
 	BitmapData.loadFromFile ("openfl.png").onComplete (function (bitmapData) {
-		
+
 		var bitmap = new Bitmap (bitmapData);
 		this.addChild (bitmap);
-		
+
 	}.bind (this));
-	
+
 }
 ```
 
