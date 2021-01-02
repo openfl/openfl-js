@@ -30,7 +30,7 @@ jobs:
         webhook_id: ${{ secrets.DISCORD_WEBHOOK_ID }}
         webhook_token: ${{ secrets.DISCORD_WEBHOOK_TOKEN }}
         color: "#00C07F"
-        message: "https://github.com/openfl/openfl-npm/actions\nUnit tests succeeded."
+        message: "https://github.com/openfl/openfl-js/actions\nUnit tests succeeded."
 
     - name: Notify Discord (failure)
       uses: appleboy/discord-action@master
@@ -39,5 +39,5 @@ jobs:
         webhook_id: ${{ secrets.DISCORD_WEBHOOK_ID }}
         webhook_token: ${{ secrets.DISCORD_WEBHOOK_TOKEN }}
         color: "#FF6562"
-        message: "https://github.com/openfl/openfl-npm/actions\nUnit tests failed."
+        message: "https://github.com/openfl/openfl-js/actions\nUnit tests failed."
 
