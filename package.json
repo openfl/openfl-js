@@ -99,7 +99,7 @@
     "lime": "openfl/lime#develop",
     "mocha": "^5.2.0",
     "mocha-chrome": "^1.1.0",
-    "openfl-haxelib": "openfl/openfl#dead-simple",
+    "openfl-haxelib": "github:openfl/openfl#develop",
     "swf": "openfl/swf",
     "typedoc": "^0.11.1",
     "typescript": "^3.9.7",
