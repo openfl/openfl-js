@@ -1,5 +1,5 @@
 import System from "openfl/system/System";
-import * as assert from "assert";
+var assert = chai.assert;
 
 
 describe ("TypeScript | System", function () {

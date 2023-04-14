@@ -1,7 +1,7 @@
 import Sprite from "openfl/display/Sprite";
 import Event from "openfl/events/Event";
 import Lib from "openfl/Lib";
-import * as assert from "assert";
+var assert = chai.assert;
 
 
 describe ("TypeScript | Event", function () {

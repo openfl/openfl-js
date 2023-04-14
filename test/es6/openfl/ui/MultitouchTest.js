@@ -1,5 +1,5 @@
 import Multitouch from "openfl/ui/Multitouch";
-import * as assert from "assert";
+var assert = chai.assert;
 
 
 describe ("ES6 | Multitouch", function () {

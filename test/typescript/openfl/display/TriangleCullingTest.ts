@@ -1,5 +1,5 @@
 import TriangleCulling from "openfl/display/TriangleCulling";
-import * as assert from "assert";
+var assert = chai.assert;
 
 
 describe ("TypeScript | TriangleCulling", function () {

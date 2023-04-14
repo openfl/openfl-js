@@ -1,5 +1,5 @@
 import Context3DTextureFilter from "openfl/display3D/Context3DTextureFilter";
-import * as assert from "assert";
+var assert = chai.assert;
 
 
 describe ("TypeScript | Context3DTextureFilter", function () {

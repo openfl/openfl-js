@@ -1,5 +1,5 @@
 import MovieClip from "openfl/display/MovieClip";
-import * as assert from "assert";
+var assert = chai.assert;
 
 
 describe ("TypeScript | MovieClip", function () {

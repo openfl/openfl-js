@@ -1,6 +1,6 @@
 import Program3D from "openfl/display3D/Program3D";
 import Stage3DTest from "./../display/Stage3DTest";
-import * as assert from "assert";
+var assert = chai.assert;
 
 
 describe ("ES6 | Program3D", function () {

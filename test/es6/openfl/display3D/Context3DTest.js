@@ -1,6 +1,6 @@
 import Context3D from "openfl/display3D/Context3D";
 import Stage3DTest from "./../display/Stage3DTest";
-import * as assert from "assert";
+var assert = chai.assert;
 
 
 describe ("ES6 | Context3D", function () {

@@ -1,5 +1,5 @@
 import SharedObjectFlushStatus from "openfl/net/SharedObjectFlushStatus";
-import * as assert from "assert";
+var assert = chai.assert;
 
 
 describe ("ES6 | SharedObjectFlushStatus", function () {

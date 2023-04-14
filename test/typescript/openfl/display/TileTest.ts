@@ -1,5 +1,5 @@
 import Tile from "openfl/display/Tile";
-import * as assert from "assert";
+var assert = chai.assert;
 
 
 describe ("TypeScript | Tile", function () {

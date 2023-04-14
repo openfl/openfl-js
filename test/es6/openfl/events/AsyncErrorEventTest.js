@@ -1,5 +1,5 @@
 import AsyncErrorEvent from "openfl/events/AsyncErrorEvent";
-import * as assert from "assert";
+var assert = chai.assert;
 
 
 describe ("ES6 | AsyncErrorEvent", function () {

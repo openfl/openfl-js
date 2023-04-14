@@ -1,5 +1,5 @@
 import LoaderContext from "openfl/system/LoaderContext";
-import * as assert from "assert";
+var assert = chai.assert;
 
 
 describe ("ES6 | LoaderContext", function () {

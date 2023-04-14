@@ -1,5 +1,5 @@
 import BitmapFilterQuality from "openfl/filters/BitmapFilterQuality";
-import * as assert from "assert";
+var assert = chai.assert;
 
 
 describe ("ES6 | BitmapFilterQuality", function () {

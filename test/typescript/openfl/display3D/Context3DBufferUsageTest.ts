@@ -1,5 +1,5 @@
 import Context3DBufferUsage from "openfl/display3D/Context3DBufferUsage";
-import * as assert from "assert";
+var assert = chai.assert;
 
 
 describe ("TypeScript | Context3DBufferUsage", function () {

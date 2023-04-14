@@ -1,5 +1,5 @@
 import BitmapDataChannel from "openfl/display/BitmapDataChannel";
-import * as assert from "assert";
+var assert = chai.assert;
 
 
 describe ("TypeScript | BitmapDataChannel", function () {

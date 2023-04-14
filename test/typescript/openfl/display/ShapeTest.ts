@@ -1,5 +1,5 @@
 import Shape from "openfl/display/Shape";
-import * as assert from "assert";
+var assert = chai.assert;
 
 
 describe ("TypeScript | Shape", function () {

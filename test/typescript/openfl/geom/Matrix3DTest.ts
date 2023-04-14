@@ -2,7 +2,7 @@
 import Matrix3D from "openfl/geom/Matrix3D";
 import Vector3D from "openfl/geom/Vector3D";
 import Vector from "openfl/Vector";
-import * as assert from "assert";
+var assert = chai.assert;
 
 
 describe ("TypeScript | Matrix3D", function () {

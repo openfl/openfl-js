@@ -1,6 +1,6 @@
 import ShaderData from "openfl/display/ShaderData";
 import ByteArray from "openfl/utils/ByteArray";
-import * as assert from "assert";
+var assert = chai.assert;
 
 
 describe ("ES6 | ShaderData", function () {

@@ -1,5 +1,5 @@
 import ProgressEvent from "openfl/events/ProgressEvent";
-import * as assert from "assert";
+var assert = chai.assert;
 
 
 describe ("TypeScript | ProgressEvent", function () {

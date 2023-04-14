@@ -1,5 +1,5 @@
 import Keyboard from "openfl/ui/Keyboard";
-import * as assert from "assert";
+var assert = chai.assert;
 
 
 describe ("TypeScript | Keyboard", function () {

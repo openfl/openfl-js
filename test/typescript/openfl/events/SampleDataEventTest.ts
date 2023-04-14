@@ -1,5 +1,5 @@
 import SampleDataEvent from "openfl/events/SampleDataEvent";
-import * as assert from "assert";
+var assert = chai.assert;
 
 
 describe ("TypeScript | SampleDataEvent", function () {

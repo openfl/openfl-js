@@ -7,7 +7,7 @@ import Sprite from "openfl/display/Sprite";
 import Point from "openfl/geom/Point";
 import Rectangle from "openfl/geom/Rectangle";
 import Lib from "openfl/Lib";
-import * as assert from "assert";
+var assert = chai.assert;
 
 
 describe ("TypeScript | DisplayObject", function () {

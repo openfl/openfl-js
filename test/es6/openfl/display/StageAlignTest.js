@@ -1,5 +1,5 @@
 import StageAlign from "openfl/display/StageAlign";
-import * as assert from "assert";
+var assert = chai.assert;
 
 
 describe ("ES6 | StageAlign", function () {

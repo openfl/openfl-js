@@ -1,5 +1,5 @@
 import LineScaleMode from "openfl/display/LineScaleMode";
-import * as assert from "assert";
+var assert = chai.assert;
 
 
 describe ("ES6 | LineScaleMode", function () {

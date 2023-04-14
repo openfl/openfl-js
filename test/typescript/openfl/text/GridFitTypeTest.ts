@@ -1,5 +1,5 @@
 import GridFitType from "openfl/text/GridFitType";
-import * as assert from "assert";
+var assert = chai.assert;
 
 
 describe ("TypeScript | GridFitType", function () {

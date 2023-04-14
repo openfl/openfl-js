@@ -1,6 +1,6 @@
 import IndexBuffer3D from "openfl/display3D/IndexBuffer3D";
 import Stage3DTest from "./../display/Stage3DTest";
-import * as assert from "assert";
+var assert = chai.assert;
 
 
 describe ("ES6 | IndexBuffer3D", function () {

@@ -1,5 +1,5 @@
 import ArgumentError from "openfl/errors/ArgumentError";
-import * as assert from "assert";
+var assert = chai.assert;
 
 
 describe ("TypeScript | ArgumentError", function () {

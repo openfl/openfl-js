@@ -1,5 +1,5 @@
 import Context3DClearMask from "openfl/display3D/Context3DClearMask";
-import * as assert from "assert";
+var assert = chai.assert;
 
 
 describe ("TypeScript | Context3DClearMask", function () {

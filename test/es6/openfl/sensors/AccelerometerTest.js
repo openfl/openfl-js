@@ -1,5 +1,5 @@
 import Accelerometer from "openfl/sensors/Accelerometer";
-import * as assert from "assert";
+var assert = chai.assert;
 
 
 describe ("ES6 | Accelerometer", function () {

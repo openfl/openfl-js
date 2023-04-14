@@ -1,5 +1,5 @@
 import StageQuality from "openfl/display/StageQuality";
-import * as assert from "assert";
+var assert = chai.assert;
 
 
 describe ("ES6 | StageQuality", function () {

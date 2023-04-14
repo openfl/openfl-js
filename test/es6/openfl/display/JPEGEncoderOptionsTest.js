@@ -1,5 +1,5 @@
 import JPEGEncoderOptions from "openfl/display/JPEGEncoderOptions";
-import * as assert from "assert";
+var assert = chai.assert;
 
 
 describe ("ES6 | JPEGEncoderOptions", function () {

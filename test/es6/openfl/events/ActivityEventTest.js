@@ -1,5 +1,5 @@
 import ActivityEvent from "openfl/events/ActivityEvent";
-import * as assert from "assert";
+var assert = chai.assert;
 
 
 describe ("ES6 | ActivityEvent", function () {

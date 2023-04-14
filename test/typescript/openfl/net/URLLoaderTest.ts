@@ -1,5 +1,5 @@
 import URLLoader from "openfl/net/URLLoader";
-import * as assert from "assert";
+var assert = chai.assert;
 
 
 describe ("TypeScript | URLLoader", function () {

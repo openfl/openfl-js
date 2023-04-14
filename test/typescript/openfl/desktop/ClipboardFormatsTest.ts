@@ -1,5 +1,5 @@
 import ClipboardFormats from "openfl/desktop/ClipboardFormats";
-import * as assert from "assert";
+var assert = chai.assert;
 
 
 describe ("TypeScript | ClipboardFormats", function () {

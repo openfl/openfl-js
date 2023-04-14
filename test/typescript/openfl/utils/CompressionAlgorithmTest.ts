@@ -1,5 +1,5 @@
 import CompressionAlgorithm from "openfl/utils/CompressionAlgorithm";
-import * as assert from "assert";
+var assert = chai.assert;
 
 
 describe ("TypeScript | CompressionAlgorithm", function () {

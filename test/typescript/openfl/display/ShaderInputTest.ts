@@ -1,7 +1,7 @@
 import BitmapData from "openfl/display/BitmapData";
 import ShaderInput from "openfl/display/ShaderInput";
 import ByteArray from "openfl/utils/ByteArray";
-import * as assert from "assert";
+var assert = chai.assert;
 
 
 describe ("TypeScript | ShaderInput", function () {

@@ -1,5 +1,5 @@
 import Timer from "openfl/utils/Timer";
-import * as assert from "assert";
+var assert = chai.assert;
 
 
 describe ("ES6 | Timer", function () {

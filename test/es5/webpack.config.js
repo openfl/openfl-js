@@ -5,9 +5,6 @@ var allTests = glob.sync ('./**/*.js', { "ignore": [ './webpack.config.js', './b
 
 module.exports = {
 	mode: "development",
-	node: {
-		fs: 'empty'
-	},
 	entry: {
 		bundle: allTests
 	},

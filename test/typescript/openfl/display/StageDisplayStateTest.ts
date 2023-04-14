@@ -1,5 +1,5 @@
 import StageDisplayState from "openfl/display/StageDisplayState";
-import * as assert from "assert";
+var assert = chai.assert;
 
 
 describe ("TypeScript | StageDisplayState", function () {

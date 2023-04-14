@@ -1,5 +1,5 @@
 import ApplicationDomain from "openfl/system/ApplicationDomain";
-import * as assert from "assert";
+var assert = chai.assert;
 
 
 describe ("ES6 | ApplicationDomain", function () {

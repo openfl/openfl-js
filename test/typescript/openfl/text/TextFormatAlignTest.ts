@@ -1,5 +1,5 @@
 import TextFormatAlign from "openfl/text/TextFormatAlign";
-import * as assert from "assert";
+var assert = chai.assert;
 
 
 describe ("TypeScript | TextFormatAlign", function () {

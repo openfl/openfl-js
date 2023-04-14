@@ -1,5 +1,5 @@
 import BlurFilter from "openfl/filters/BlurFilter";
-import * as assert from "assert";
+var assert = chai.assert;
 
 
 describe ("ES6 | BlurFilter", function () {

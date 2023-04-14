@@ -1,5 +1,5 @@
 import SoundChannel from "openfl/media/SoundChannel";
-import * as assert from "assert";
+var assert = chai.assert;
 
 
 describe ("ES6 | SoundChannel", function () {

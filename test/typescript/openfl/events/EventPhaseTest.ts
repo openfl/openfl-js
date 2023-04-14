@@ -1,5 +1,5 @@
 import EventPhase from "openfl/events/EventPhase";
-import * as assert from "assert";
+var assert = chai.assert;
 
 
 describe ("TypeScript | EventPhase", function () {

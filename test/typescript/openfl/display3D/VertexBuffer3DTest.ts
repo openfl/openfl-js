@@ -1,6 +1,6 @@
 import VertexBuffer3D from "openfl/display3D/VertexBuffer3D";
 import Stage3DTest from "./../display/Stage3DTest";
-import * as assert from "assert";
+var assert = chai.assert;
 
 
 describe ("TypeScript | VertexBuffer3D", function () {

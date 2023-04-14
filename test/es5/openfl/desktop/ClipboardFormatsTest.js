@@ -1,5 +1,5 @@
 var ClipboardFormats = require ("openfl/desktop/ClipboardFormats").default;
-var assert = require ("assert");
+var assert = chai.assert;
 
 
 describe ("ES5 | ClipboardFormats", function () {

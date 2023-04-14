@@ -1,5 +1,5 @@
 import Context3DProfile from "openfl/display3D/Context3DProfile";
-import * as assert from "assert";
+var assert = chai.assert;
 
 
 describe ("ES6 | Context3DProfile", function () {

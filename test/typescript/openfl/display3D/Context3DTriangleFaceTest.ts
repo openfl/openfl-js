@@ -1,5 +1,5 @@
 import Context3DTriangleFace from "openfl/display3D/Context3DTriangleFace";
-import * as assert from "assert";
+var assert = chai.assert;
 
 
 describe ("TypeScript | Context3DTriangleFace", function () {

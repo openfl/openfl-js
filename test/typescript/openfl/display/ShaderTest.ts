@@ -1,7 +1,7 @@
 import Shader from "openfl/display/Shader";
 import ShaderPrecision from "openfl/display/ShaderPrecision";
 import ByteArray from "openfl/utils/ByteArray";
-import * as assert from "assert";
+var assert = chai.assert;
 
 
 describe ("TypeScript | Shader", function () {

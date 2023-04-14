@@ -2,7 +2,7 @@ import Sprite from "openfl/display/Sprite";
 import Event from "openfl/events/Event";
 import EventDispatcher from "openfl/events/EventDispatcher";
 import EventPhase from "openfl/events/EventPhase";
-import * as assert from "assert";
+var assert = chai.assert;
 
 
 describe ("ES6 | EventDispatcher", function () {

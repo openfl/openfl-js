@@ -1,5 +1,5 @@
 import ClipboardTransferMode from "openfl/desktop/ClipboardTransferMode";
-import * as assert from "assert";
+var assert = chai.assert;
 
 
 describe ("TypeScript | ClipboardTransferMode", function () {

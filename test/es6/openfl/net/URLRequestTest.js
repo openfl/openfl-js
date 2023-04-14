@@ -1,5 +1,5 @@
 import URLRequest from "openfl/net/URLRequest";
-import * as assert from "assert";
+var assert = chai.assert;
 
 
 describe ("ES6 | URLRequest", function () {

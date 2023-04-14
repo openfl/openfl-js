@@ -1,5 +1,5 @@
 import DOMElement from "openfl/display/DOMElement";
-import * as assert from "assert";
+var assert = chai.assert;
 
 
 describe ("TypeScript | DOMElement", function () {

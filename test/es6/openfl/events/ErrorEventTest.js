@@ -1,5 +1,5 @@
 import ErrorEvent from "openfl/events/ErrorEvent";
-import * as assert from "assert";
+var assert = chai.assert;
 
 
 describe ("ES6 | ErrorEvent", function () {

@@ -1,5 +1,5 @@
 import URLVariables from "openfl/net/URLVariables";
-import * as assert from "assert";
+var assert = chai.assert;
 
 
 describe ("ES6 | URLVariables", function () {

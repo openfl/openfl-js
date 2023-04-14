@@ -1,5 +1,5 @@
 import TextFieldType from "openfl/text/TextFieldType";
-import * as assert from "assert";
+var assert = chai.assert;
 
 
 describe ("TypeScript | TextFieldType", function () {

@@ -1,5 +1,5 @@
 import GraphicsEndFill from "openfl/display/GraphicsEndFill";
-import * as assert from "assert";
+var assert = chai.assert;
 
 
 describe ("ES6 | GraphicsEndFill", function () {

@@ -1,5 +1,5 @@
 import Sound from "openfl/media/Sound";
-import * as assert from "assert";
+var assert = chai.assert;
 
 
 describe ("ES6 | Sound", function () {

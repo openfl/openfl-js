@@ -1,5 +1,5 @@
 import Vector3D from "openfl/geom/Vector3D";
-import * as assert from "assert";
+var assert = chai.assert;
 
 
 describe ("ES6 | Vector3D", function () {

@@ -1,5 +1,5 @@
 import ColorMatrixFilter from "openfl/filters/ColorMatrixFilter";
-import * as assert from "assert";
+var assert = chai.assert;
 
 
 describe ("ES6 | ColorMatrixFilter", function () {

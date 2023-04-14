@@ -1,5 +1,5 @@
 import Context3DBlendFactor from "openfl/display3D/Context3DBlendFactor";
-import * as assert from "assert";
+var assert = chai.assert;
 
 
 describe ("ES6 | Context3DBlendFactor", function () {

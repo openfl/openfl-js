@@ -1,5 +1,5 @@
 import SoundTransform from "openfl/media/SoundTransform";
-import * as assert from "assert";
+var assert = chai.assert;
 
 
 describe ("TypeScript | SoundTransform", function () {

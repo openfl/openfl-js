@@ -1,5 +1,5 @@
 import TimerEvent from "openfl/events/TimerEvent";
-import * as assert from "assert";
+var assert = chai.assert;
 
 
 describe ("TypeScript | TimerEvent", function () {

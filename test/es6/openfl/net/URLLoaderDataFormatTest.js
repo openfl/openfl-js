@@ -1,5 +1,5 @@
 import URLLoaderDataFormat from "openfl/net/URLLoaderDataFormat";
-import * as assert from "assert";
+var assert = chai.assert;
 
 
 describe ("ES6 | URLLoaderDataFormat", function () {

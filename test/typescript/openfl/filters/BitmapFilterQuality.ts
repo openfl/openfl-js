@@ -1,5 +1,5 @@
 import BitmapFilterQuality from "openfl/filters/BitmapFilterQuality";
-import * as assert from "assert";
+var assert = chai.assert;
 
 
 describe ("TypeScript | BitmapFilterQuality", function () {

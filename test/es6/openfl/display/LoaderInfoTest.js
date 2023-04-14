@@ -1,6 +1,6 @@
 import Loader from "openfl/display/Loader";
 import LoaderInfo from "openfl/display/LoaderInfo";
-import * as assert from "assert";
+var assert = chai.assert;
 
 
 describe ("ES6 | LoaderInfo", function () {

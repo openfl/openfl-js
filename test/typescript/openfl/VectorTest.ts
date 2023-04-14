@@ -1,5 +1,5 @@
 import Vector from "openfl/Vector";
-import * as assert from "assert";
+var assert = chai.assert;
 
 
 describe ("TypeScript | Vector", function () {

@@ -1,5 +1,5 @@
 import Error from "openfl/errors/Error";
-import * as assert from "assert";
+var assert = chai.assert;
 
 
 describe ("TypeScript | Error", function () {

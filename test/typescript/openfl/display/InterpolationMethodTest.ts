@@ -1,5 +1,5 @@
 import InterpolationMethod from "openfl/display/InterpolationMethod";
-import * as assert from "assert";
+var assert = chai.assert;
 
 
 describe ("TypeScript | InterpolationMethod", function () {

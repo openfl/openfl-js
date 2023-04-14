@@ -1,7 +1,7 @@
 var openfl = require ("openfl");
 var geom = require ("openfl/geom");
 var Rectangle = require ("openfl/geom/Rectangle").default;
-var assert = require ("assert");
+var assert = chai.assert;
 
 
 describe ("ES5 | Imports", function () {

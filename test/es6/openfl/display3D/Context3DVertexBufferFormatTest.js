@@ -1,5 +1,5 @@
 import Context3DVertexBufferFormat from "openfl/display3D/Context3DVertexBufferFormat";
-import * as assert from "assert";
+var assert = chai.assert;
 
 
 describe ("ES6 | Context3DVertexBuffer", function () {

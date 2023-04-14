@@ -1,7 +1,7 @@
 import Texture from "openfl/display3D/textures/Texture";
 import Context3DTextureFormat from "openfl/display3D/Context3DTextureFormat";
 import Stage3DTest from "./../../display/Stage3DTest";
-import * as assert from "assert";
+var assert = chai.assert;
 
 
 describe ("TypeScript | Texture", function () {

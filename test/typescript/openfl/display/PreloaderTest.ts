@@ -1,5 +1,5 @@
 import Preloader from "openfl/display/Preloader";
-import * as assert from "assert";
+var assert = chai.assert;
 
 
 describe ("TypeScript | Preloader", function () {

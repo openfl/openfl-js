@@ -1,5 +1,5 @@
 import GlowFilter from "openfl/filters/GlowFilter";
-import * as assert from "assert";
+var assert = chai.assert;
 
 
 describe ("ES6 | GlowFilter", function () {

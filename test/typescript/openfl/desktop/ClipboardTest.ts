@@ -1,4 +1,4 @@
-import * as assert from "assert";
+var assert = chai.assert;
 import Clipboard from "openfl/desktop/Clipboard";
 
 

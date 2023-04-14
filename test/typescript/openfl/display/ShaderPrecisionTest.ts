@@ -1,5 +1,5 @@
 import ShaderPrecision from "openfl/display/ShaderPrecision";
-import * as assert from "assert";
+var assert = chai.assert;
 
 
 describe ("TypeScript | ShaderPrecision", function () {

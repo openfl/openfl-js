@@ -1,5 +1,5 @@
 import GameInputEvent from "openfl/events/GameInputEvent";
-import * as assert from "assert";
+var assert = chai.assert;
 
 
 describe ("TypeScript | GameInputEvent", function () {

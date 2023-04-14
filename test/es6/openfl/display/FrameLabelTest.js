@@ -1,5 +1,5 @@
 import FrameLabel from "openfl/display/FrameLabel";
-import * as assert from "assert";
+var assert = chai.assert;
 
 
 describe ("ES6 | FrameLabel", function () {

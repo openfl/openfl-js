@@ -1,4 +1,4 @@
-var assert = require ("assert");
+var assert = chai.assert;
 var Clipboard = require ("openfl/desktop/Clipboard").default;
 
 

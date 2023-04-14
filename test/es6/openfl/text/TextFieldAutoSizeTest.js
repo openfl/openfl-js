@@ -1,5 +1,5 @@
 import TextFieldAutoSize from "openfl/text/TextFieldAutoSize";
-import * as assert from "assert";
+var assert = chai.assert;
 
 
 describe ("ES6 | TextFieldAutoSize", function () {

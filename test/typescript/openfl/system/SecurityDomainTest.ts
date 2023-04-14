@@ -1,5 +1,5 @@
 import SecurityDomain from "openfl/system/SecurityDomain";
-import * as assert from "assert";
+var assert = chai.assert;
 
 
 describe ("TypeScript | SecurityDomain", function () {

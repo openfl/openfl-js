@@ -1,5 +1,5 @@
 import Tilemap from "openfl/display/Tilemap";
-import * as assert from "assert";
+var assert = chai.assert;
 
 
 describe ("ES6 | Tilemap", function () {

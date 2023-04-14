@@ -1,5 +1,5 @@
 import NetStatusEvent from "openfl/events/NetStatusEvent";
-import * as assert from "assert";
+var assert = chai.assert;
 
 
 describe ("TypeScript | NetStatusEvent", function () {

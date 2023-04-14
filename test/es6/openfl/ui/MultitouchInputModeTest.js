@@ -1,5 +1,5 @@
 import MultitouchInputMode from "openfl/ui/MultitouchInputMode";
-import * as assert from "assert";
+var assert = chai.assert;
 
 
 describe ("ES6 | MultitouchInputMode", function () {

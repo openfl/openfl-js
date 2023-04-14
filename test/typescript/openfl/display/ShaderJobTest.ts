@@ -1,5 +1,5 @@
 import ShaderJob from "openfl/display/ShaderJob";
-import * as assert from "assert";
+var assert = chai.assert;
 
 
 describe ("TypeScript | ShaderJob", function () {

@@ -1,7 +1,7 @@
 import ByteArray from "openfl/utils/ByteArray";
 import Endian from "openfl/utils/Endian";
 import CompressionAlgorithm from "openfl/utils/CompressionAlgorithm";
-import * as assert from "assert";
+var assert = chai.assert;
 
 
 describe ("ES6 | ByteArray", function () {

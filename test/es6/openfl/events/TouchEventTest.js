@@ -1,6 +1,6 @@
 import Sprite from "openfl/display/Sprite";
 import TouchEvent from "openfl/events/TouchEvent";
-import * as assert from "assert";
+var assert = chai.assert;
 
 
 describe ("ES6 | TouchEvent", function () {

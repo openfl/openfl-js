@@ -1,5 +1,5 @@
 import PerspectiveProjection from "openfl/geom/PerspectiveProjection";
-import * as assert from "assert";
+var assert = chai.assert;
 
 
 describe ("TypeScript | PerspectiveProjection", function () {

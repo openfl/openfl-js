@@ -1,5 +1,5 @@
 import Context3DProgramType from "openfl/display3D/Context3DProgramType";
-import * as assert from "assert";
+var assert = chai.assert;
 
 
 describe ("TypeScript | Context3DProgramType", function () {

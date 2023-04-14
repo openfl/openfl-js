@@ -1,5 +1,5 @@
 import FontType from "openfl/text/FontType";
-import * as assert from "assert";
+var assert = chai.assert;
 
 
 describe ("TypeScript | FontType", function () {

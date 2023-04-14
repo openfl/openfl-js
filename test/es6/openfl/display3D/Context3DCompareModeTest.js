@@ -1,5 +1,5 @@
 import Context3DCompareMode from "openfl/display3D/Context3DCompareMode";
-import * as assert from "assert";
+var assert = chai.assert;
 
 
 describe ("ES6 | Context3DCompareMode", function () {

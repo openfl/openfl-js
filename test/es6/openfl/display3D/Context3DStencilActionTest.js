@@ -1,5 +1,5 @@
 import Context3DStencilAction from "openfl/display3D/Context3DStencilAction";
-import * as assert from "assert";
+var assert = chai.assert;
 
 
 describe ("ES6 | Context3DStencilAction", function () {

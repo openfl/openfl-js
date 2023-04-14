@@ -1,5 +1,5 @@
 import BitmapFilterType from "openfl/filters/BitmapFilterType";
-import * as assert from "assert";
+var assert = chai.assert;
 
 
 describe ("ES6 | BitmapFilterType", function () {

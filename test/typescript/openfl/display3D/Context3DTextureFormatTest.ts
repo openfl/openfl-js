@@ -1,5 +1,5 @@
 import Context3DTextureFormat from "openfl/display3D/Context3DTextureFormat";
-import * as assert from "assert";
+var assert = chai.assert;
 
 
 describe ("TypeScript | Context3DTextureFormat", function () {

@@ -26,7 +26,7 @@ import haxe.extern.EitherType;
 /**
 	This module is used for writing unit tests for your applications
 **/
-@:jsRequire("assert")
+@:native("chai.assert") 
 extern class Assert
 {
 	/**

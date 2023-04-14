@@ -1,5 +1,5 @@
 import Context3DRenderMode from "openfl/display3D/Context3DRenderMode";
-import * as assert from "assert";
+var assert = chai.assert;
 
 
 describe ("TypeScript | Context3DRenderMode", function () {

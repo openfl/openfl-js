@@ -1,6 +1,6 @@
 import GraphicsGradientFill from "openfl/display/GraphicsGradientFill";
 import Matrix from "openfl/geom/Matrix";
-import * as assert from "assert";
+var assert = chai.assert;
 
 
 describe ("TypeScript | GraphicsGradientFill", function () {

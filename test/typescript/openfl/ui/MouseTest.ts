@@ -1,5 +1,5 @@
 import Mouse from "openfl/ui/Mouse";
-import * as assert from "assert";
+var assert = chai.assert;
 
 
 describe ("TypeScript | Mouse", function () {

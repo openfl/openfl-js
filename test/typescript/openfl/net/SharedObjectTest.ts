@@ -1,5 +1,5 @@
 import SharedObject from "openfl/net/SharedObject";
-import * as assert from "assert";
+var assert = chai.assert;
 
 
 describe ("TypeScript | SharedObject", function () {

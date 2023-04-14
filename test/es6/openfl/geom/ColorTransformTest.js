@@ -1,5 +1,5 @@
 import ColorTransform from "openfl/geom/ColorTransform";
-import * as assert from "assert";
+var assert = chai.assert;
 
 
 describe ("ES6 | ColorTransform", function () {

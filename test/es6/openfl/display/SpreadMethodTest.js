@@ -1,5 +1,5 @@
 import SpreadMethod from "openfl/display/SpreadMethod";
-import * as assert from "assert";
+var assert = chai.assert;
 
 
 describe ("ES6 | SpreadMethod", function () {

@@ -1,5 +1,5 @@
 import FPS from "openfl/display/FPS";
-import * as assert from "assert";
+var assert = chai.assert;
 
 
 describe ("TypeScript | FPS", function () {

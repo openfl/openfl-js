@@ -1,5 +1,5 @@
 import Orientation3D from "openfl/geom/Orientation3D";
-import * as assert from "assert";
+var assert = chai.assert;
 
 
 describe ("ES6 | Orientation", function () {

@@ -1,5 +1,5 @@
 import GraphicsPathWinding from "openfl/display/GraphicsPathWinding";
-import * as assert from "assert";
+var assert = chai.assert;
 
 
 describe ("ES6 | GraphicsPathWinding", function () {

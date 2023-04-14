@@ -1,6 +1,6 @@
 import GraphicsSolidFill from "openfl/display/GraphicsSolidFill";
 import GraphicsStroke from "openfl/display/GraphicsStroke";
-import * as assert from "assert";
+var assert = chai.assert;
 
 
 describe ("TypeScript | GraphicsStroke", function () {

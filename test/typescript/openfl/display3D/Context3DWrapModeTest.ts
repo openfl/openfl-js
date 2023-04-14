@@ -1,5 +1,5 @@
 import Context3DWrapMode from "openfl/display3D/Context3DWrapMode";
-import * as assert from "assert";
+var assert = chai.assert;
 
 
 describe ("TypeScript | Context3DWrapMode", function () {

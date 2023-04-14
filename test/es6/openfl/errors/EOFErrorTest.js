@@ -1,5 +1,5 @@
 import EOFError from "openfl/errors/EOFError";
-import * as assert from "assert";
+var assert = chai.assert;
 
 
 describe ("ES6 | EOFError", function () {

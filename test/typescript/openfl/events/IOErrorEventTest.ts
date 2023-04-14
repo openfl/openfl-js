@@ -1,5 +1,5 @@
 import IOErrorEvent from "openfl/events/IOErrorEvent";
-import * as assert from "assert";
+var assert = chai.assert;
 
 
 describe ("TypeScript | IOErrorEvent", function () {

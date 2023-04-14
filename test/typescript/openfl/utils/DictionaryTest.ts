@@ -1,5 +1,5 @@
 import Dictionary from "openfl/utils/Dictionary";
-import * as assert from "assert";
+var assert = chai.assert;
 
 
 describe ("TypeScript | Dictionary", function () {

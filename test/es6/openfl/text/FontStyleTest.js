@@ -1,5 +1,5 @@
 import FontStyle from "openfl/text/FontStyle";
-import * as assert from "assert";
+var assert = chai.assert;
 
 
 describe ("ES6 | FontStyle", function () {

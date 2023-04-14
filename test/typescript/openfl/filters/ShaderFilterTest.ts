@@ -1,6 +1,6 @@
 import Shader from "openfl/display/Shader";
 // import ShaderFilter from "openfl/filters/ShaderFilter";
-import * as assert from "assert";
+var assert = chai.assert;
 
 
 // import format.pbj.Data;

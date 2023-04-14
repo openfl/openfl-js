@@ -1,5 +1,5 @@
 import Utils3D from "openfl/geom/Utils3D";
-import * as assert from "assert";
+var assert = chai.assert;
 
 
 describe ("ES6 | Utils3D", function () {

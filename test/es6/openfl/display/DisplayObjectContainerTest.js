@@ -5,7 +5,7 @@ import DisplayObjectContainer from "openfl/display/DisplayObjectContainer";
 import Sprite from "openfl/display/Sprite";
 import Point from "openfl/geom/Point";
 import Lib from "openfl/Lib";
-import * as assert from "assert";
+var assert = chai.assert;
 
 
 describe ("ES6 | DisplayObjectContainer", function () {

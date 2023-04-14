@@ -1,6 +1,6 @@
 import Sprite from "openfl/display/Sprite";
 import MouseEvent from "openfl/events/MouseEvent";
-import * as assert from "assert";
+var assert = chai.assert;
 
 
 describe ("ES6 | MouseEvent", function () {

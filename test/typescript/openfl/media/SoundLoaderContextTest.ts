@@ -1,5 +1,5 @@
 import SoundLoaderContext from "openfl/media/SoundLoaderContext";
-import * as assert from "assert";
+var assert = chai.assert;
 
 
 describe ("TypeScript | SoundLoaderContext", function () {

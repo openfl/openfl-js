@@ -1,7 +1,7 @@
 import Bitmap from "openfl/display/Bitmap";
 import BitmapData from "openfl/display/BitmapData";
 import PixelSnapping from "openfl/display/PixelSnapping";
-import * as assert from "assert";
+var assert = chai.assert;
 
 
 describe ("ES6 | Bitmap", function () {

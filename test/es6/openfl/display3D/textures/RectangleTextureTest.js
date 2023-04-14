@@ -1,7 +1,7 @@
 import RectangleTexture from "openfl/display3D/textures/RectangleTexture";
 import Context3DTextureFormat from "openfl/display3D/Context3DTextureFormat";
 import Stage3DTest from "./../../display/Stage3DTest";
-import * as assert from "assert";
+var assert = chai.assert;
 
 
 describe ("ES6 | RectangleTexture", function () {

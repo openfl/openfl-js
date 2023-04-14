@@ -1,5 +1,5 @@
 import CapsStyle from "openfl/display/CapsStyle";
-import * as assert from "assert";
+var assert = chai.assert;
 
 
 describe ("ES6 | CapsStyle", function () {

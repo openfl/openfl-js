@@ -1,5 +1,5 @@
 import Stage from "openfl/display/Stage";
-import * as assert from "assert";
+var assert = chai.assert;
 
 
 before (function () {

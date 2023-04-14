@@ -1,5 +1,5 @@
 import SecurityErrorEvent from "openfl/events/SecurityErrorEvent";
-import * as assert from "assert";
+var assert = chai.assert;
 
 
 describe ("TypeScript | SecurityErrorEvent", function () {

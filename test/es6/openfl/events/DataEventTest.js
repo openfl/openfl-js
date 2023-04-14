@@ -1,5 +1,5 @@
 import DataEvent from "openfl/events/DataEvent";
-import * as assert from "assert";
+var assert = chai.assert;
 
 
 describe ("ES6 | DataEvent", function () {

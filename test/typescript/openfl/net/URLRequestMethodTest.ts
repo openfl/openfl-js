@@ -1,5 +1,5 @@
 import URLRequestMethod from "openfl/net/URLRequestMethod";
-import * as assert from "assert";
+var assert = chai.assert;
 
 
 describe ("TypeScript | URLRequestMethod", function () {

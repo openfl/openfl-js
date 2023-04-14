@@ -1,7 +1,7 @@
 import BitmapData from "openfl/display/BitmapData";
 import GraphicsBitmapFill from "openfl/display/GraphicsBitmapFill";
 import Matrix from "openfl/geom/Matrix";
-import * as assert from "assert";
+var assert = chai.assert;
 
 
 describe ("ES6 | GraphicsBitmapFill", function () {

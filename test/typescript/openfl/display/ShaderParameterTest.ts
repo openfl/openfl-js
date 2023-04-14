@@ -1,5 +1,5 @@
 import ShaderParameter from "openfl/display/ShaderParameter";
-import * as assert from "assert";
+var assert = chai.assert;
 
 
 describe ("TypeScript | ShaderParameter", function () {

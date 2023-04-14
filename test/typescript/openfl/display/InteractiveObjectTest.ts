@@ -1,7 +1,7 @@
 import InteractiveObject from "openfl/display/InteractiveObject";
 import Sprite from "openfl/display/Sprite";
 import Rectangle from "openfl/geom/Rectangle";
-import * as assert from "assert";
+var assert = chai.assert;
 
 
 describe ("TypeScript | InteractiveObject", function () {

@@ -7,7 +7,7 @@ import BitmapData from "openfl/display/BitmapData";
 import BitmapDataChannel from "openfl/display/BitmapDataChannel";
 import Sprite from "openfl/display/Sprite";
 import Bitmap from "openfl/display/Bitmap";
-import * as assert from "assert";
+var assert = chai.assert;
 
 
 describe ("ES6 | BitmapData", function () {

@@ -1,5 +1,5 @@
 import TextFormat from "openfl/text/TextFormat";
-import * as assert from "assert";
+var assert = chai.assert;
 
 
 describe ("TypeScript | TextFormat", function () {

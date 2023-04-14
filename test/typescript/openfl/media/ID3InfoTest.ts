@@ -1,6 +1,6 @@
 import ID3Info from "openfl/media/ID3Info";
 import Sound from "openfl/media/Sound";
-import * as assert from "assert";
+var assert = chai.assert;
 
 
 describe ("TypeScript | ID3Info", function () {

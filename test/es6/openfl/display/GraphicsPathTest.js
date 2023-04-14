@@ -1,6 +1,6 @@
 import GraphicsPath from "openfl/display/GraphicsPath";
 import Vector from "openfl/Vector";
-import * as assert from "assert";
+var assert = chai.assert;
 
 
 describe ("ES6 | GraphicsPath", function () {

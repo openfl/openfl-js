@@ -1,5 +1,5 @@
 var ClipboardTransferMode = require("openfl/desktop/ClipboardTransferMode").default;
-var assert = require("assert");
+var assert = chai.assert;
 
 describe("ES5 | ClipboardTransferMode", function () {
 	

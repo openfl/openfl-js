@@ -1,5 +1,5 @@
 import GraphicsSolidFill from "openfl/display/GraphicsSolidFill";
-import * as assert from "assert";
+var assert = chai.assert;
 
 
 describe ("ES6 | GraphicsSolidFill", function () {

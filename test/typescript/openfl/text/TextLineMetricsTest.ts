@@ -1,5 +1,5 @@
 import TextLineMetrics from "openfl/text/TextLineMetrics";
-import * as assert from "assert";
+var assert = chai.assert;
 
 
 describe ("TypeScript | TextLineMetrics", function () {

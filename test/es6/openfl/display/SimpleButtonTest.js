@@ -1,6 +1,6 @@
 import SimpleButton from "openfl/display/SimpleButton";
 import Sprite from "openfl/display/Sprite";
-import * as assert from "assert";
+var assert = chai.assert;
 
 
 describe ("ES6 | SimpleButton", function () {

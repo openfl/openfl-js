@@ -1,5 +1,5 @@
 import StageScaleMode from "openfl/display/StageScaleMode";
-import * as assert from "assert";
+var assert = chai.assert;
 
 
 describe ("ES6 | StageScaleMode", function () {

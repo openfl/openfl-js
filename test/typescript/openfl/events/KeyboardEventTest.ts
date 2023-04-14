@@ -1,5 +1,5 @@
 import KeyboardEvent from "openfl/events/KeyboardEvent";
-import * as assert from "assert";
+var assert = chai.assert;
 
 
 describe ("TypeScript | KeyboardEvent", function () {

@@ -1,6 +1,6 @@
 import Sprite from "openfl/display/Sprite";
 import Transform from "openfl/geom/Transform";
-import * as assert from "assert";
+var assert = chai.assert;
 
 
 describe ("TypeScript | Transform", function () {

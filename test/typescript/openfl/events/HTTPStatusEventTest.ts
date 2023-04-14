@@ -1,5 +1,5 @@
 import HTTPStatusEvent from "openfl/events/HTTPStatusEvent";
-import * as assert from "assert";
+var assert = chai.assert;
 
 
 describe ("TypeScript | HTTPStatusEvent", function () {

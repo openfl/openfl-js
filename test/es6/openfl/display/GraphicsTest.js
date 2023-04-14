@@ -4,7 +4,7 @@ import GradientType from "openfl/display/GradientType";
 import Shape from "openfl/display/Shape";
 import Sprite from "openfl/display/Sprite";
 import Matrix from "openfl/geom/Matrix";
-import * as assert from "assert";
+var assert = chai.assert;
 
 
 describe ("ES6 | Graphics", function () {

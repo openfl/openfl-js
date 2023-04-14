@@ -1,5 +1,5 @@
 import UncaughtErrorEvent from "openfl/events/UncaughtErrorEvent";
-import * as assert from "assert";
+var assert = chai.assert;
 
 
 describe ("ES6 | UncaughtErrorEvent", function () {

@@ -1,5 +1,5 @@
 import BlendMode from "openfl/display/BlendMode";
-import * as assert from "assert";
+var assert = chai.assert;
 
 
 describe ("TypeScript | BlendMode", function () {

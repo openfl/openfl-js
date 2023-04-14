@@ -1,5 +1,5 @@
 import TextEvent from "openfl/events/TextEvent";
-import * as assert from "assert";
+var assert = chai.assert;
 
 
 describe ("ES6 | TextEvent", function () {

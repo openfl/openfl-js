@@ -1,6 +1,6 @@
 import BitmapData from "openfl/display/BitmapData";
 import Tileset from "openfl/display/Tileset";
-import * as assert from "assert";
+var assert = chai.assert;
 
 
 describe ("ES6 | Tileset", function () {

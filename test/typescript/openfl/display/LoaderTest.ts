@@ -1,5 +1,5 @@
 import Loader from "openfl/display/Loader";
-import * as assert from "assert";
+var assert = chai.assert;
 
 
 describe ("TypeScript | LoaderTest", function () {

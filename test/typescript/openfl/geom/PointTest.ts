@@ -1,5 +1,5 @@
 import Point from "openfl/geom/Point";
-import * as assert from "assert";
+var assert = chai.assert;
 
 
 describe ("TypeScript | Point", function () {

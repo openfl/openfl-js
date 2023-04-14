@@ -1,5 +1,5 @@
 import Context3DMipFilter from "openfl/display3D/Context3DMipFilter";
-import * as assert from "assert";
+var assert = chai.assert;
 
 
 describe ("TypeScript | Context3DMipFilter", function () {

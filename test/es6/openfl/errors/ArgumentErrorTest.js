@@ -1,5 +1,5 @@
 import ArgumentError from "openfl/errors/ArgumentError";
-import * as assert from "assert";
+var assert = chai.assert;
 
 
 describe ("ES6 | ArgumentError", function () {

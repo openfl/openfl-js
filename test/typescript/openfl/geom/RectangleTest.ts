@@ -1,6 +1,6 @@
 import Point from "openfl/geom/Point";
 import Rectangle from "openfl/geom/Rectangle";
-import * as assert from "assert";
+var assert = chai.assert;
 
 
 describe ("TypeScript | Rectangle", function () {

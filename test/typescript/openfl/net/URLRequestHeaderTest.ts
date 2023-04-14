@@ -1,5 +1,5 @@
 import URLRequestHeader from "openfl/net/URLRequestHeader";
-import * as assert from "assert";
+var assert = chai.assert;
 
 
 describe ("TypeScript | URLRequestHeader", function () {

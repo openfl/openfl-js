@@ -1,5 +1,5 @@
 import ExternalInterface from "openfl/external/ExternalInterface";
-import * as assert from "assert";
+var assert = chai.assert;
 
 
 describe ("TypeScript | ExternalInterface", function () {

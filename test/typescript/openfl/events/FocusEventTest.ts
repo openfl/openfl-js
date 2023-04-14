@@ -2,7 +2,7 @@ import Sprite from "openfl/display/Sprite";
 import EventPhase from "openfl/events/EventPhase";
 import FocusEvent from "openfl/events/FocusEvent";
 import Lib from "openfl/Lib";
-import * as assert from "assert";
+var assert = chai.assert;
 
 
 describe ("TypeScript | FocusEvent", function () {

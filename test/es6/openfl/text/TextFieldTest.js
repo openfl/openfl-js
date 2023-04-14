@@ -2,7 +2,7 @@ import BitmapData from "openfl/display/BitmapData";
 import TextField from "openfl/text/TextField";
 import TextFieldAutoSize from "openfl/text/TextFieldAutoSize";
 import TextFieldType from "openfl/text/TextFieldType";
-import * as assert from "assert";
+var assert = chai.assert;
 
 
 describe ("ES6 | TextField", function () {
