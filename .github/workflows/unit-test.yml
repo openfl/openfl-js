@@ -24,6 +24,10 @@ jobs:
       run: |
         npm test
 
+    - name: Build docs
+      run: |
+        npm run build-docs
+
     - name: Notify Discord (success)
       uses: appleboy/discord-action@master
       with:
