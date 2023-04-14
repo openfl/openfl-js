@@ -21,10 +21,5 @@ module.exports = {
 		alias: {
 			"openfl": path.resolve (__dirname, '../../lib/openfl/')
 		}
-	},
-	module: {
-		rules: [
-			{ test: /\.js$/, exclude: /node_modules/, loader: "babel-loader" }
-		]
 	}
 };
