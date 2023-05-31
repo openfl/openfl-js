@@ -32,6 +32,12 @@ jobs:
       run: |
         npm run build-docs
 
+    - uses: actions/upload-artifact@v3
+      with:
+        name: openfl-npm
+        path: openfl-*.tgz
+        if-no-files-found: error
+
     - name: Notify Discord (success)
       uses: appleboy/discord-action@master
       with:
