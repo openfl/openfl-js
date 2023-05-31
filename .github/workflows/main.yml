@@ -24,6 +24,16 @@ jobs:
       run: |
         npm run build
 
+    - name: Package Library for npm
+      run: |
+        npm pack
+
+    - uses: actions/upload-artifact@v3
+      with:
+        name: openfl-npm
+        path: openfl-*.tgz
+        if-no-files-found: error
+
     - name: Run Tests
       run: |
         npm test
@@ -31,12 +41,6 @@ jobs:
     - name: Build docs
       run: |
         npm run build-docs
-
-    - uses: actions/upload-artifact@v3
-      with:
-        name: openfl-npm
-        path: openfl-*.tgz
-        if-no-files-found: error
 
     - name: Notify Discord (success)
       uses: appleboy/discord-action@master
