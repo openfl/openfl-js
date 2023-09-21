@@ -23,7 +23,7 @@
   ],
   "main": "dist/openfl.min.js",
   "bin": {
-    "openfljs": "bin/openfl.js"
+    "openfljs": "bin/tools.js"
   },
   "module": "lib-esm/openfl/index.js",
   "types": "lib/openfl/index.d.ts",
