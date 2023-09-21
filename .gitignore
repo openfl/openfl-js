@@ -7,7 +7,6 @@ node_modules
 .idea
 .svn
 .vscode
-bin/openfl.js
 test/unit/build
 test/unit/report
 test/unit/src
