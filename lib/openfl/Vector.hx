@@ -26,7 +26,10 @@ abstract Vector<T>(VectorData<T>) from VectorData<T>
 		// the correct behavior for Haxe libraries, even if only
 		// a bare Array object is passed in
 
-		// return cast this.concat (cast a);
+		if (a == null)
+		{
+			return VectorData.ofArray(untyped __js__("Array.prototype.concat.call")(this));
+		}
 		return VectorData.ofArray(untyped __js__("Array.prototype.concat.call")(this, a));
 	}
 
