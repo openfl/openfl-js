@@ -131,7 +131,7 @@ extern class URLLoader extends EventDispatcher
 	 *
 	 * @default URLLoaderDataFormat.TEXT
 	 */
-	public var dataFormat(default, set):URLLoaderDataFormat;
+	public var dataFormat:URLLoaderDataFormat;
 
 	/**
 	 * Creates a URLLoader object.
