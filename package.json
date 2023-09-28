@@ -28,7 +28,8 @@
   "module": "lib-esm/openfl/index.js",
   "types": "lib/openfl/index.d.ts",
   "sideEffects": [
-    "./lib-esm/openfl/utils/AssetLibrary.js"
+    "./lib-esm/openfl/utils/AssetLibrary.js",
+    "./lib/openfl/utils/AssetLibrary.js"
   ],
   "files": [
     "bin",
