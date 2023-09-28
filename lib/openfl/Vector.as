@@ -30,6 +30,9 @@ package openfl {
 		public function sort (f:Function):void {}
 		public function splice (pos:int, len:int):openfl.Vector { return null; }
 		public function unshift (x:*):void {}
+		public function filter (callback:Function):openfl.Vector { return null; };
+		public function some (callback:Function, thisObject:* = null):Boolean { return false; };
+		public function every (callback:Function, thisObject:* = null):Boolean { return false; };
 		public static function ofArray (a:Array):openfl.Vector { return null; }
 		
 		// @:noCompletion public function iterator ():Iterator<T>;

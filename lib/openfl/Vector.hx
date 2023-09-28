@@ -1,5 +1,7 @@
 package openfl;
 
+import haxe.Constraints.Function;
+
 abstract Vector<T>(VectorData<T>) from VectorData<T>
 {
 	public var fixed(get, set):Bool;
@@ -181,6 +183,21 @@ abstract Vector<T>(VectorData<T>) from VectorData<T>
 		}
 	}
 
+	public inline function filter(callback:T->Bool):Vector<T>
+	{
+		return cast VectorData.ofArray(untyped __js__("Array.prototype.filter.call")(this, callback));
+	}
+
+	public function some(callback:Function, ?thisObject:Dynamic):Bool
+	{
+		return untyped __js__("Array.prototype.some.call")(this, callback, thisObject);
+	}
+
+	public function every(callback:Function, ?thisObject:Dynamic):Bool
+	{
+		return untyped __js__("Array.prototype.every.call")(this, callback, thisObject);
+	}
+
 	public inline static function ofArray<T>(a:Array<T>):Vector<T>
 	{
 		return cast VectorData.ofArray(a);
@@ -236,6 +253,9 @@ extern class VectorData<T> implements ArrayAccess<T>
 	public function sort(f:T->T->Int):Void;
 	public function splice(pos:Int, len:Int):Vector<T>;
 	public function unshift(x:T):Void;
+	public function filter(callback:T->Bool):Vector<T>;
+	public function some(callback:Function, ?thisObject:Dynamic):Bool;
+	public function every(callback:Function, ?thisObject:Dynamic):Bool;
 	public static function ofArray<T>(a:Array<T>):VectorData<T>;
 	@:noCompletion public function iterator():Iterator<T>;
 }

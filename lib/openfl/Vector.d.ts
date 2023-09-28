@@ -26,6 +26,9 @@ declare namespace openfl {
 		public sort (f:(a:T, b:T)=>number):void;
 		public splice (pos:number, len:number):Vector<T>;
 		public unshift (x:T):void;
+		public filter (callback:(element:T)=>boolean):Vector<T>;
+		public some (callback:(element:T, index?:number, array?:Array<T>)=>boolean, thisObject?:any):boolean;
+		public every (callback:(element:T, index?:number, array?:Array<T>)=>boolean, thisObject?:any):boolean;
 		public static ofArray<T> (a:Array<T>):Vector<T>;
 		
 		//public iterator ():Iterator<T>;
