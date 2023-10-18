@@ -28,9 +28,9 @@ abstract Vector<T>(VectorData<T>) from VectorData<T>
 
 		if (a == null)
 		{
-			return VectorData.ofArray(untyped __js__("Array.prototype.concat.call")(this));
+			return VectorData.ofArray(untyped #if haxe4 js.Syntax.code #else __js__ #end ("Array.prototype.concat.call")(this));
 		}
-		return VectorData.ofArray(untyped __js__("Array.prototype.concat.call")(this, a));
+		return VectorData.ofArray(untyped #if haxe4 js.Syntax.code #else __js__ #end ("Array.prototype.concat.call")(this, a));
 	}
 
 	public inline function copy():Vector<T>
@@ -48,7 +48,7 @@ abstract Vector<T>(VectorData<T>) from VectorData<T>
 	public inline function indexOf(x:T, ?from:Int = 0):Int
 	{
 		// return this.indexOf (x, from);
-		return untyped __js__("Array.prototype.indexOf.call")(this, x, from);
+		return untyped #if haxe4 js.Syntax.code #else __js__ #end ("Array.prototype.indexOf.call")(this, x, from);
 	}
 
 	public /*inline*/ function insertAt(index:Int, element:T):Void
@@ -56,7 +56,7 @@ abstract Vector<T>(VectorData<T>) from VectorData<T>
 		// this.insertAt (index, element);
 		if (!this.fixed || index < this.length)
 		{
-			untyped __js__("Array.prototype.splice.call")(this, index, 0, element);
+			untyped #if haxe4 js.Syntax.code #else __js__ #end ("Array.prototype.splice.call")(this, index, 0, element);
 		}
 	}
 
@@ -69,7 +69,7 @@ abstract Vector<T>(VectorData<T>) from VectorData<T>
 	public inline function join(sep:String = ","):String
 	{
 		// return this.join (sep);
-		return untyped __js__("Array.prototype.join.call")(this, sep);
+		return untyped #if haxe4 js.Syntax.code #else __js__ #end ("Array.prototype.join.call")(this, sep);
 	}
 
 	public /*inline*/ function lastIndexOf(x:T, ?from:Int):Int
@@ -77,11 +77,11 @@ abstract Vector<T>(VectorData<T>) from VectorData<T>
 		// return this.lastIndexOf (x, from);
 		if (from == null)
 		{
-			return untyped __js__("Array.prototype.lastIndexOf.call")(this, x);
+			return untyped #if haxe4 js.Syntax.code #else __js__ #end ("Array.prototype.lastIndexOf.call")(this, x);
 		}
 		else
 		{
-			return untyped __js__("Array.prototype.lastIndexOf.call")(this, x, from);
+			return untyped #if haxe4 js.Syntax.code #else __js__ #end ("Array.prototype.lastIndexOf.call")(this, x, from);
 		}
 	}
 
@@ -90,7 +90,7 @@ abstract Vector<T>(VectorData<T>) from VectorData<T>
 		// return this.pop ();
 		if (!fixed)
 		{
-			return untyped __js__("Array.prototype.pop.call")(this);
+			return untyped #if haxe4 js.Syntax.code #else __js__ #end ("Array.prototype.pop.call")(this);
 		}
 		else
 		{
@@ -103,11 +103,11 @@ abstract Vector<T>(VectorData<T>) from VectorData<T>
 		// return this.push (x);
 		if (!fixed)
 		{
-			return untyped __js__("Array.prototype.push.call")(this, x);
+			return untyped #if haxe4 js.Syntax.code #else __js__ #end ("Array.prototype.push.call")(this, x);
 		}
 		else
 		{
-			return untyped __js__("this").length;
+			return untyped #if haxe4 js.Syntax.code #else __js__ #end ("this").length;
 		}
 	}
 
@@ -116,7 +116,7 @@ abstract Vector<T>(VectorData<T>) from VectorData<T>
 		// return this.removeAt (index);
 		if (!this.fixed || index < this.length)
 		{
-			return untyped __js__("Array.prototype.splice.call")(this, index, 1)[0];
+			return untyped #if haxe4 js.Syntax.code #else __js__ #end ("Array.prototype.splice.call")(this, index, 1)[0];
 		}
 
 		return null;
@@ -125,7 +125,7 @@ abstract Vector<T>(VectorData<T>) from VectorData<T>
 	public inline function reverse():Vector<T>
 	{
 		// return cast this.reverse ();
-		return untyped __js__("Array.prototype.reverse.call")(this);
+		return untyped #if haxe4 js.Syntax.code #else __js__ #end ("Array.prototype.reverse.call")(this);
 	}
 
 	@:arrayAccess public /*inline*/ function set(index:Int, value:T):T
@@ -146,7 +146,7 @@ abstract Vector<T>(VectorData<T>) from VectorData<T>
 		// return this.shift ();
 		if (!this.fixed)
 		{
-			return untyped __js__("Array.prototype.shift.call")(this);
+			return untyped #if haxe4 js.Syntax.code #else __js__ #end ("Array.prototype.shift.call")(this);
 		}
 		else
 		{
@@ -157,19 +157,19 @@ abstract Vector<T>(VectorData<T>) from VectorData<T>
 	public inline function slice(?startIndex:Int = 0, ?endIndex:Int = 16777215):Vector<T>
 	{
 		// return cast this.slice (pos, end);
-		return VectorData.ofArray(untyped __js__("Array.prototype.slice.call")(this, startIndex, endIndex));
+		return VectorData.ofArray(untyped #if haxe4 js.Syntax.code #else __js__ #end ("Array.prototype.slice.call")(this, startIndex, endIndex));
 	}
 
 	public inline function sort(f:T->T->Int):Void
 	{
 		// this.sort (f);
-		untyped __js__("Array.prototype.sort.call")(this, f);
+		untyped #if haxe4 js.Syntax.code #else __js__ #end ("Array.prototype.sort.call")(this, f);
 	}
 
 	public inline function splice(pos:Int, len:Int):Vector<T>
 	{
 		// return cast this.splice (pos, len);
-		return VectorData.ofArray(untyped __js__("Array.prototype.splice.call")(this, pos, len));
+		return VectorData.ofArray(untyped #if haxe4 js.Syntax.code #else __js__ #end ("Array.prototype.splice.call")(this, pos, len));
 	}
 
 	public inline function toString():String
@@ -182,23 +182,23 @@ abstract Vector<T>(VectorData<T>) from VectorData<T>
 		// this.unshift (x);
 		if (!this.fixed)
 		{
-			untyped __js__("Array.prototype.unshift.call")(this, x);
+			untyped #if haxe4 js.Syntax.code #else __js__ #end ("Array.prototype.unshift.call")(this, x);
 		}
 	}
 
 	public inline function filter(callback:T->Bool):Vector<T>
 	{
-		return cast VectorData.ofArray(untyped __js__("Array.prototype.filter.call")(this, callback));
+		return cast VectorData.ofArray(untyped #if haxe4 js.Syntax.code #else __js__ #end ("Array.prototype.filter.call")(this, callback));
 	}
 
 	public function some(callback:Function, ?thisObject:Dynamic):Bool
 	{
-		return untyped __js__("Array.prototype.some.call")(this, callback, thisObject);
+		return untyped #if haxe4 js.Syntax.code #else __js__ #end ("Array.prototype.some.call")(this, callback, thisObject);
 	}
 
 	public function every(callback:Function, ?thisObject:Dynamic):Bool
 	{
-		return untyped __js__("Array.prototype.every.call")(this, callback, thisObject);
+		return untyped #if haxe4 js.Syntax.code #else __js__ #end ("Array.prototype.every.call")(this, callback, thisObject);
 	}
 
 	public inline static function ofArray<T>(a:Array<T>):Vector<T>
