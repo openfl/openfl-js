@@ -1,6 +1,6 @@
 package openfl.display;
 
-@:enum abstract ShaderParameterType(String) from String to String
+#if (haxe_ver >= 4.0) enum #else @:enum #end abstract ShaderParameterType(String) from String to String
 {
 	public var BOOL = "bool";
 	public var BOOL2 = "bool2";

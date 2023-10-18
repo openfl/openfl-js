@@ -20,7 +20,7 @@ package openfl.display;
 	`openfl.filters.DisplacementMapFilter.componentY` properties
 
 **/
-@:enum abstract BitmapDataChannel(UInt) from UInt to UInt from Int to Int
+#if (haxe_ver >= 4.0) enum #else @:enum #end abstract BitmapDataChannel(UInt) from UInt to UInt from Int to Int
 {
 	/**
 		The alpha channel.

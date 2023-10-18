@@ -9,7 +9,7 @@ package openfl.display;
 
 	![The three types of caps: NONE, ROUND, and SQUARE.](/images/linecap.jpg)
 **/
-@:enum abstract CapsStyle(String) from String to String
+#if (haxe_ver >= 4.0) enum #else @:enum #end abstract CapsStyle(String) from String to String
 {
 	/**
 		Used to specify no caps in the `caps` parameter of the

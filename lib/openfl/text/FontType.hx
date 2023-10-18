@@ -5,7 +5,7 @@ package openfl.text;
  * `"embedded"` and `"device"` for the
  * `fontType` property of the Font class.
  */
-@:enum abstract FontType(String) from String to String
+#if (haxe_ver >= 4.0) enum #else @:enum #end abstract FontType(String) from String to String
 {
 	/**
 	 * Indicates that this is a device font. The SWF file renders fonts with

@@ -4,7 +4,7 @@ package openfl.display;
 	The LineScaleMode class provides values for the `scaleMode`
 	parameter in the `Graphics.lineStyle()` method.
 **/
-@:enum abstract LineScaleMode(String) from String to String
+#if (haxe_ver >= 4.0) enum #else @:enum #end abstract LineScaleMode(String) from String to String
 {
 	/**
 		With this setting used as the `scaleMode` parameter of the

@@ -5,7 +5,7 @@ package openfl.display;
 	the pixel snapping options by using the `pixelSnapping` property
 	of a Bitmap object.
 **/
-@:enum abstract PixelSnapping(String) from String to String
+#if (haxe_ver >= 4.0) enum #else @:enum #end abstract PixelSnapping(String) from String to String
 {
 	/**
 		A constant value used in the `pixelSnapping` property of a

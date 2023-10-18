@@ -14,7 +14,7 @@ package openfl.display;
 
 	![a comparison of even-odd and non-zero winding rules](/images/winding_rules_evenodd_nonzero.gif)
 **/
-@:enum abstract GraphicsPathWinding(String) from String to String
+#if (haxe_ver >= 4.0) enum #else @:enum #end abstract GraphicsPathWinding(String) from String to String
 {
 	/**
 		Establishes the even-odd winding type. The even-odd winding type is the rule

@@ -1,6 +1,6 @@
 package openfl.display3D;
 
-@:enum abstract Context3DBlendFactor(String) from String to String
+#if (haxe_ver >= 4.0) enum #else @:enum #end abstract Context3DBlendFactor(String) from String to String
 {
 	public var DESTINATION_ALPHA = "destinationAlpha";
 	public var DESTINATION_COLOR = "destinationColor";
