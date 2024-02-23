@@ -1,4 +1,4 @@
-[![MIT License](https://img.shields.io/github/license/openfl/openfl.svg?style=flat)](LICENSE.md) [![NPM Version](https://img.shields.io/npm/v/openfl.svg?style=flat)](http://npmjs.com/package/openfl) [![CDNJS version](https://img.shields.io/cdnjs/v/openfl.svg?style=flat)](https://cdnjs.com/libraries/openfl) [![Haxelib Version](https://img.shields.io/github/tag/openfl/openfl.svg?style=flat&label=haxelib)](http://lib.haxe.org/p/openfl) [![Build Status](https://img.shields.io/github/actions/workflow/status/openfl/openfl-js/main.yml?branch=develop)](https://github.com/openfl/openfl-js/actions) [![Discord Server](https://img.shields.io/discord/415681294446493696.svg?logo=discord)](https://discordapp.com/invite/tDgq8EE)
+[![MIT License](https://img.shields.io/github/license/openfl/openfl.svg?style=flat)](LICENSE.md) [![npm Version](https://img.shields.io/npm/v/openfl.svg?style=flat)](http://npmjs.com/package/openfl) [![CDNJS version](https://img.shields.io/cdnjs/v/openfl.svg?style=flat)](https://cdnjs.com/libraries/openfl) [![Haxelib Version](https://img.shields.io/github/tag/openfl/openfl.svg?style=flat&label=haxelib)](http://lib.haxe.org/p/openfl) [![Build Status](https://img.shields.io/github/actions/workflow/status/openfl/openfl-js/main.yml?branch=develop)](https://github.com/openfl/openfl-js/actions) [![Discord Server](https://img.shields.io/discord/415681294446493696.svg?logo=discord)](https://discordapp.com/invite/tDgq8EE)
 
 
 <br />
@@ -16,7 +16,7 @@ Two Versions
 
 There are two versions of OpenFL, the first is primarily distributed using haxelib, and blends native support for Windows, macOS, Linux, iOS, Android, Flash, HTML5 and WebAssembly. You can read more about the haxelib distributed version of OpenFL, [here](https://github.com/openfl/openfl).
 
-The second edition of OpenFL is distributed using NPM, and is designed for use from TypeScript, JavaScript (EcmaScript 5 or 6+) or Haxe, the latter of which can be used in both versions of OpenFL. The NPM version of OpenFL is designed to be used in a browser environment. The NPM version also has (beta) support for ActionScript 3.0.
+The second edition of OpenFL is distributed using npm, and is designed for use from TypeScript, JavaScript (EcmaScript 5 or 6+), ActionScript 3 (using [Apache Royale](https://royale.apache.org)) or Haxe, the latter of which can be used in both haxelib and npm versions of OpenFL. The npm version of OpenFL is designed to be used in a web browser environment.
 
 
 Getting Started
@@ -31,7 +31,7 @@ cd NewProject
 yo openfl
 ```
 
-You will have the opportunity to choose TypeScript, Haxe, ES6 or ES5 as the source language for your new project.
+You will have the opportunity to choose TypeScript, Haxe, ES6, ES5 or AS3 as the source language for your new project.
 
 The template project will include configuration files for Webpack, as well as a source code entry point where you can begin writing a new project. In order to begin using OpenFL, you can try adding support for loading and displaying an image (_[continued below](#displaying-a-bitmap)_).
 
@@ -248,6 +248,33 @@ var App = function () {
 
 }
 ```
+
+## ActionScript 3 (Royale)
+
+At the top of the file's `package` block, add new imports:
+
+```actionscript
+import openfl.display.Bitmap;
+import openfl.display.BitmapData;
+```
+
+Then extend the `App` constructor so it looks like this:
+
+```actionscript
+public function App () {
+
+	super ();
+
+	BitmapData.loadFromFile ("openfl.png").onComplete (function (bitmapData:BitmapData):void {
+
+		var bitmap:Bitmap = new Bitmap (bitmapData);
+		addChild (bitmap);
+
+	});
+
+}
+```
+
 
 ## Running the Project
 
