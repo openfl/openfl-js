@@ -147,7 +147,7 @@ Next, use Visual Studio Code or another code editor to open "src/app.ts", "src/a
 
 ## TypeScript
 
-At the top of the file's `package` block, add new imports:
+At the top of the file, add new imports:
 
 ```typescript
 import Bitmap from "openfl/display/Bitmap";
@@ -250,7 +250,8 @@ var App = function () {
 ```
 
 ## ActionScript 3 (Royale)
-At the top of the file, add new imports:
+
+At the top of the file's `package` block, add new imports:
 
 ```actionscript
 import openfl.display.Bitmap;
