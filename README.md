@@ -16,7 +16,7 @@ Two Versions
 
 There are two versions of OpenFL, the first is primarily distributed using haxelib, and blends native support for Windows, macOS, Linux, iOS, Android, Flash, HTML5 and WebAssembly. You can read more about the haxelib distributed version of OpenFL, [here](https://github.com/openfl/openfl).
 
-The second edition of OpenFL is distributed using NPM, and is designed for use from TypeScript, JavaScript (EcmaScript 5 or 6+) or Haxe, the latter of which can be used in both versions of OpenFL. The NPM version of OpenFL is designed to be used in a browser environment. The NPM version also has (beta) support for ActionScript 3.0.
+The second edition of OpenFL is distributed using NPM, and is designed for use from TypeScript, JavaScript (EcmaScript 5 or 6+), ActionScript 3 (using [Apache Royale](https://royale.apache.org) or Haxe, the latter of which can be used in both versions of OpenFL. The NPM version of OpenFL is designed to be used in a browser environment. The NPM version also has (beta) support for ActionScript 3.0.
 
 
 Getting Started
@@ -31,7 +31,7 @@ cd NewProject
 yo openfl
 ```
 
-You will have the opportunity to choose TypeScript, Haxe, ES6 or ES5 as the source language for your new project.
+You will have the opportunity to choose TypeScript, Haxe, ES6, ES5 or AS3 as the source language for your new project.
 
 The template project will include configuration files for Webpack, as well as a source code entry point where you can begin writing a new project. In order to begin using OpenFL, you can try adding support for loading and displaying an image (_[continued below](#displaying-a-bitmap)_).
 
@@ -248,6 +248,32 @@ var App = function () {
 
 }
 ```
+
+## ActionScript 3 (Royale)
+At the top of the file, add new imports:
+
+```actionscript
+import openfl.display.Bitmap;
+import openfl.display.BitmapData;
+```
+
+Then extend the `new` method so it looks like this:
+
+```actionscript
+public function new () {
+
+	super ();
+
+	BitmapData.loadFromFile ("openfl.png").onComplete (function (bitmapData) {
+
+		var bitmap = new Bitmap (bitmapData);
+		addChild (bitmap);
+
+	});
+
+}
+```
+
 
 ## Running the Project
 
