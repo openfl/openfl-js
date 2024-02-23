@@ -16,7 +16,7 @@ Two Versions
 
 There are two versions of OpenFL, the first is primarily distributed using haxelib, and blends native support for Windows, macOS, Linux, iOS, Android, Flash, HTML5 and WebAssembly. You can read more about the haxelib distributed version of OpenFL, [here](https://github.com/openfl/openfl).
 
-The second edition of OpenFL is distributed using NPM, and is designed for use from TypeScript, JavaScript (EcmaScript 5 or 6+), ActionScript 3 (using [Apache Royale](https://royale.apache.org) or Haxe, the latter of which can be used in both versions of OpenFL. The NPM version of OpenFL is designed to be used in a browser environment. The NPM version also has (beta) support for ActionScript 3.0.
+The second edition of OpenFL is distributed using npm, and is designed for use from TypeScript, JavaScript (EcmaScript 5 or 6+), ActionScript 3 (using [Apache Royale](https://royale.apache.org) or Haxe, the latter of which can be used in both haxelib and npm versions of OpenFL. The NPM version of OpenFL is designed to be used in a web browser environment.
 
 
 Getting Started
@@ -257,16 +257,16 @@ import openfl.display.Bitmap;
 import openfl.display.BitmapData;
 ```
 
-Then extend the `new` method so it looks like this:
+Then extend the `App` constructor so it looks like this:
 
 ```actionscript
-public function new () {
+public function App () {
 
 	super ();
 
-	BitmapData.loadFromFile ("openfl.png").onComplete (function (bitmapData) {
+	BitmapData.loadFromFile ("openfl.png").onComplete (function (bitmapData:BitmapData):void {
 
-		var bitmap = new Bitmap (bitmapData);
+		var bitmap:Bitmap = new Bitmap (bitmapData);
 		addChild (bitmap);
 
 	});
