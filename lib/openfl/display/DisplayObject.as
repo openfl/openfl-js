@@ -743,7 +743,7 @@ package openfl.display {
 		 */
 		
 		public function get x ():Number { return 0; }
-		public function set x (value:Number):Number;
+		public function set x (value:Number):Number {};
 		
 		/**
 		 * Indicates the _y_ coordinate of the DisplayObject instance relative
@@ -757,7 +757,7 @@ package openfl.display {
 		 */
 		
 		public function get y ():Number { return 0; }
-		public function set y (value:Number):Number;
+		public function set y (value:Number):Number {};
 		
 		// #if flash
 		// @:noCompletion @:dox(hide) @:require(flash10) var z:Number { return 0; }
