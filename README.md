@@ -16,7 +16,7 @@ Two Versions
 
 There are two versions of OpenFL, the first is primarily distributed using haxelib, and blends native support for Windows, macOS, Linux, iOS, Android, Flash, HTML5 and WebAssembly. You can read more about the haxelib distributed version of OpenFL, [here](https://github.com/openfl/openfl).
 
-The second edition of OpenFL is distributed using npm, and is designed for use from TypeScript, JavaScript (EcmaScript 5 or 6+), ActionScript 3 (using [Apache Royale](https://royale.apache.org) or Haxe, the latter of which can be used in both haxelib and npm versions of OpenFL. The NPM version of OpenFL is designed to be used in a web browser environment.
+The second edition of OpenFL is distributed using npm, and is designed for use from TypeScript, JavaScript (EcmaScript 5 or 6+), ActionScript 3 (using [Apache Royale](https://royale.apache.org)) or Haxe, the latter of which can be used in both haxelib and npm versions of OpenFL. The NPM version of OpenFL is designed to be used in a web browser environment.
 
 
 Getting Started
