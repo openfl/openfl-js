@@ -144,7 +144,7 @@ package openfl.display {
 		
 		
 		// #if flash
-		// @:noCompletion @:dox(hide) public var accessibilityProperties:flash.accessibility.AccessibilityProperties;
+		// @:noCompletion @:dox(hide) public var accessibilityProperties:openfl.accessibility.AccessibilityProperties;
 		// #end
 		
 		/**
@@ -153,10 +153,9 @@ package openfl.display {
 		 * 1. Display objects with `alpha` set to 0 _are_ active,
 		 * even though they are invisible.
 		 */
-		public var alpha:Number;
 		
-		protected function get_alpha ():Number { return 0; }
-		protected function set_alpha (value:Number):Number { return 0; }
+		public function get alpha ():Number { return 0; }
+		public function set alpha (value:Number):void { }
 		
 		/**
 		 * A value from the BlendMode class that specifies which blend mode to use. A
@@ -182,10 +181,9 @@ package openfl.display {
 		 * the table show `blendMode` values applied to a circular display
 		 * object(2) superimposed on another display object(1).
 		 */
-		public var blendMode:String;
 		
-		protected function get_blendMode ():String { return null; }
-		protected function set_blendMode (value:String):String { return null; }
+		public function get blendMode ():String { return null; }
+		public function set blendMode (value:String):void { }
 		
 		// #if flash
 		// @:noCompletion @:dox(hide) @:require(flash10) public var blendShader (null, default):Shader;
@@ -242,15 +240,13 @@ package openfl.display {
 		 * performance increases when the movie clip is translated(when its _x_
 		 * and _y_ position is changed).
 		 */
-		public var cacheAsBitmap:Boolean;
 		
-		protected function get_cacheAsBitmap ():Boolean { return false; }
-		protected function set_cacheAsBitmap (value:Boolean):Boolean { return false; }
+		public function get cacheAsBitmap ():Boolean { return false; }
+		public function set cacheAsBitmap (value:Boolean):void {  }
 		
-		public var cacheAsBitmapMatrix:Matrix;
 		
-		protected function get_cacheAsBitmapMatrix ():Matrix { return null; }
-		protected function set_cacheAsBitmapMatrix (value:Matrix):Matrix { return null; }
+		public function get cacheAsBitmapMatrix ():Matrix { return null; }
+		public function set cacheAsBitmapMatrix (value:Matrix):void { }
 		
 		/**
 		 * An indexed array that contains each filter object currently associated
@@ -327,10 +323,9 @@ package openfl.display {
 		 *                       See the `ShaderInput.input` property for
 		 *                       more information.
 		 */
-		public var filters:Array;
 		
-		protected function get_filters ():Array { return null; }
-		protected function set_filters (value:Array):Array { return null; }
+		public function get filters ():Array { return null; }
+		public function set filters (value:Array):void {  }
 		
 		/**
 		 * Indicates the height of the display object, in pixels. The height is
@@ -342,10 +337,9 @@ package openfl.display {
 		 * content(such as an empty sprite) has a height of 0, even if you try to
 		 * set `height` to a different value.
 		 */
-		public var height:Number;
 		
-		protected function get_height ():Number { return 0; }
-		protected function set_height (value:Number):Number { return 0; }
+		public function get height ():Number { return 0; }
+		public function set height (value:Number):void { }
 		
 		/**
 		 * Returns a LoaderInfo object containing information about loading the file
@@ -395,10 +389,9 @@ package openfl.display {
 		 * first object, and that object's `mask` property becomes
 		 * `null`.
 		 */
-		public var mask:DisplayObject;
 		
-		protected function get_mask ():DisplayObject { return null; }
-		protected function set_mask (value:DisplayObject):DisplayObject { return null; }
+		public function get mask ():DisplayObject { return null; }
+		public function set mask (value:DisplayObject):void {  }
 		
 		/**
 		 * Indicates the x coordinate of the mouse or user input device position, in
@@ -432,10 +425,9 @@ package openfl.display {
 		 *                               on an object that was placed on the timeline
 		 *                               in the Flash authoring tool.
 		 */
-		public var name:String;
 		
-		protected function get_name ():String { return null; }
-		protected function set_name (value:String):String { return null; }
+		public function get name ():String { return null; }
+		public function set name (value:String):void {}
 		
 		/**
 		 * Specifies whether the display object is opaque with a certain background
@@ -517,10 +509,9 @@ package openfl.display {
 		 * the range. For example, the statement `my_video.rotation = 450`
 		 * is the same as ` my_video.rotation = 90`.
 		 */
-		public var rotation:Number;
 		
-		protected function get_rotation ():Number { return 0; }
-		protected function set_rotation (value:Number):Number { return 0; }
+		public function get rotation ():Number { return 0; }
+		public function set rotation (value:Number):void { }
 		
 		// #if flash
 		// @:noCompletion @:dox(hide) @:require(flash10) public var rotationX:Number { return 0; }
@@ -594,10 +585,9 @@ package openfl.display {
 		 * Scaling the local coordinate system changes the `x` and
 		 * `y` property values, which are defined in whole pixels. 
 		 */
-		public var scaleX:Number;
 		
-		protected function get_scaleX ():Number { return 0; }
-		protected function set_scaleX (value:Number):Number { return 0; }
+		public function get scaleX ():Number { return 0; }
+		public function set scaleX (value:Number):void { }
 		
 		/**
 		 * Indicates the vertical scale(percentage) of an object as applied from the
@@ -607,10 +597,9 @@ package openfl.display {
 		 * Scaling the local coordinate system changes the `x` and
 		 * `y` property values, which are defined in whole pixels. 
 		 */
-		public var scaleY:Number;
 		
-		protected function get_scaleY ():Number { return 0; }
-		protected function set_scaleY (value:Number):Number { return 0; }
+		public function get scaleY ():Number { return 0; }
+		public function set scaleY (value:Number):void { }
 		
 		// #if flash
 		// @:noCompletion @:dox(hide) @:require(flash10) public var scaleZ:Number { return 0; }
@@ -638,15 +627,13 @@ package openfl.display {
 		 * 90° and you scroll it left and right, the display object actually scrolls
 		 * up and down.
 		 */
-		public var scrollRect:Rectangle;
 		
-		protected function get_scrollRect ():Rectangle { return null; }
-		protected function set_scrollRect (value:Rectangle):Rectangle { return null; }
+		public function get scrollRect ():Rectangle { return null; }
+		public function set scrollRect (value:Rectangle):void { }
 		
-		/*@:beta*/ public var shader:Shader;
 		
-		protected function get_shader ():Shader { return null; }
-		protected function set_shader (value:Shader):Shader { return null; }
+		public function get shader ():Shader { return null; }
+		public function set shader (value:Shader):void { }
 		
 		/**
 		 * The Stage of the display object. A Flash runtime application has only one
@@ -659,9 +646,6 @@ package openfl.display {
 		 * `stage` property is set to `null`.
 		 */
 		public function get stage ():Stage { return null; }
-		
-		protected function get_stage ():Stage { return null; }
-		protected function set_stage (value:Stage):Stage { return null; }
 		
 		/**
 		 * An object with properties pertaining to a display object's matrix, color
@@ -701,20 +685,18 @@ package openfl.display {
 		 * Note that AIR for TV devices use hardware acceleration, if it is
 		 * available, for color transforms.
 		 */
-		public var transform:Transform;
 		
-		protected function get_transform ():Transform { return null; }
-		protected function set_transform (value:Transform):Transform { return null; }
+		public function get transform ():Transform { return null; }
+		public function set transform (value:Transform):void {}
 		
 		/**
 		 * Whether or not the display object is visible. Display objects that are not
 		 * visible are disabled. For example, if `visible=false` for an
 		 * InteractiveObject instance, it cannot be clicked.
 		 */
-		public var visible:Boolean;
 		
-		protected function get_visible ():Boolean { return false; }
-		protected function set_visible (value:Boolean):Boolean { return false; }
+		public function get visible ():Boolean { return false; }
+		public function set visible (value:Boolean):void { }
 		
 		/**
 		 * Indicates the width of the display object, in pixels. The width is
@@ -726,10 +708,9 @@ package openfl.display {
 		 * content(such as an empty sprite) has a width of 0, even if you try to set
 		 * `width` to a different value.
 		 */
-		public var width:Number;
 		
-		protected function get_width ():Number { return 0; }
-		protected function set_width (value:Number):Number { return 0; }
+		public function get width ():Number { return 0; }
+		public function set width (value:Number):void { }
 		
 		/**
 		 * Indicates the _x_ coordinate of the DisplayObject instance relative
@@ -743,7 +724,7 @@ package openfl.display {
 		 */
 		
 		public function get x ():Number { return 0; }
-		public function set x (value:Number):void {};
+		public function set x (value:Number):void { }
 		
 		/**
 		 * Indicates the _y_ coordinate of the DisplayObject instance relative
@@ -757,7 +738,7 @@ package openfl.display {
 		 */
 		
 		public function get y ():Number { return 0; }
-		public function set y (value:Number):void {};
+		public function set y (value:Number):void { }
 		
 		// #if flash
 		// @:noCompletion @:dox(hide) @:require(flash10) var z:Number { return 0; }
