@@ -647,9 +647,6 @@ package flash.display {
 		 */
 		public function get stage ():Stage { return null; }
 		
-		protected function get_stage ():Stage { return null; }
-		public function set stage (value:Stage):void { }
-		
 		/**
 		 * An object with properties pertaining to a display object's matrix, color
 		 * transform, and pixel bounds. The specific properties  -  matrix,
