@@ -43,6 +43,7 @@ jobs:
         npm run build-docs
 
     - name: Notify Discord (success)
+      if: ${{ github.repository == 'openfl/openfl-js' && github.event_name != 'pull_request' }}
       uses: appleboy/discord-action@master
       with:
         webhook_id: ${{ secrets.DISCORD_WEBHOOK_ID }}
@@ -52,7 +53,7 @@ jobs:
 
     - name: Notify Discord (failure)
       uses: appleboy/discord-action@master
-      if: failure()
+      if: ${{ failure() && github.repository == 'openfl/openfl-js' && github.event_name != 'pull_request' }}
       with:
         webhook_id: ${{ secrets.DISCORD_WEBHOOK_ID }}
         webhook_token: ${{ secrets.DISCORD_WEBHOOK_TOKEN }}

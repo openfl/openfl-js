@@ -741,10 +741,9 @@ package openfl.display {
 		 * rotated 90° counterclockwise. The object's coordinates refer to the
 		 * registration point position.
 		 */
-		public var x:Number;
 		
-		protected function get_x ():Number { return 0; }
-		protected function set_x (value:Number):Number { return 0; }
+		public function get x ():Number { return 0; }
+		public function set x (value:Number):void {};
 		
 		/**
 		 * Indicates the _y_ coordinate of the DisplayObject instance relative
@@ -756,10 +755,9 @@ package openfl.display {
 		 * rotated 90° counterclockwise. The object's coordinates refer to the
 		 * registration point position.
 		 */
-		public var y:Number;
 		
-		protected function get_y ():Number { return 0; }
-		protected function set_y (value:Number):Number { return 0; }
+		public function get y ():Number { return 0; }
+		public function set y (value:Number):void {};
 		
 		// #if flash
 		// @:noCompletion @:dox(hide) @:require(flash10) var z:Number { return 0; }
