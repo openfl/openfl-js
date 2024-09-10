@@ -23,7 +23,6 @@
 # -D tsextern
 -D openfl-dynamic
 -D openfljs
--D lime-bytes-length-getter
 -D html5
 -D lime-canvas
 -D lime-dom
