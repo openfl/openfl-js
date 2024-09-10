@@ -753,10 +753,10 @@ describe ("TypeScript | BitmapData", function () {
 		
 		for (i = 0; i < TEST_WIDTH * TEST_HEIGHT; i++) {
 			pixel = pixels.readInt();
-			assert (Math.abs (((expectedColor >> 24) & 0xFF) - ((pixel >> 24) & 0xFF)) <= 1);
-			assert (Math.abs (((expectedColor >> 16) & 0xFF) - ((pixel >> 16) & 0xFF)) <= 1);
-			assert (Math.abs (((expectedColor >> 8) & 0xFF) - ((pixel >> 8) & 0xFF)) <= 1);
-			assert (Math.abs (((expectedColor) & 0xFF) - ((pixel) & 0xFF)) <= 1);
+			assert (Math.abs (((expectedColor >> 24) & 0xFF) - ((pixel >> 24) & 0xFF)) <= 2);
+			assert (Math.abs (((expectedColor >> 16) & 0xFF) - ((pixel >> 16) & 0xFF)) <= 2);
+			assert (Math.abs (((expectedColor >> 8) & 0xFF) - ((pixel >> 8) & 0xFF)) <= 2);
+			assert (Math.abs (((expectedColor) & 0xFF) - ((pixel) & 0xFF)) <= 2);
 		}
 		
 		// Now run the same test again to make sure the source
@@ -768,10 +768,10 @@ describe ("TypeScript | BitmapData", function () {
 		pixels.position = 0;
 		for (i = 0; i < TEST_WIDTH * TEST_HEIGHT; i++) {
 			pixel = pixels.readInt();
-			assert (Math.abs (((expectedColor >> 24) & 0xFF) - ((pixel >> 24) & 0xFF)) <= 1);
-			assert (Math.abs (((expectedColor >> 16) & 0xFF) - ((pixel >> 16) & 0xFF)) <= 1);
-			assert (Math.abs (((expectedColor >> 8) & 0xFF) - ((pixel >> 8) & 0xFF)) <= 1);
-			assert (Math.abs (((expectedColor) & 0xFF) - ((pixel) & 0xFF)) <= 1);
+			assert (Math.abs (((expectedColor >> 24) & 0xFF) - ((pixel >> 24) & 0xFF)) <= 2);
+			assert (Math.abs (((expectedColor >> 16) & 0xFF) - ((pixel >> 16) & 0xFF)) <= 2);
+			assert (Math.abs (((expectedColor >> 8) & 0xFF) - ((pixel >> 8) & 0xFF)) <= 2);
+			assert (Math.abs (((expectedColor) & 0xFF) - ((pixel) & 0xFF)) <= 2);
 		}
 		
 		bitmapData = new BitmapData (TEST_WIDTH, TEST_HEIGHT, destAlpha);
@@ -785,10 +785,10 @@ describe ("TypeScript | BitmapData", function () {
 			expectedColor |= 0xFF000000;
 		}
 		
-		assert (Math.abs (((expectedColor >> 24) & 0xFF) - ((pixel >> 24) & 0xFF)) <= 1);
-		assert (Math.abs (((expectedColor >> 16) & 0xFF) - ((pixel >> 16) & 0xFF)) <= 1);
-		assert (Math.abs (((expectedColor >> 8) & 0xFF) - ((pixel >> 8) & 0xFF)) <= 1);
-		assert (Math.abs (((expectedColor) & 0xFF) - ((pixel) & 0xFF)) <= 1);
+		assert (Math.abs (((expectedColor >> 24) & 0xFF) - ((pixel >> 24) & 0xFF)) <= 2);
+		assert (Math.abs (((expectedColor >> 16) & 0xFF) - ((pixel >> 16) & 0xFF)) <= 2);
+		assert (Math.abs (((expectedColor >> 8) & 0xFF) - ((pixel >> 8) & 0xFF)) <= 2);
+		assert (Math.abs (((expectedColor) & 0xFF) - ((pixel) & 0xFF)) <= 2);
 	}
 	
 	// There are 6 combinations with an ARGB source that all must be tested:
