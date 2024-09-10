@@ -667,16 +667,6 @@ class BitmapDataTest
 				for (i in 0...Std.int(TEST_WIDTH * TEST_HEIGHT))
 				{
 					pixel = pixels.readInt();
-					if (Math.abs(((expectedColor >> 24) & 0xFF) - ((pixel >> 24) & 0xFF)) > 1
-							|| Math.abs(((expectedColor >> 16) & 0xFF) - ((pixel >> 16) & 0xFF)) > 1
-					|| Math.abs(((expectedColor >> 8) & 0xFF) - ((pixel >> 8) & 0xFF)) > 1
-					|| Math.abs(((expectedColor) & 0xFF) - ((pixel) & 0xFF)) > 1) {
-						trace(StringTools.hex(expectedColor), StringTools.hex(pixel));
-						trace(StringTools.hex((expectedColor >> 24) & 0xFF), StringTools.hex((pixel >> 24) & 0xFF));
-						trace(StringTools.hex((expectedColor >> 16) & 0xFF), StringTools.hex((pixel >> 16) & 0xFF));
-						trace(StringTools.hex((expectedColor >> 8) & 0xFF), StringTools.hex((pixel >> 8) & 0xFF));
-						trace(StringTools.hex((expectedColor) & 0xFF),StringTools.hex ((pixel) & 0xFF));
-					}
 					Assert.assert(Math.abs(((expectedColor >> 24) & 0xFF) - ((pixel >> 24) & 0xFF)) <= 2);
 					Assert.assert(Math.abs(((expectedColor >> 16) & 0xFF) - ((pixel >> 16) & 0xFF)) <= 2);
 					Assert.assert(Math.abs(((expectedColor >> 8) & 0xFF) - ((pixel >> 8) & 0xFF)) <= 2);
