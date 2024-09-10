@@ -16,10 +16,10 @@ extern class ByteArray implements IDataOutput implements IDataInput /*implements
 {
 	public function get(position:Int):Int;
 	public function set(position:Int, value:Int):Int;
-	public static var defaultEndian /*(get, set)*/:Endian;
+	public static var defaultEndian (get, set):Endian;
 
-	// @:noCompletion private function get_defaultEndian ():Endian;
-	// @:noCompletion private function set_defaultEndian (value:Endian):Endian;
+	@:noCompletion private function get_defaultEndian ():Endian;
+	@:noCompletion private function set_defaultEndian (value:Endian):Endian;
 
 	/**
 	 * Denotes the default object encoding for the ByteArray class to use for a
