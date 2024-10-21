@@ -4,7 +4,7 @@
 	"license": "MIT",
 	"tags": [],
 	"description": "The \"Open Flash Library\" for fast 2D development (JS version)",
-	"version": "9.3.4",
+	"version": "9.4.0",
 	"releasenote": "Initial release",
 	"contributors": [ "singmajesty" ],
 	"classPath": "lib"
