@@ -1,6 +1,6 @@
 {
   "name": "openfl",
-  "version": "9.4.0",
+  "version": "9.4.1",
   "description": "A fast, productive library for 2D cross-platform development.",
   "keywords": [
     "openfl",
@@ -92,10 +92,10 @@
     "hxnodejs": "github:haxefoundation/hxnodejs",
     "hxp": "github:openfl/hxp#1.3.0",
     "jpeg-js": "^0.4.4",
-    "lime": "github:openfl/lime#8.2.0",
+    "lime": "github:openfl/lime#8.2.2",
     "mocha": "^10.2.0",
     "mocha-chrome": "github:Telroshan/mocha-chrome",
-    "openfl-haxelib": "github:openfl/openfl#9.4.0",
+    "openfl-haxelib": "github:openfl/openfl#9.4.1",
     "swf": "github:openfl/swf#3.2.0",
     "typedoc": "^0.11.1",
     "typescript": "^5.0.4",
