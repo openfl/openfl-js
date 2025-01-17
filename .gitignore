@@ -30,6 +30,7 @@ dump
 */dump/*
 lib/_gen
 lib-esm/_gen
+lib/**/*.as
 test/**/bundle.js
 npm-debug.log
 *.map
