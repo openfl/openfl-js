@@ -1,3 +1,5 @@
+import haxe.macro.TypedExprTools;
+import haxe.macro.ExprTools;
 import sys.FileSystem;
 import sys.io.File;
 import haxe.io.Path;
@@ -7,7 +9,7 @@ import haxe.macro.Type.BaseType;
 import haxe.macro.Type.AbstractType;
 import haxe.macro.Context;
 
-class AS3ExternsGenerator {
+class HaxeExternsGenerator {
 	private static final ALWAYS_ALLOWED_REFERENCE_TYPES = [
 		"Any",
 		"Array",
@@ -21,34 +23,9 @@ class AS3ExternsGenerator {
 		"UInt",
 		"Void"
 	];
-	private static final NON_NULLABLE_AS3_TYPES = ["Boolean", "Number", "int", "uint"];
-	// AS3 in Royale allows most keywords as symbol names, unlike older SDKs
-	// however, these are still not allowed
-	private static final DISALLOWED_AS3_NAMES = ["goto", "public", "private", "protected", "internal"];
 	private static final eregAccessor = ~/^(g|s)et_[\w]+$/;
 
-	private static function rewriteQname(qname:String):String {
-		switch (qname) {
-			case "Bool":
-				return "Boolean";
-			case "Float":
-				return "Number";
-			case "Int":
-				return "int";
-			case "UInt":
-				return "uint";
-			case "Dynamic":
-				return "*";
-			case "Any":
-				return "*";
-			case "Void":
-				return "void";
-			default:
-				return qname;
-		}
-	}
-
-	public static function generate(?options:AS3GeneratorOptions):Void {
+	public static function generate(?options:HaxeGeneratorOptions):Void {
 		var outputDirPath = Path.join([Path.directory(Compiler.getOutput()), "as3-externs"]);
 		if (options != null && options.outputPath != null) {
 			outputDirPath = options.outputPath;
@@ -57,14 +34,14 @@ class AS3ExternsGenerator {
 			outputDirPath = Path.join([Sys.getCwd(), outputDirPath]);
 		}
 		Context.onGenerate(types -> {
-			var generator = new AS3ExternsGenerator(options);
+			var generator = new HaxeExternsGenerator(options);
 			generator.generateForTypes(types, outputDirPath);
 		});
 	}
 
-	private var options:AS3GeneratorOptions;
+	private var options:HaxeGeneratorOptions;
 
-	private function new(?options:AS3GeneratorOptions) {
+	private function new(?options:HaxeGeneratorOptions) {
 		this.options = options;
 	}
 
@@ -195,11 +172,6 @@ class AS3ExternsGenerator {
 		if (baseType.isPrivate || (baseType.isExtern && !asReference) || isInHiddenPackage(baseType.pack)) {
 			return true;
 		}
-		final qname = baseTypeToQname(baseType, []);
-		if ((options == null || options.renameSymbols == null || options.renameSymbols.indexOf(qname) == -1)
-				&& baseType.meta.has(":noCompletion")) {
-			return true;
-		}
 		if (options != null) {
 			if (options.includedPackages != null) {
 				for (includedPackage in options.includedPackages) {
@@ -238,23 +210,21 @@ class AS3ExternsGenerator {
 
 	private function generateClass(classType:ClassType, params:Array<Type>):String {
 		var result = new StringBuf();
-		result.add('package');
 		var packageName:String = null;
 		if (classType.pack.length > 0) {
 			packageName = classType.pack.join(".");
-			result.add(' $packageName');
+			result.add('package $packageName;\n');
 		}
-		result.add(' {\n');
 		result.add(generateClassTypeImports(classType));
-		result.add(generateDocs(classType.doc, true, ""));
-		var className = baseTypeToUnqualifiedName(classType);
-		result.add('public class $className');
-		var includeFieldsFrom:ClassType = null;
+		if (classType.doc != null && StringTools.trim(classType.doc).length > 0) {
+			result.add('/**');
+			result.add(classType.doc);
+			result.add('**/\n');
+		}
+		result.add('class ${classType.name}');
 		if (classType.superClass != null) {
 			var superClassType = classType.superClass.t.get();
-			if (shouldSkipBaseType(superClassType, true)) {
-				includeFieldsFrom = superClassType;
-			} else {
+			if (!shouldSkipBaseType(superClassType, true)) {
 				result.add(' extends ${baseTypeToQname(superClassType, classType.superClass.params)}');
 			}
 		}
@@ -280,21 +250,6 @@ class AS3ExternsGenerator {
 				result.add(generateClassField(constructor, classType, false, null));
 			}
 		}
-		while (includeFieldsFrom != null) {
-			for (classField in includeFieldsFrom.fields.get()) {
-				if (shouldSkipField(classField, includeFieldsFrom)) {
-					continue;
-				}
-				if (Lambda.exists(classType.fields.get(), item -> item.name == classField.name)) {
-					continue;
-				}
-				result.add(generateClassField(classField, includeFieldsFrom, false, interfaces));
-			}
-			if (includeFieldsFrom.superClass == null) {
-				break;
-			}
-			includeFieldsFrom = includeFieldsFrom.superClass.t.get();
-		}
 		for (classField in classType.statics.get()) {
 			if (shouldSkipField(classField, classType)) {
 				continue;
@@ -308,20 +263,27 @@ class AS3ExternsGenerator {
 			result.add(generateClassField(classField, classType, false, interfaces));
 		}
 		result.add('}\n');
-		result.add('}\n');
 		return result.toString();
 	}
 
 	private function generateClassField(classField:ClassField, classType:ClassType, isStatic:Bool,
 			interfaces:Array<{t:Ref<ClassType>, params:Array<Type>}>):String {
 		var result = new StringBuf();
-		result.add(generateDocs(classField.doc, false, "\t"));
+		if (classField.doc != null && StringTools.trim(classField.doc).length > 0) {
+			result.add("\t/**");
+			result.add(classField.doc);
+			result.add("**/\n");
+		}
 		result.add("\t");
 		var superClassType:ClassType = null;
 		var skippedSuperClass = false;
 		if (classType != null && classType.superClass != null) {
 			superClassType = classType.superClass.t.get();
 			skippedSuperClass = shouldSkipBaseType(superClassType, true);
+		}
+		if (classField.meta.has(":noCompletion"))
+		{
+			result.add("@:noCompletion ");
 		}
 		switch (classField.kind) {
 			case FMethod(k):
@@ -340,53 +302,53 @@ class AS3ExternsGenerator {
 				if (isStatic) {
 					result.add('static ');
 				}
-				result.add('function ');
-				if (classField.name == "new" && classType != null) {
-					var className = baseTypeToUnqualifiedName(classType);
-					result.add(className);
-				} else {
-					result.add(classField.name);
+				#if (haxe_ver >= 4.3)
+				if (classField.isAbstract) {
+					result.add('abstract ');
 				}
+				#end
+				if (classField.isFinal) {
+					result.add('final ');
+				}
+				if (classField.isExtern) {
+					result.add('extern ');
+				}
+				result.add('function ');
+				result.add(classField.name);
 				switch (classField.type) {
 					case TFun(args, ret):
-						var argsAndRet = {args: args, ret: ret};
-						findInterfaceArgsAndRet(classField, classType, argsAndRet);
-						args = argsAndRet.args;
-						ret = argsAndRet.ret;
 						result.add('(');
-						var hadOpt = false;
 						for (i in 0...args.length) {
 							var arg = args[i];
 							if (i > 0) {
 								result.add(', ');
 							}
+							if (arg.opt) {
+								result.add('?');
+							}
 							result.add(arg.name);
 							result.add(':');
 							if (shouldSkipMacroType(arg.t, true)) {
-								result.add('*');
+								result.add('Dynamic');
 							} else {
 								result.add(macroTypeToQname(arg.t));
-							}
-							if (arg.opt || hadOpt) {
-								hadOpt = true;
-								result.add(' = undefined');
 							}
 						}
 						result.add(')');
 						if (classField.name != "new") {
 							result.add(':');
 							var retQname = if (shouldSkipMacroType(ret, true)) {
-								'*';
+								'Dynamic';
 							} else {
 								macroTypeToQname(ret);
 							}
 							result.add(retQname);
 							switch (retQname) {
-								case "void":
+								case "Void":
 									result.add(' {}');
-								case "Number" | "int" | "uint":
+								case "Float" | "Int" | "UInt":
 									result.add(" { return 0; }");
-								case "Boolean":
+								case "Bool":
 									result.add(" { return false; }");
 								default:
 									result.add(" { return null; }");
@@ -416,132 +378,62 @@ class AS3ExternsGenerator {
 					default:
 				}
 			case FVar(read, write):
-				var isAccessor = read == AccCall || write == AccCall || mustBeAccessor(classField.name, interfaces);
-				var argsAndRet = {args: [], ret: classField.type};
-				findInterfaceArgsAndRet(classField, classType, argsAndRet);
-				var ret = argsAndRet.ret;
-				if (isAccessor) {
-					var hasGetter = read == AccCall || read == AccNormal;
-					var hasSetter = write == AccCall || write == AccNormal;
-					if (hasGetter) {
-						if (classField.isPublic) {
-							result.add('public ');
-						}
-						if (isStatic) {
-							result.add('static ');
-						}
-						result.add('function get ');
-						result.add(classField.name);
-						result.add('():');
-						var retQname = if (shouldSkipMacroType(ret, true)) {
-							'*';
-						} else {
-							macroTypeToQname(ret);
-						}
-						result.add(retQname);
-						switch (retQname) {
-							case "void":
-								result.add(' {}');
-							case "Number" | "int" | "uint":
-								result.add(" { return 0; }");
-							case "Boolean":
-								result.add(" { return false; }");
-							default:
-								result.add(" { return null; }");
-						}
-					}
-					if (hasSetter) {
-						if (hasGetter) {
-							result.add('\n\t');
-						}
-						if (classField.isPublic) {
-							result.add('public ');
-						}
-						if (isStatic) {
-							result.add('static ');
-						}
-						result.add('function set ');
-						result.add(classField.name);
-						result.add('(value:');
-						if (shouldSkipMacroType(ret, true)) {
-							result.add('*');
-						} else {
-							result.add(macroTypeToQname(ret));
-						}
-						result.add('):void {}');
-					}
-				} else {
-					if (classField.isPublic) {
-						result.add('public ');
-					}
-					if (isStatic) {
-						result.add('static ');
-					}
-					if (classField.isFinal || read == AccInline || write == AccInline) {
-						result.add('const ');
-					} else {
-						result.add('var ');
-					}
-					result.add(classField.name);
-					result.add(':');
-					if (shouldSkipMacroType(ret, true)) {
-						result.add('*');
-					} else {
-						result.add(macroTypeToQname(ret));
-					}
-					if (classField.isFinal || read == AccInline || write == AccInline) {
-						var expr = classField.expr().expr;
-						while (true) {
-							switch (expr) {
-								case TCast(e, m):
-									expr = e.expr;
-								case TConst(TBool(b)):
-									result.add(' = $b');
-									break;
-								case TConst(TFloat(f)):
-									result.add(' = $f');
-									break;
-								case TConst(TInt(i)):
-									result.add(' = $i');
-									break;
-								case TConst(TString(s)):
-									result.add(' = "$s"');
-									break;
-								case TConst(TNull):
-									result.add(' = null');
-								default:
-									break;
-							}
-						}
-					}
-					result.add(";");
+				if (classField.isPublic) {
+					result.add('public ');
 				}
+				if (isStatic) {
+					result.add('static ');
+				}
+				#if (haxe_ver >= 4.3)
+				if (classField.isAbstract) {
+					result.add('abstract ');
+				}
+				#end
+				if (classField.isExtern) {
+					result.add('extern ');
+				}
+				if (classField.isFinal) {
+					result.add('final ');
+				} else {
+					result.add('var ');
+				}
+				result.add(classField.name);
+				result.add('(');
+				switch (read) {
+					case AccCall:
+						result.add('get');
+					case AccNever:
+						result.add('never');
+					case AccNo:
+						result.add('null');
+					case AccNormal:
+						result.add('default');
+					default:
+						result.add('default');
+				}
+				result.add(', ');
+				switch (write) {
+					case AccCall:
+						result.add('set');
+					case AccNever:
+						result.add('never');
+					case AccNo:
+						result.add('null');
+					case AccNormal:
+						result.add('default');
+					default:
+						result.add('default');
+				}
+				result.add('):');
+				if (shouldSkipMacroType(classField.type, true)) {
+					result.add('Dynamic');
+				} else {
+					result.add(macroTypeToQname(classField.type));
+				}
+				result.add(";");
 		}
 		result.add('\n');
 		return result.toString();
-	}
-
-	private function mustBeAccessor(fieldName:String, interfaces:Array<{t:Ref<ClassType>, params:Array<Type>}>):Bool {
-		if (interfaces == null) {
-			return false;
-		}
-		for (interfaceRef in interfaces) {
-			var implementedInterface = interfaceRef.t.get();
-			for (classField in implementedInterface.fields.get()) {
-				if (classField.name == fieldName) {
-					switch (classField.kind) {
-						case FVar(read, write):
-							return true;
-						default:
-							return false;
-					}
-				}
-			}
-			if (mustBeAccessor(fieldName, implementedInterface.interfaces)) {
-				return true;
-			}
-		}
-		return false;
 	}
 
 	private function generateClassTypeImports(classType:ClassType):String {
@@ -634,14 +526,16 @@ class AS3ExternsGenerator {
 
 	private function generateInterface(interfaceType:ClassType, params:Array<Type>):String {
 		var result = new StringBuf();
-		result.add('package');
 		if (interfaceType.pack.length > 0) {
-			result.add(' ${interfaceType.pack.join(".")}');
+			result.add('package ${interfaceType.pack.join(".")};\n');
 		}
-		result.add(' {\n');
 		result.add(generateClassTypeImports(interfaceType));
-		result.add(generateDocs(interfaceType.doc, true, ""));
-		result.add('public interface ${interfaceType.name}');
+		if (interfaceType.doc != null && StringTools.trim(interfaceType.doc).length > 0) {
+			result.add('/**');
+			result.add(interfaceType.doc);
+			result.add('**/\n');
+		}
+		result.add('interface ${interfaceType.name}');
 		var interfaces = interfaceType.interfaces;
 		var firstInterface = false;
 		for (i in 0...interfaces.length) {
@@ -665,13 +559,16 @@ class AS3ExternsGenerator {
 			result.add(generateInterfaceField(interfaceField));
 		}
 		result.add('}\n');
-		result.add('}\n');
 		return result.toString();
 	}
 
 	private function generateInterfaceField(interfaceField:ClassField):String {
 		var result = new StringBuf();
-		result.add(generateDocs(interfaceField.doc, false, "\t"));
+		if (interfaceField.doc != null && StringTools.trim(interfaceField.doc).length > 0) {
+			result.add("\t/**");
+			result.add(interfaceField.doc);
+			result.add("**/\n");
+		}
 		result.add("\t");
 		switch (interfaceField.kind) {
 			case FMethod(k):
@@ -680,27 +577,25 @@ class AS3ExternsGenerator {
 				switch (interfaceField.type) {
 					case TFun(args, ret):
 						result.add('(');
-						var hadOpt = false;
 						for (i in 0...args.length) {
 							var arg = args[i];
 							if (i > 0) {
 								result.add(', ');
 							}
+							if (arg.opt) {
+								result.add('?');
+							}
 							result.add(arg.name);
 							result.add(':');
 							if (shouldSkipMacroType(arg.t, true)) {
-								result.add('*');
+								result.add('Dynamic');
 							} else {
 								result.add(macroTypeToQname(arg.t));
-							}
-							if (arg.opt || hadOpt) {
-								hadOpt = true;
-								result.add(' = undefined');
 							}
 						}
 						result.add('):');
 						if (shouldSkipMacroType(ret, true)) {
-							result.add('*');
+							result.add('Dynamic');
 						} else {
 							result.add(macroTypeToQname(ret));
 						}
@@ -715,7 +610,7 @@ class AS3ExternsGenerator {
 					result.add(interfaceField.name);
 					result.add('():');
 					if (shouldSkipMacroType(interfaceField.type, true)) {
-						result.add('*');
+						result.add('Dynamic');
 					} else {
 						result.add(macroTypeToQname(interfaceField.type));
 					}
@@ -728,7 +623,7 @@ class AS3ExternsGenerator {
 					result.add(interfaceField.name);
 					result.add('(value:');
 					if (shouldSkipMacroType(interfaceField.type, true)) {
-						result.add('*');
+						result.add('Dynamic');
 					} else {
 						result.add(macroTypeToQname(interfaceField.type));
 					}
@@ -741,74 +636,65 @@ class AS3ExternsGenerator {
 
 	private function generateEnum(enumType:EnumType, params:Array<Type>):String {
 		var result = new StringBuf();
-		result.add('package');
 		if (enumType.pack.length > 0) {
-			result.add(' ${enumType.pack.join(".")}');
+			result.add('package ${enumType.pack.join(".")};\n');
 		}
-		result.add(' {\n');
-		result.add(generateDocs(enumType.doc, true, ""));
-		result.add('public class ${enumType.name}');
+		if (enumType.doc != null && StringTools.trim(enumType.doc).length > 0) {
+			result.add('/**');
+			result.add(enumType.doc);
+			result.add('**/\n');
+		}
+		result.add('enum ${enumType.name}');
 		result.add(' {\n');
 		for (enumField in enumType.constructs) {
 			result.add(generateEnumField(enumField, enumType, params));
 		}
-		result.add('}\n');
 		result.add('}\n');
 		return result.toString();
 	}
 
 	private function generateEnumField(enumField:EnumField, enumType:EnumType, enumTypeParams:Array<Type>):String {
 		var result = new StringBuf();
-		result.add(generateDocs(enumField.doc, false, "\t"));
+		if (enumField.doc != null && StringTools.trim(enumField.doc).length > 0) {
+			result.add("\t/**");
+			result.add(enumField.doc);
+			result.add("**/\n");
+		}
 		result.add("\t");
 		result.add('public static ');
-		// if (enumField.args.length == 0) {
 		result.add('const ');
 		result.add(enumField.name);
 		result.add(':');
 		result.add(baseTypeToQname(enumType, enumTypeParams));
 		result.add(';');
-		/*} else {
-			result.add('function ');
-			result.add(enumField.name);
-			result.add('(');
-			var args = enumField.args;
-			var hadOpt = false;
-			for (i in 0...args.length) {
-				var arg = args[i];
-				if (i > 0) {
-					result.add(', ');
-				}
-				result.add(arg.name);
-				result.add(':');
-				if (shouldSkipMacroType(arg.t, true)) {
-					result.add('*');
-				} else {
-					result.add(macroTypeToQname(arg.t));
-				}
-				if (arg.opt || hadOpt) {
-					hadOpt = true;
-					result.add(' = undefined');
-				}
-			}
-			result.add(')');
-			result.add(':');
-			result.add(baseTypeToQname(enumType, enumTypeParams));
-			result.add(' { return null; }');
-		}*/
 		result.add('\n');
 		return result.toString();
 	}
 
 	private function generateAbstractEnum(abstractType:AbstractType, params:Array<Type>):String {
 		var result = new StringBuf();
-		result.add('package');
 		if (abstractType.pack.length > 0) {
-			result.add(' ${abstractType.pack.join(".")}');
+			result.add('package ${abstractType.pack.join(".")};\n');
 		}
-		result.add(' {\n');
-		result.add(generateDocs(abstractType.doc, true, ""));
-		result.add('public class ${abstractType.name}');
+		if (abstractType.doc != null && StringTools.trim(abstractType.doc).length > 0) {
+			result.add('/**');
+			result.add(abstractType.doc);
+			result.add('**/\n');
+		}
+		result.add('#if haxe4 enum #else @:enum #end abstract ${abstractType.name}');
+		result.add('(${macroTypeToQname(abstractType.type)})');
+		for (currentFrom in abstractType.from) {
+			if (currentFrom.field != null) {
+				continue;
+			}
+			result.add(' from ${macroTypeToQname(currentFrom.t)}');
+		}
+		for (currentTo in abstractType.to) {
+			if (currentTo.field != null) {
+				continue;
+			}
+			result.add(' to ${macroTypeToQname(currentTo.t)}');
+		}
 		result.add(' {\n');
 		if (abstractType.impl != null) {
 			var classType = abstractType.impl.get();
@@ -816,54 +702,50 @@ class AS3ExternsGenerator {
 				if (shouldSkipField(classField, classType)) {
 					continue;
 				}
-				result.add(generateClassField(classField, null, true, []));
+				result.add('\tpublic var ');
+				result.add(classField.name);
+				var expr = classField.expr();
+				if (expr != null) {
+					var currentExpr = expr;
+					while (currentExpr != null) {
+						switch (currentExpr.expr) {
+							case TCast(e, m):
+								currentExpr = e;
+								continue;
+							case TConst(c):
+								switch (c) {
+									case TInt(i):
+										result.add(' = ');
+										result.add(Std.string(i));
+									case TFloat(s):
+										result.add(' = ');
+										result.add('"${s}"');
+									case TString(s):
+										result.add(' = ');
+										result.add('"${s}"');
+									case TBool(b):
+										result.add(' = ');
+										result.add(Std.string(b));
+									case TNull:
+										result.add(' = null');
+									default:
+								}
+							default:
+						}
+						currentExpr = null;
+					}
+					result.add(';\n');
+				}
 			}
 		}
 		result.add('}\n');
-		result.add('}\n');
-		return result.toString();
-	}
-
-	private function generateDocs(doc:String, externs:Bool, indent:String):String {
-		if (doc == null || StringTools.trim(doc).length == 0) {
-			return "";
-		}
-		
-		var result = new StringBuf();
-		result.add('$indent/**\n');
-		var lines = ~/\r?\n/g.split(doc);
-		var addedLine = false;
-		var checkedLeadingStar = false;
-		var hasLeadingStar = false;
-		for (line in lines) {
-			if (!addedLine && ~/^\s*$/.match(line)) {
-				continue;
-			}
-			addedLine = true;
-			var leadingStar = ~/^(\s*\*\s*)/;
-			if ((!checkedLeadingStar || hasLeadingStar) && leadingStar.match(line)) {
-				checkedLeadingStar = true;
-				hasLeadingStar = true;
-				line = line.substr(leadingStar.matchedPos().len);
-			} else if (!checkedLeadingStar) {
-				checkedLeadingStar = true;
-				hasLeadingStar = false;
-			}
-			result.add('$indent * $line\n');
-		}
-		if (externs) {
-			result.add('$indent * @externs\n');
-		}
-		result.add('$indent */\n');
 		return result.toString();
 	}
 
 	private function shouldSkipField(classField:ClassField, classType:ClassType):Bool {
 		if (classField.name != "new") {
 			if (!classField.isPublic
-				|| classField.isExtern
-				|| classField.meta.has(":noCompletion")
-				|| DISALLOWED_AS3_NAMES.indexOf(classField.name) != -1) {
+				|| classField.isExtern) {
 				return true;
 			}
 		}
@@ -1006,15 +888,6 @@ class AS3ExternsGenerator {
 		return "*";
 	}
 
-	private function baseTypeToUnqualifiedName(baseType:BaseType):String {
-		var qname = baseTypeToQname(baseType, []);
-		var index = qname.lastIndexOf(".");
-		if (index != -1) {
-			return qname.substr(index + 1);
-		}
-		return qname;
-	}
-
 	private function baseTypeToQname(baseType:BaseType, params:Array<Type>):String {
 		if (baseType == null) {
 			return "*";
@@ -1042,8 +915,7 @@ class AS3ExternsGenerator {
 
 		// ignore type params in AS3
 
-		// remap some types
-		return rewriteQname(qname);
+		return qname;
 	}
 
 	private function baseTypeToUnqualifiedNname(baseType:BaseType, params:Array<Type>):String {
@@ -1071,24 +943,11 @@ class AS3ExternsGenerator {
 			}
 		}
 		// ignore type params in AS3
-		return rewriteQname(qname);
+		return qname;
 	}
 
 	private function abstractTypeToQname(abstractType:AbstractType, params:Array<Type>):String {
 		var pack = abstractType.pack;
-		if (abstractType.name == "Null" && pack.length == 0) {
-			var result = macroTypeToQname(params[0]);
-			if (NON_NULLABLE_AS3_TYPES.indexOf(result) != -1) {
-				// the following types can't be simplified by removing Null<>
-				// so return Object instead:
-				// Null<Bool>, Null<Float>, Null<Int>, Null<UInt>
-				return "Object";
-			}
-			return result;
-		}
-		if (abstractType.name == "Function" && abstractType.pack.length == 1 && abstractType.pack[0] == "haxe") {
-			return "Function";
-		}
 		var underlyingType = abstractType.type;
 		switch (underlyingType) {
 			case TAbstract(t, params):
@@ -1113,49 +972,12 @@ class AS3ExternsGenerator {
 
 	private function getFileOutputPath(dirPath:String, baseType:BaseType):String {
 		var qname = baseTypeToQname(baseType, []);
-		var relativePath = qname.split(".").join("/") + ".as";
+		var relativePath = qname.split(".").join("/") + ".hx";
 		return Path.join([dirPath, relativePath]);
-	}
-
-	/**
-		Haxe allows classes to implement methods from interfaces with more
-		specific types, but AS3 does not. This method finds the original types
-		from the interface that are required to match.
-	**/
-	private function findInterfaceArgsAndRet(classField:ClassField, classType:ClassType,
-			argsAndRet:{args:Array<{name:String, opt:Bool, t:Type}>, ret:Type}):Void {
-		var currentClassType = classType;
-		while (currentClassType != null) {
-			for (currentInterface in currentClassType.interfaces) {
-				for (interfaceField in currentInterface.t.get().fields.get()) {
-					if (interfaceField.name == classField.name) {
-						switch (interfaceField.kind) {
-							case FMethod(k):
-								switch (interfaceField.type) {
-									case TFun(interfaceArgs, interfaceRet):
-										argsAndRet.args = interfaceArgs;
-										argsAndRet.ret = interfaceRet;
-										return;
-									default:
-								}
-							case FVar(read, write):
-								argsAndRet.ret = interfaceField.type;
-							default:
-						}
-					}
-				}
-			}
-
-			if (currentClassType.superClass != null) {
-				currentClassType = currentClassType.superClass.t.get();
-			} else {
-				currentClassType = null;
-			}
-		}
 	}
 }
 
-typedef AS3GeneratorOptions = {
+typedef HaxeGeneratorOptions = {
 	/**
 		Externs will be generated for symbols in the specified packages only,
 		and no externs will be generated for symbols in other packages.
@@ -1169,7 +991,7 @@ typedef AS3GeneratorOptions = {
 		When `includedPackages` is not empty, `allowedPackageReferences` may
 		be used to allow types from other packages to be used for field types,
 		method parameter types, and method return types. Otherwise, the types
-		will be replaced with AS3's `*` type.
+		will be replaced with Haxe's `Dynamic` type.
 			
 		All package references are allowed by default. If in doubt, pass an
 		empty array to restrict all types that don't appear in

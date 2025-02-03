@@ -274,6 +274,9 @@ class TSExternsGenerator {
 				if (shouldSkipField(classField, includeFieldsFrom)) {
 					continue;
 				}
+				if (Lambda.exists(classType.fields.get(), item -> item.name == classField.name)) {
+					continue;
+				}
 				result.add(generateClassField(classField, includeFieldsFrom, false, interfaces));
 			}
 			if (includeFieldsFrom.superClass == null) {
