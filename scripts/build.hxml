@@ -33,4 +33,5 @@
 -D howlerjs
 -D webgl1
 --macro AS3ExternsGenerator.generate({outputPath: "../lib", includedPackages: ["openfl"], allowedPackageReferences: [], renameSymbols: ["openfl.VectorData", "openfl.Vector", "openfl.utils.ByteArrayData", "openfl.utils.ByteArray"]})
+--macro TSExternsGenerator.generate({outputPath: "../lib", includedPackages: ["openfl"], allowedPackageReferences: [], renameSymbols: ["openfl.VectorData", "openfl.Vector", "openfl.utils.ByteArrayData", "openfl.utils.ByteArray"]})
 --no-inline
