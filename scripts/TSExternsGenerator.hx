@@ -236,9 +236,12 @@ class TSExternsGenerator {
 		var className = baseTypeToUnqualifiedName(classType, []);
 		result.add('\texport class $className');
 		result.add(generateUnqualifiedParams(params));
+		var includeFieldsFrom:ClassType = null;
 		if (classType.superClass != null) {
 			var superClassType = classType.superClass.t.get();
-			if (!shouldSkipBaseType(superClassType, true)) {
+			if (shouldSkipBaseType(superClassType, true)) {
+				includeFieldsFrom = superClassType;
+			} else {
 				result.add(' extends ${baseTypeToUnqualifiedName(superClassType, classType.superClass.params)}');
 			}
 		}
@@ -263,6 +266,18 @@ class TSExternsGenerator {
 			if (!shouldSkipField(constructor, classType)) {
 				result.add(generateClassField(constructor, classType, false, null));
 			}
+		}
+		while (includeFieldsFrom != null) {
+			for (classField in includeFieldsFrom.fields.get()) {
+				if (shouldSkipField(classField, includeFieldsFrom)) {
+					continue;
+				}
+				result.add(generateClassField(classField, includeFieldsFrom, false, interfaces));
+			}
+			if (includeFieldsFrom.superClass == null) {
+				break;
+			}
+			includeFieldsFrom = includeFieldsFrom.superClass.t.get();
 		}
 		for (classField in classType.statics.get()) {
 			if (shouldSkipField(classField, classType)) {
