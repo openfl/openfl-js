@@ -192,7 +192,12 @@ class AS3ExternsGenerator {
 		if (asReference && baseType.pack.length == 0 && ALWAYS_ALLOWED_REFERENCE_TYPES.indexOf(baseType.name) != -1) {
 			return false;
 		}
-		if (baseType.isPrivate || (baseType.isExtern && !asReference) || isInHiddenPackage(baseType.pack) || baseType.meta.has(":noCompletion")) {
+		if (baseType.isPrivate || (baseType.isExtern && !asReference) || isInHiddenPackage(baseType.pack)) {
+			return true;
+		}
+		final qname = baseTypeToQname(baseType, []);
+		if ((options == null || options.renameSymbols == null || options.renameSymbols.indexOf(qname) == -1)
+				&& baseType.meta.has(":noCompletion")) {
 			return true;
 		}
 		if (options != null) {
