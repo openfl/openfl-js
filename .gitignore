@@ -31,7 +31,8 @@ dump
 lib/_gen
 lib-esm/_gen
 lib/**/*.as
-lib/**/[!index]*.d.ts
+lib/**/*.d.ts
+!lib/**/index.d.ts
 test/**/bundle.js
 npm-debug.log
 *.map
