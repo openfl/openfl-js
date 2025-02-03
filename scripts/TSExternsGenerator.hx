@@ -49,6 +49,8 @@ class TSExternsGenerator {
 		});
 	}
 
+	private var importMappings:Map<String, String> = [];
+
 	private var options:TSGeneratorOptions;
 
 	private function new(?options:TSGeneratorOptions) {
@@ -638,6 +640,7 @@ class TSExternsGenerator {
 			}
 		}
 
+		importMappings.clear();
 		var originPath = ~/\./g.replace(baseTypeToQname(classType, [], false), "/");
 		var result = new StringBuf();
 		for (qname in qnames.keys()) {
@@ -647,11 +650,15 @@ class TSExternsGenerator {
 			}
 			result.add('import ');
 			var dotIndex = qname.lastIndexOf(".");
-			if (dotIndex == -1) {
-				result.add(qname);
-			} else {
-				result.add(qname.substr(dotIndex + 1));
+			var unqualifiedName = qname;
+			if (dotIndex != -1) {
+				unqualifiedName = unqualifiedName.substr(dotIndex + 1);
 			}
+			if (importMappings.exists(unqualifiedName)) {
+				unqualifiedName = ~/\./g.replace(qname, "_");
+			}
+			importMappings.set(unqualifiedName, qname);
+			result.add(unqualifiedName);
 			result.add(' from "');
 			if (options != null && options.includedPackages != null) {
 				var pack = qname.split(".");
@@ -1263,17 +1270,28 @@ class TSExternsGenerator {
 			return QNAMES_TO_REWRITE.get(qname);
 		}
 
-		var index = qname.lastIndexOf(".");
-		if (index != -1) {
-			qname = qname.substr(index + 1);
+		var foundImportMapping = false;
+		var unqualifiedName = qname;
+		for (key => value in importMappings) {
+			if (value == qname) {
+				unqualifiedName = key;
+				foundImportMapping = true;
+				break;
+			}
+		}
+		if (!foundImportMapping) {
+			var index = unqualifiedName.lastIndexOf(".");
+			if (index != -1) {
+				unqualifiedName = unqualifiedName.substr(index + 1);
+			}
 		}
 
 		if (!includeParams || params.length == 0) {
-			return qname;
+			return unqualifiedName;
 		}
 
 		var buffer = new StringBuf();
-		buffer.add(qname);
+		buffer.add(unqualifiedName);
 		buffer.add("<");
 		for (param in params) {
 			if (shouldSkipMacroType(param, true)) {
