@@ -1046,34 +1046,6 @@ class AS3ExternsGenerator {
 		return rewriteQname(qname);
 	}
 
-	private function baseTypeToUnqualifiedNname(baseType:BaseType, params:Array<Type>):String {
-		if (baseType == null) {
-			return "*";
-		}
-		var buffer = new StringBuf();
-		if (baseType.pack.length > 0) {
-			buffer.add(baseType.pack.join("."));
-			buffer.add(".");
-		}
-		buffer.add(baseType.name);
-		var qname = buffer.toString();
-		if (options != null && options.renameSymbols != null) {
-			var renameSymbols = options.renameSymbols;
-			var i = 0;
-			while (i < renameSymbols.length) {
-				var originalName = renameSymbols[i];
-				i++;
-				var newName = renameSymbols[i];
-				i++;
-				if (originalName == qname) {
-					return newName;
-				}
-			}
-		}
-		// ignore type params in AS3
-		return rewriteQname(qname);
-	}
-
 	private function abstractTypeToQname(abstractType:AbstractType, params:Array<Type>):String {
 		var pack = abstractType.pack;
 		if (abstractType.name == "Null" && pack.length == 0) {
