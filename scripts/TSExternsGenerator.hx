@@ -426,10 +426,6 @@ class TSExternsGenerator {
 							}
 							result.add('>');
 						}
-						var argsAndRet = {args: args, ret: ret};
-						findInterfaceArgsAndRet(classField, classType, argsAndRet);
-						args = argsAndRet.args;
-						ret = argsAndRet.ret;
 						result.add('(');
 						var hadOpt = false;
 						for (i in 0...args.length) {
@@ -463,9 +459,6 @@ class TSExternsGenerator {
 				}
 			case FVar(read, write):
 				var isAccessor = read == AccCall || write == AccCall || mustBeAccessor(classField.name, interfaces);
-				var argsAndRet = {args: [], ret: classField.type};
-				findInterfaceArgsAndRet(classField, classType, argsAndRet);
-				var ret = argsAndRet.ret;
 				if (isAccessor) {
 					var hasGetter = read == AccCall || read == AccNormal;
 					var hasSetter = write == AccCall || write == AccNormal;
@@ -479,10 +472,10 @@ class TSExternsGenerator {
 						result.add('get ');
 						result.add(classField.name);
 						result.add('(): ');
-						if (shouldSkipMacroType(ret, true)) {
+						if (shouldSkipMacroType(classField.type, true)) {
 							result.add('any');
 						} else {
-							result.add(macroTypeToUnqualifiedName(ret));
+							result.add(macroTypeToUnqualifiedName(classField.type));
 						}
 						result.add(';');
 					}
@@ -499,10 +492,10 @@ class TSExternsGenerator {
 						result.add('set ');
 						result.add(classField.name);
 						result.add('(value: ');
-						if (shouldSkipMacroType(ret, true)) {
+						if (shouldSkipMacroType(classField.type, true)) {
 							result.add('any');
 						} else {
-							result.add(macroTypeToUnqualifiedName(ret));
+							result.add(macroTypeToUnqualifiedName(classField.type));
 						}
 						result.add(')');
 					}
@@ -525,10 +518,10 @@ class TSExternsGenerator {
 						result.add(initExpr);
 					} else {
 						result.add(': ');
-						if (shouldSkipMacroType(ret, true)) {
+						if (shouldSkipMacroType(classField.type, true)) {
 							result.add('any');
 						} else {
-							result.add(macroTypeToUnqualifiedName(ret));
+							result.add(macroTypeToUnqualifiedName(classField.type));
 						}
 					}
 					result.add(";");
@@ -1443,43 +1436,6 @@ class TSExternsGenerator {
 		return Path.join([dirPath, relativePath]);
 	}
 
-	/**
-		Haxe allows classes to implement methods from interfaces with more
-		specific types, but AS3 does not. This method finds the original types
-		from the interface that are required to match.
-	**/
-	private function findInterfaceArgsAndRet(classField:ClassField, classType:ClassType,
-			argsAndRet:{args:Array<{name:String, opt:Bool, t:Type}>, ret:Type}):Void {
-		// var currentClassType = classType;
-		// while (currentClassType != null) {
-		// 	for (currentInterface in currentClassType.interfaces) {
-		// 		for (interfaceField in currentInterface.t.get().fields.get()) {
-		// 			if (interfaceField.name == classField.name) {
-		// 				switch (interfaceField.kind) {
-		// 					case FMethod(k):
-		// 						switch (interfaceField.type) {
-		// 							case TFun(interfaceArgs, interfaceRet):
-		// 								argsAndRet.args = interfaceArgs;
-		// 								argsAndRet.ret = interfaceRet;
-		// 								return;
-		// 							default:
-		// 						}
-		// 					case FVar(read, write):
-		// 						argsAndRet.ret = interfaceField.type;
-		// 					default:
-		// 				}
-		// 			}
-		// 		}
-		// 	}
-
-		// 	if (currentClassType.superClass != null) {
-		// 		currentClassType = currentClassType.superClass.t.get();
-		// 	} else {
-		// 		currentClassType = null;
-		// 	}
-		// }
-	}
-
 	private function relativizePath(path:String, relativeToPath:String):String {
 		var currentPath = path;
         var stack:Array<String> = [];
@@ -1523,7 +1479,7 @@ typedef TSGeneratorOptions = {
 		When `includedPackages` is not empty, `allowedPackageReferences` may
 		be used to allow types from other packages to be used for field types,
 		method parameter types, and method return types. Otherwise, the types
-		will be replaced with AS3's `*` type.
+		will be replaced with TS's `any` type.
 			
 		All package references are allowed by default. If in doubt, pass an
 		empty array to restrict all types that don't appear in
