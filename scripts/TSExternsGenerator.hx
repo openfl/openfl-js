@@ -317,7 +317,11 @@ class TSExternsGenerator {
 			if (i > 0) {
 				result.add(', ');
 			}
-			result.add(macroTypeToQname(param));
+			if (shouldSkipMacroType(param, true)) {
+				result.add("any");
+			} else {
+				result.add(macroTypeToQname(param));
+			}
 		}
 		result.add('>');
 		return result.toString();
@@ -334,7 +338,11 @@ class TSExternsGenerator {
 			if (i > 0) {
 				result.add(', ');
 			}
-			result.add(macroTypeToUnqualifiedName(param));
+			if (shouldSkipMacroType(param, true)) {
+				result.add("any");
+			} else {
+				result.add(macroTypeToUnqualifiedName(param));
+			}
 		}
 		result.add('>');
 		return result.toString();
@@ -614,6 +622,16 @@ class TSExternsGenerator {
 				qnames.set(qname, true);
 			}
 		}
+		if (classType.constructor != null) {
+			var classField = classType.constructor.get();
+			switch (classField.type) {
+				case TFun(args, ret):
+					for (arg in args) {
+						addMacroTypeQnamesForImport(arg.t, qnames, classType.pack);
+					}
+				default:
+			}
+		}
 		for (classField in classType.statics.get()) {
 			if (shouldSkipField(classField, classType)) {
 				continue;
@@ -746,7 +764,7 @@ class TSExternsGenerator {
 					firstInterface = true;
 					result.add(' extends ');
 				}
-				result.add(baseTypeToQname(implementedInterfaceType, interfaceRef.params));
+				result.add(baseTypeToUnqualifiedName(implementedInterfaceType, interfaceRef.params));
 			}
 		}
 		result.add(' {\n');
@@ -775,6 +793,18 @@ class TSExternsGenerator {
 				result.add(interfaceField.name);
 				switch (interfaceField.type) {
 					case TFun(args, ret):
+						var params = interfaceField.params;
+						if (params.length > 0) {
+							result.add('<');
+							for (i in 0...params.length) {
+								var param = params[i];
+								if (i > 0) {
+									result.add(', ');
+								}
+								result.add(param.name);
+							}
+							result.add('>');
+						}
 						result.add('(');
 						var hadOpt = false;
 						for (i in 0...args.length) {
@@ -915,10 +945,20 @@ class TSExternsGenerator {
 				if (shouldSkipField(classField, classType)) {
 					continue;
 				}
-				result.add('\t\t');
-				result.add(classField.name);
-				result.add(generateInitExpression(classField));
-				result.add(',\n');
+				switch (classField.kind) {
+					case FVar(read, write):
+						if (read == AccInline && write == AccNever) {
+							result.add(generateDocs(classField.doc, "\t\t"));
+							result.add('\t\t');
+							result.add(classField.name);
+							result.add(generateInitExpression(classField));
+							result.add(',\n');
+						}
+						// TODO: if TypeScript will unify enums and interfaces,
+						// with the same name, we should be able to put other
+						// types of vars and methods into an interface.
+					default:
+				}
 			}
 		}
 		result.add('\t}\n');
@@ -967,7 +1007,12 @@ class TSExternsGenerator {
 					break;
 				case TAbstract(t, params):
 					var abstractType = t.get();
-					return canSkipAbstractTypeImport(abstractType, params, currentPackage);
+					if (abstractType.meta.has(":enum") && !shouldSkipBaseType(abstractType, true)) {
+						baseType = abstractType;
+						break;
+					} else {
+						return canSkipAbstractTypeImport(abstractType, params, currentPackage);
+					}
 				case TType(t, params):
 					var typedefType = t.get();
 					type = typedefType.type;
@@ -1028,9 +1073,7 @@ class TSExternsGenerator {
 					var classType = t.get();
 					switch (classType.kind) {
 						case KTypeParameter(constraints):
-							if (constraints.length > 0) {
-								return macroTypeToQname(constraints[0]);
-							}
+							return baseTypeToUnqualifiedName(classType, params, includeParams);
 						default:
 					}
 					return baseTypeToQname(classType, params, includeParams);
@@ -1242,7 +1285,6 @@ class TSExternsGenerator {
 		buffer = new StringBuf();
 		buffer.add(qname);
 		buffer.add(generateQnameParams(params));
-
 		return buffer.toString();
 	}
 
@@ -1295,19 +1337,14 @@ class TSExternsGenerator {
 
 		var buffer = new StringBuf();
 		buffer.add(unqualifiedName);
-		buffer.add("<");
-		for (param in params) {
-			if (shouldSkipMacroType(param, true)) {
-				buffer.add("any");
-			} else {
-				buffer.add(macroTypeToUnqualifiedName(param, includeParams));
-			}
-		}
-		buffer.add(">");
+		buffer.add(generateUnqualifiedParams(params));
 		return buffer.toString();
 	}
 
 	private function abstractTypeToUnqualifiedName(abstractType:AbstractType, params:Array<Type>, includeParams:Bool = true):String {
+		if (abstractType.meta.has(":enum") && !shouldSkipBaseType(abstractType, true)) {
+			return baseTypeToUnqualifiedName(abstractType, params, includeParams);
+		}
 		var pack = abstractType.pack;
 		if (abstractType.name == "Null" && pack.length == 0) {
 			return macroTypeToUnqualifiedName(params[0], includeParams);
@@ -1326,6 +1363,7 @@ class TSExternsGenerator {
 				}
 			default:
 		}
+
 		if (includeParams) {
 			var qname = macroTypeToQname(underlyingType, false);
 			if (options != null && options.renameSymbols != null) {
@@ -1337,15 +1375,20 @@ class TSExternsGenerator {
 					var newName = renameSymbols[i];
 					i++;
 					if (newName == qname) {
+						// don't use underlyingType's parameters
 						return macroTypeToUnqualifiedName(underlyingType, false) + generateUnqualifiedParams(params);
 					}
 				}
 			}
 		}
+
 		return macroTypeToUnqualifiedName(underlyingType, includeParams);
 	}
 
 	private function abstractTypeToQname(abstractType:AbstractType, params:Array<Type>, includeParams:Bool = true):String {
+		if (abstractType.meta.has(":enum") && !shouldSkipBaseType(abstractType, true)) {
+			return baseTypeToQname(abstractType, params, includeParams);
+		}
 		var pack = abstractType.pack;
 		if (abstractType.name == "Null" && pack.length == 0) {
 			return macroTypeToQname(params[0], includeParams);
@@ -1364,6 +1407,7 @@ class TSExternsGenerator {
 				}
 			default:
 		}
+
 		if (includeParams) {
 			var qname = macroTypeToQname(underlyingType, false);
 			if (options != null && options.renameSymbols != null) {
@@ -1375,12 +1419,13 @@ class TSExternsGenerator {
 					var newName = renameSymbols[i];
 					i++;
 					if (newName == qname) {
+						// don't use underlyingType's parameters
 						return qname + generateQnameParams(params);
 					}
 				}
 			}
-			return qname;
 		}
+
 		return macroTypeToQname(underlyingType, includeParams);
 	}
 
