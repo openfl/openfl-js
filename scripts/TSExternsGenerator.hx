@@ -753,10 +753,7 @@ class TSExternsGenerator {
 			result.add('declare namespace $packageName {\n');
 		}
 		result.add(generateDocs(interfaceType.doc, "\t"));
-		// yes, class instead of interface
-		// it allows us to export the interface
-		// and TS allows implementing classes
-		result.add('\texport class ${interfaceType.name}');
+		result.add('\texport interface ${interfaceType.name}');
 		result.add(generateUnqualifiedParams(params));
 		var interfaces = interfaceType.interfaces;
 		var firstInterface = false;
@@ -786,7 +783,12 @@ class TSExternsGenerator {
 		}
 
 		var qname = (packageName != null ? '$packageName.' : '') + interfaceType.name;
-		result.add('export default ${qname};');
+		result.add('type ${interfaceType.name}');
+		result.add(generateUnqualifiedParams(params));
+		result.add(' = ${qname}');
+		result.add(generateUnqualifiedParams(params));
+		result.add(';\n');
+		result.add('export default ${interfaceType.name};');
 		return result.toString();
 	}
 
