@@ -724,6 +724,17 @@ class TSExternsGenerator {
 					for (param in params) {
 						addMacroTypeQnamesForImport(param, qnames, pack);
 					}
+					var abstractType = t.get();
+					switch (abstractType.type) {
+						case TAbstract(t, underlyingParams):
+							var result = baseTypeToQname(abstractType, params, false);
+							var compareTo = baseTypeToQname(t.get(), underlyingParams, false);
+							if (result != compareTo) {
+								addMacroTypeQnamesForImport(abstractType.type, qnames, pack);
+							}
+						default:
+							addMacroTypeQnamesForImport(abstractType.type, qnames, pack);
+					}
 					break;
 				case TType(t, params):
 					var typedefType = t.get();
