@@ -246,8 +246,9 @@ class TSExternsGenerator {
 		result.add('\texport class $className');
 		result.add(generateUnqualifiedParams(params));
 		var includeFieldsFrom:ClassType = null;
+		var superClassType:ClassType = null;
 		if (classType.superClass != null) {
-			var superClassType = classType.superClass.t.get();
+			superClassType = classType.superClass.t.get();
 			if (shouldSkipBaseType(superClassType, true)) {
 				includeFieldsFrom = superClassType;
 			} else {
@@ -295,7 +296,29 @@ class TSExternsGenerator {
 			if (shouldSkipField(classField, classType)) {
 				continue;
 			}
-			result.add(generateClassField(classField, classType, true, null));
+			var current = superClassType;
+			var isConflictingStatic = false;
+			while (current != null) {
+				if (Lambda.exists(current.statics.get(), superStaticField -> superStaticField.name == classField.name && !superStaticField.type.equals(classField.type))) {
+					// typescript is weirdly strict when subclass have static
+					// members with the same name, but different signatures.
+					// it seems to be because JS allows you to use the `this`
+					// keyword in a static method, which is usually not allowed
+					// in other languages.
+					isConflictingStatic = true;
+					break;
+				}
+				if (current.superClass != null) {
+					current = current.superClass.t.get();
+				} else {
+					current = null;
+				}
+			}
+			// TODO: try to expose this another way
+			// see: https://github.com/microsoft/TypeScript/issues/4628#issuecomment-1147905253
+			if (!isConflictingStatic) {
+				result.add(generateClassField(classField, classType, true, null));
+			}
 		}
 		for (classField in classType.fields.get()) {
 			if (shouldSkipField(classField, classType)) {
