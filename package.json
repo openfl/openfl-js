@@ -98,7 +98,7 @@
     "openfl-haxelib": "github:openfl/openfl#9.4.2",
     "swf": "github:openfl/swf#3.2.0",
     "typedoc": "^0.11.1",
-    "typescript": "^5.0.4",
+    "typescript": "~5.0.4",
     "watch": "^1.0.2",
     "webpack": "^5.79.0",
     "webpack-cli": "^5.0.1",
