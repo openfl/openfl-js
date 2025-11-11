@@ -3,9 +3,10 @@
 --macro include('swf.exporters.swflite', true)
 #-lib lime
 -cp ../node_modules/lime/src
--D lime=7.0.0
+-D lime=8.3.0
 # -lib openfl
 -cp ../node_modules/openfl-haxelib/src
+-D openfl=9.5.0
 #-lib format
 -cp ../node_modules/format
 -D format
