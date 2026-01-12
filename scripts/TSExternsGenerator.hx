@@ -199,8 +199,10 @@ class TSExternsGenerator {
 		}
 		if (options != null) {
 			if (options.includedPackages != null) {
+				final qnameLastDotIndex = qname.lastIndexOf(".");
+				final qnamePack = qnameLastDotIndex != -1 ? qname.substr(0, qnameLastDotIndex).split(".") : [];
 				for (includedPackage in options.includedPackages) {
-					if (isInPackage(includedPackage.split("."), baseType.pack, false)) {
+					if (isInPackage(includedPackage.split("."), qnamePack, false)) {
 						if (options.excludeSymbols != null) {
 							if (options.excludeSymbols.indexOf(qname) != -1) {
 								return true;
