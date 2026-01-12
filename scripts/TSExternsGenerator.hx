@@ -788,6 +788,9 @@ class TSExternsGenerator {
 					}
 					break;
 				case TType(t, params):
+					for (param in params) {
+						addMacroTypeQnamesForImport(param, qnames, pack);
+					}
 					var typedefType = t.get();
 					type = typedefType.type;
 				case TFun(args, ret):
