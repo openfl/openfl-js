@@ -964,6 +964,7 @@ class AS3ExternsGenerator {
 	}
 
 	private function macroTypeToQname(type:Type, includeParams:Bool = true):String {
+		var defTypeParams:Array<Type> = null;
 		while (type != null) {
 			switch (type) {
 				case TInst(t, params):
@@ -976,16 +977,16 @@ class AS3ExternsGenerator {
 							}
 							if (typeParamSourceQname == "Vector")
 							{
-								return baseTypeToQname(classType, params, includeParams);
+								return baseTypeToQname(classType, defTypeParams != null ? defTypeParams : params, includeParams);
 							}
 							return "*";
 						default:
 					}
-					return baseTypeToQname(classType, params, includeParams);
+					return baseTypeToQname(classType, defTypeParams != null ? defTypeParams : params, includeParams);
 				case TEnum(t, params):
-					return baseTypeToQname(t.get(), params, includeParams);
+					return baseTypeToQname(t.get(), defTypeParams != null ? defTypeParams : params, includeParams);
 				case TAbstract(t, params):
-					return abstractTypeToQname(t.get(), params, includeParams);
+					return abstractTypeToQname(t.get(), defTypeParams != null ? defTypeParams : params, includeParams);
 				case TType(t, params):
 					var defType = t.get();
 					if (options != null && options.renameSymbols != null) {
@@ -1010,6 +1011,9 @@ class AS3ExternsGenerator {
 						}
 					}
 					type = t.get().type;
+					if (defTypeParams == null) {
+						defTypeParams = params;
+					}
 				case TDynamic(t):
 					return "*";
 				case TAnonymous(a):

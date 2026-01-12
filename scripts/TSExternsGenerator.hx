@@ -1137,20 +1137,21 @@ class TSExternsGenerator {
 	}
 
 	private function macroTypeToQname(type:Type, includeParams:Bool = true):String {
+		var defTypeParams:Array<Type> = null;
 		while (type != null) {
 			switch (type) {
 				case TInst(t, params):
 					var classType = t.get();
 					switch (classType.kind) {
 						case KTypeParameter(constraints):
-							return baseTypeToUnqualifiedName(classType, params, includeParams);
+							return baseTypeToUnqualifiedName(classType, defTypeParams != null ? defTypeParams : params, includeParams);
 						default:
 					}
-					return baseTypeToQname(classType, params, includeParams);
+					return baseTypeToQname(classType, defTypeParams != null ? defTypeParams : params, includeParams);
 				case TEnum(t, params):
-					return baseTypeToQname(t.get(), params, includeParams);
+					return baseTypeToQname(t.get(), defTypeParams != null ? defTypeParams : params, includeParams);
 				case TAbstract(t, params):
-					return abstractTypeToQname(t.get(), params, includeParams);
+					return abstractTypeToQname(t.get(), defTypeParams != null ? defTypeParams : params, includeParams);
 				case TType(t, params):
 					var defType = t.get();
 					if (options != null && options.renameSymbols != null) {
@@ -1175,6 +1176,9 @@ class TSExternsGenerator {
 						}
 					}
 					type = t.get().type;
+					if (defTypeParams == null) {
+						defTypeParams = params;
+					}
 				case TDynamic(t):
 					if (t != null) {
 						var valueType = macroTypeToUnqualifiedName(t, includeParams);
@@ -1228,20 +1232,21 @@ class TSExternsGenerator {
 	}
 
 	private function macroTypeToUnqualifiedName(type:Type, includeParams:Bool = true):String {
+		var defTypeParams:Array<Type> = null;
 		while (type != null) {
 			switch (type) {
 				case TInst(t, params):
 					var classType = t.get();
 					switch (classType.kind) {
 						case KTypeParameter(constraints):
-							return baseTypeToUnqualifiedName(classType, params, includeParams);
+							return baseTypeToUnqualifiedName(classType, defTypeParams != null ? defTypeParams : params, includeParams);
 						default:
 					}
-					return baseTypeToUnqualifiedName(classType, params, includeParams);
+					return baseTypeToUnqualifiedName(classType, defTypeParams != null ? defTypeParams : params, includeParams);
 				case TEnum(t, params):
-					return baseTypeToUnqualifiedName(t.get(), params, includeParams);
+					return baseTypeToUnqualifiedName(t.get(), defTypeParams != null ? defTypeParams : params, includeParams);
 				case TAbstract(t, params):
-					return abstractTypeToUnqualifiedName(t.get(), params, includeParams);
+					return abstractTypeToUnqualifiedName(t.get(), defTypeParams != null ? defTypeParams : params, includeParams);
 				case TType(t, params):
 					var defType = t.get();
 					if (options != null && options.renameSymbols != null) {
@@ -1266,6 +1271,9 @@ class TSExternsGenerator {
 						}
 					}
 					type = t.get().type;
+					if (defTypeParams == null) {
+						defTypeParams = params;
+					}
 				case TDynamic(t):
 					if (t != null) {
 						var valueType = macroTypeToUnqualifiedName(t, includeParams);
