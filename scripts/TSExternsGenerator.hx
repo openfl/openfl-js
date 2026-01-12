@@ -202,7 +202,6 @@ class TSExternsGenerator {
 				for (includedPackage in options.includedPackages) {
 					if (isInPackage(includedPackage.split("."), baseType.pack, false)) {
 						if (options.excludeSymbols != null) {
-							var qname = baseTypeToQname(baseType, []);
 							if (options.excludeSymbols.indexOf(qname) != -1) {
 								return true;
 							}
@@ -214,7 +213,6 @@ class TSExternsGenerator {
 					return true;
 				}
 			} else if (options.excludeSymbols != null) {
-				var qname = baseTypeToQname(baseType, []);
 				if (options.excludeSymbols.indexOf(qname) != -1) {
 					return true;
 				}

@@ -207,7 +207,6 @@ class AS3ExternsGenerator {
 				for (includedPackage in options.includedPackages) {
 					if (isInPackage(includedPackage.split("."), baseType.pack, false)) {
 						if (options.excludeSymbols != null) {
-							var qname = baseTypeToQname(baseType, []);
 							if (options.excludeSymbols.indexOf(qname) != -1) {
 								return true;
 							}
@@ -219,7 +218,6 @@ class AS3ExternsGenerator {
 					return true;
 				}
 			} else if (options.excludeSymbols != null) {
-				var qname = baseTypeToQname(baseType, []);
 				if (options.excludeSymbols.indexOf(qname) != -1) {
 					return true;
 				}
