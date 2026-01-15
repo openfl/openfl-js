@@ -1550,9 +1550,9 @@ class TSExternsGenerator {
 				i++;
 				var newName = remapPackages[i];
 				i++;
-				if (outputFilePath.contains(originalName)) {
+				if (outputFilePath.contains("/lib/" + originalName + "/")) {
 					shouldWriteAgain = true;
-					outputFilePath = outputFilePath.replace(originalName, newName);
+					outputFilePath = outputFilePath.replace("/lib/" + originalName + "/", "/lib/" + newName + "/");
 				}
 				if (generated.contains(originalName)) {
 					shouldWriteAgain = true;
