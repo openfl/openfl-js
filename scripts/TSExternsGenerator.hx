@@ -1558,13 +1558,13 @@ class TSExternsGenerator {
 					shouldWriteAgain = true;
 					generated = generated.replace(originalName, newName);
 				}
-				if(shouldWriteAgain)
-				{
-					FileSystem.createDirectory(Path.directory(outputFilePath));
-					fileOutput = File.write(outputFilePath);
-					fileOutput.writeString(generated);
-					fileOutput.close();
-				}
+			}
+			if(shouldWriteAgain)
+			{
+				FileSystem.createDirectory(Path.directory(outputFilePath));
+				fileOutput = File.write(outputFilePath);
+				fileOutput.writeString(generated);
+				fileOutput.close();
 			}
 		}
 	}
