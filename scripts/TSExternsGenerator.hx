@@ -6,6 +6,7 @@ import haxe.macro.Type;
 import haxe.macro.Type.BaseType;
 import haxe.macro.Type.AbstractType;
 import haxe.macro.Context;
+using StringTools;
 
 class TSExternsGenerator {
 	private static final ALWAYS_ALLOWED_REFERENCE_TYPES = [
@@ -1540,6 +1541,32 @@ class TSExternsGenerator {
 		var fileOutput = File.write(outputFilePath);
 		fileOutput.writeString(generated);
 		fileOutput.close();
+		if (options != null && options.remapPackages != null) {
+			var shouldWriteAgain = false;
+			var remapPackages = options.remapPackages;
+			var i = 0;
+			while (i < remapPackages.length) {
+				var originalName = remapPackages[i];
+				i++;
+				var newName = remapPackages[i];
+				i++;
+				if (outputFilePath.contains(originalName)) {
+					shouldWriteAgain = true;
+					outputFilePath = outputFilePath.replace(originalName, newName);
+				}
+				if (generated.contains(originalName)) {
+					shouldWriteAgain = true;
+					generated = generated.replace(originalName, newName);
+				}
+				if(shouldWriteAgain)
+				{
+					FileSystem.createDirectory(Path.directory(outputFilePath));
+					fileOutput = File.write(outputFilePath);
+					fileOutput.writeString(generated);
+					fileOutput.close();
+				}
+			}
+		}
 	}
 
 	private function getFileOutputPath(dirPath:String, baseType:BaseType):String {
@@ -1604,6 +1631,12 @@ typedef TSGeneratorOptions = {
 		name and its new name.
 	**/
 	?renameSymbols:Array<String>,
+
+	/**
+		Remaps a package to another one. Alternates between the original package
+		name and its new name.
+	**/
+	?remapPackages:Array<String>,
 
 	/**
 		Optionally exclude specific symbols.
