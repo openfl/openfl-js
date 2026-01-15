@@ -1209,9 +1209,11 @@ class AS3ExternsGenerator {
 				i++;
 				var newName = remapPackages[i];
 				i++;
+				trace(outputFilePath);
 				if (outputFilePath.contains(originalName)) {
 					shouldWriteAgain = true;
 					outputFilePath = outputFilePath.replace(originalName, newName);
+					trace(outputFilePath);
 				}
 				if (generated.contains(originalName)) {
 					shouldWriteAgain = true;
