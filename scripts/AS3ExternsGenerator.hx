@@ -36,6 +36,7 @@ class AS3ExternsGenerator {
 		"UInt" => "uint",
 		"Void" => "void"
 	];
+	private static final QNAME_VECTOR = "Vector";
 
 	public static function generate(?options:AS3GeneratorOptions):Void {
 		var outputDirPath = Path.join([Path.directory(Compiler.getOutput()), "as3-externs"]);
@@ -52,6 +53,7 @@ class AS3ExternsGenerator {
 	}
 
 	private var options:AS3GeneratorOptions;
+	private var _skipVectorEmulationClass:Bool = false;
 
 	private function new(?options:AS3GeneratorOptions) {
 		this.options = options;
@@ -59,11 +61,18 @@ class AS3ExternsGenerator {
 
 	public function generateForTypes(types:Array<Type>, outputDirPath:String):Void {
 		for (type in types) {
+			var prevSkipVectorEmulationClass = _skipVectorEmulationClass;
 			switch (type) {
 				case TInst(t, params):
 					var classType = t.get();
 					if (shouldSkipBaseType(classType, false)) {
 						continue;
+					}
+					var qname = baseTypeToQname(classType, params, false);
+					if (qname == QNAME_VECTOR) {
+						// when we generate the vector emulation class,
+						// temporarily stop treating it as AS3 Vector.
+						_skipVectorEmulationClass = true;
 					}
 					if (classType.isInterface) {
 						var generated = generateInterface(classType, params);
@@ -95,6 +104,7 @@ class AS3ExternsGenerator {
 				default:
 					trace("Unexpected type: " + type);
 			}
+			_skipVectorEmulationClass = prevSkipVectorEmulationClass;
 		}
 	}
 
@@ -137,10 +147,8 @@ class AS3ExternsGenerator {
 					switch (classType.kind) {
 						case KTypeParameter(constraints):
 							var typeParamSourceQname = classType.pack.join(".");
-							if (QNAMES_TO_REWRITE.exists(typeParamSourceQname)) {
-								typeParamSourceQname = QNAMES_TO_REWRITE.get(typeParamSourceQname);
-							}
-							if (typeParamSourceQname == "Vector")
+							typeParamSourceQname = rewriteQname(typeParamSourceQname);
+							if (typeParamSourceQname == QNAME_VECTOR)
 							{
 								// don't let Vector.<T> become Vector.<*>
 								return false;
@@ -199,6 +207,9 @@ class AS3ExternsGenerator {
 			return true;
 		}
 		final qname = baseTypeToQname(baseType, [], false);
+		if (options != null && options.vectorEmulationClass != null && qname == QNAME_VECTOR) {
+			return false;
+		}
 		if ((options == null || options.renameSymbols == null || options.renameSymbols.indexOf(qname) == -1)
 				&& baseType.meta.has(":noCompletion")) {
 			return true;
@@ -973,10 +984,8 @@ class AS3ExternsGenerator {
 					switch (classType.kind) {
 						case KTypeParameter(constraints):
 							var typeParamSourceQname = classType.pack.join(".");
-							if (QNAMES_TO_REWRITE.exists(typeParamSourceQname)) {
-								typeParamSourceQname = QNAMES_TO_REWRITE.get(typeParamSourceQname);
-							}
-							if (typeParamSourceQname == "Vector")
+							typeParamSourceQname = rewriteQname(typeParamSourceQname);
+							if (typeParamSourceQname == QNAME_VECTOR)
 							{
 								return baseTypeToQname(classType, defTypeParams != null ? defTypeParams : params, includeParams);
 							}
@@ -1032,6 +1041,54 @@ class AS3ExternsGenerator {
 		return "*";
 	}
 
+	private function rewriteQname(qname:String):String {
+		if (options != null) {
+			if (options.renamePackages != null) {
+				var renamePackages = options.renamePackages;
+				var i = 0;
+				while (i < renamePackages.length) {
+					var originalName = renamePackages[i];
+					if (originalName.indexOf(".") != -1) {
+						throw "renamePackages is available for top-level packages only";
+					}
+					i++;
+					var newName = renamePackages[i];
+					i++;
+					if (StringTools.startsWith(qname, originalName + ".")) {
+						qname = newName + "." + qname.substr(originalName.length + 1);
+						break;
+					}
+				}
+			}
+			if (options.renameSymbols != null) {
+				var renameSymbols = options.renameSymbols;
+				var i = 0;
+				while (i < renameSymbols.length) {
+					var originalName = renameSymbols[i];
+					i++;
+					var newName = renameSymbols[i];
+					i++;
+					if (originalName == qname) {
+						qname = newName;
+						break;
+					}
+				}
+			}
+			if (!_skipVectorEmulationClass && options.vectorEmulationClass != null) {
+				var vectorEmulationClass = options.vectorEmulationClass;
+				if (qname == vectorEmulationClass) {
+					qname = QNAME_VECTOR; 
+				}
+			}
+		}
+
+		if (QNAMES_TO_REWRITE.exists(qname)) {
+			qname = QNAMES_TO_REWRITE.get(qname);
+		}
+
+		return qname;
+	}
+
 	private function baseTypeToQname(baseType:BaseType, params:Array<Type>, includeParams:Bool = true):String {
 		if (baseType == null) {
 			return "*";
@@ -1043,26 +1100,9 @@ class AS3ExternsGenerator {
 		}
 		buffer.add(baseType.name);
 		var qname = buffer.toString();
-		if (options != null && options.renameSymbols != null) {
-			var renameSymbols = options.renameSymbols;
-			var i = 0;
-			while (i < renameSymbols.length) {
-				var originalName = renameSymbols[i];
-				i++;
-				var newName = renameSymbols[i];
-				i++;
-				if (originalName == qname) {
-					qname = newName;
-					break;
-				}
-			}
-		}
+		qname = rewriteQname(qname);
 
-		if (QNAMES_TO_REWRITE.exists(qname)) {
-			qname = QNAMES_TO_REWRITE.get(qname);
-		}
-
-		if (!includeParams || params.length == 0 || qname != "Vector") {
+		if (!includeParams || params.length == 0 || qname != QNAME_VECTOR) {
 			return qname;
 		}
 
@@ -1077,27 +1117,7 @@ class AS3ExternsGenerator {
 			return "*";
 		}
 		var qname = baseTypeToQname(baseType, params, false);
-		if (qname == "*") {
-			return qname;
-		}
-		if (options != null && options.renameSymbols != null) {
-			var renameSymbols = options.renameSymbols;
-			var i = 0;
-			while (i < renameSymbols.length) {
-				var originalName = renameSymbols[i];
-				i++;
-				var newName = renameSymbols[i];
-				i++;
-				if (originalName == qname) {
-					qname = newName;
-					break;
-				}
-			}
-		}
-
-		if (QNAMES_TO_REWRITE.exists(qname)) {
-			qname = QNAMES_TO_REWRITE.get(qname);
-		}
+		qname = rewriteQname(qname);
 
 		var unqualifiedName = qname;
 		var index = unqualifiedName.lastIndexOf(".");
@@ -1105,7 +1125,7 @@ class AS3ExternsGenerator {
 			unqualifiedName = unqualifiedName.substr(index + 1);
 		}
 
-		if (!includeParams || params.length == 0 || qname != "Vector") {
+		if (!includeParams || params.length == 0 || qname != QNAME_VECTOR) {
 			return unqualifiedName;
 		}
 
@@ -1176,9 +1196,7 @@ class AS3ExternsGenerator {
 				switch (classType.kind) {
 					case KTypeParameter(constraints):
 						var typeParamSourceQname = classType.pack.join(".");
-						if (QNAMES_TO_REWRITE.exists(typeParamSourceQname)) {
-							typeParamSourceQname = QNAMES_TO_REWRITE.get(typeParamSourceQname);
-						}
+						typeParamSourceQname = rewriteQname(typeParamSourceQname);
 						if (typeParamSourceQname == typeParametersQname) {
 							for (j in 0...typeParameters.length) {
 								var param = typeParameters[j];
@@ -1339,5 +1357,16 @@ typedef AS3GeneratorOptions = {
 	/**
 		The target directory where externs files will be generated.
 	**/
-	?outputPath:String
+	?outputPath:String,
+
+	/**
+		Specify a class that will be used for Vector emulation.
+	**/
+	?vectorEmulationClass:String,
+
+	/**
+		Gives specific top-level packages new names. Alternates between the
+		original package name and its new name.
+	**/
+	?renamePackages:Array<String>
 }
