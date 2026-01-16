@@ -1213,9 +1213,34 @@ class AS3ExternsGenerator {
 					shouldWriteAgain = true;
 					outputFilePath = outputFilePath.replace("/lib/" + originalName + "/", "/lib/" + newName + "/");
 				}
-				if (generated.contains(originalName)) {
+				var packageMatchRegex = new EReg("package\\s+" + originalName + "(?=\\.|\\s*{)", "g");
+				if (packageMatchRegex.match(generated)) {
 					shouldWriteAgain = true;
-					generated = generated.replace(originalName, newName);
+					generated = packageMatchRegex.replace(generated, "package " + newName);
+				}
+				var importMatchRegex = new EReg("import\\s+" + originalName + "(?=\\.)", "g");
+				if (importMatchRegex.match(generated)) {
+					shouldWriteAgain = true;
+					generated = importMatchRegex.replace(generated, "import " + newName);
+				}
+				var extendsMatchRegex = new EReg("extends\\s+" + originalName + "(?=\\.)", "g");
+				if (extendsMatchRegex.match(generated)) {
+					shouldWriteAgain = true;
+					generated = extendsMatchRegex.replace(generated, "extends " + newName);
+				}
+				var implementsMatchRegex = new EReg("implements\\s+" + originalName + "(\\.\\w+)+(,\\s*" + originalName + "(\\.\\w+)+)*", "g");
+				if (implementsMatchRegex.match(generated)) {
+					shouldWriteAgain = true;
+					generated = implementsMatchRegex.map(generated, 
+						function (reg:EReg):String { 
+							return reg.matched(0).replace(originalName, newName); 
+						}
+					);
+				}
+				var typeMatchRegex = new EReg(":\\s*" + originalName + "(?=\\.\\w+)+", "g");
+				if (typeMatchRegex.match(generated)) {
+					shouldWriteAgain = true;
+					generated = typeMatchRegex.replace(generated, ":" + newName);
 				}
 			}
 			if(shouldWriteAgain)
