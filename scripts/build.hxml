@@ -33,6 +33,6 @@
 -D commonjs
 -D howlerjs
 -D webgl1
---macro AS3ExternsGenerator.generate({outputPath: "../lib", includedPackages: ["openfl"], allowedPackageReferences: [], renameSymbols: ["openfl.VectorData", "openfl.Vector", "openfl.utils.ByteArrayData", "openfl.utils.ByteArray", "lime.app.Future", "openfl.utils.Future"], vectorEmulationClass: "openfl.Vector"})
+--macro AS3ExternsGenerator.generate({outputPath: "../lib", includedPackages: ["openfl"], allowedPackageReferences: [], renameSymbols: ["openfl.VectorData", "openfl.Vector", "openfl.utils.ByteArrayData", "openfl.utils.ByteArray", "lime.app.Future", "openfl.utils.Future"]})
 --macro TSExternsGenerator.generate({outputPath: "../lib", includedPackages: ["openfl"], allowedPackageReferences: [], renameSymbols: ["openfl.VectorData", "openfl.Vector", "openfl.utils.ByteArrayData", "openfl.utils.ByteArray", "lime.app.Future", "openfl.utils.Future"]})
 --no-inline
