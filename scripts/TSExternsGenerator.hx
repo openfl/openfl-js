@@ -1329,17 +1329,7 @@ class TSExternsGenerator {
 		return "any";
 	}
 
-	private function baseTypeToQname(baseType:BaseType, params:Array<Type>, includeParams:Bool = true):String {
-		if (baseType == null) {
-			return "any";
-		}
-		var buffer = new StringBuf();
-		if (baseType.pack.length > 0) {
-			buffer.add(baseType.pack.join("."));
-			buffer.add(".");
-		}
-		buffer.add(baseType.name);
-		var qname = buffer.toString();
+	private function rewriteQname(qname:String):String {
 		if (options != null && options.renameSymbols != null) {
 			var renameSymbols = options.renameSymbols;
 			var i = 0;
@@ -1358,6 +1348,22 @@ class TSExternsGenerator {
 		if (QNAMES_TO_REWRITE.exists(qname)) {
 			qname = QNAMES_TO_REWRITE.get(qname);
 		}
+
+		return qname;
+	}
+
+	private function baseTypeToQname(baseType:BaseType, params:Array<Type>, includeParams:Bool = true):String {
+		if (baseType == null) {
+			return "any";
+		}
+		var buffer = new StringBuf();
+		if (baseType.pack.length > 0) {
+			buffer.add(baseType.pack.join("."));
+			buffer.add(".");
+		}
+		buffer.add(baseType.name);
+		var qname = buffer.toString();
+		qname = rewriteQname(qname);
 
 		if (!includeParams || params.length == 0) {
 			return qname;
@@ -1374,26 +1380,9 @@ class TSExternsGenerator {
 			return "any";
 		}
 		var qname = baseTypeToQname(baseType, params, false);
+		qname = rewriteQname(qname);
 		if (qname == "any") {
 			return qname;
-		}
-		if (options != null && options.renameSymbols != null) {
-			var renameSymbols = options.renameSymbols;
-			var i = 0;
-			while (i < renameSymbols.length) {
-				var originalName = renameSymbols[i];
-				i++;
-				var newName = renameSymbols[i];
-				i++;
-				if (originalName == qname) {
-					qname = newName;
-					break;
-				}
-			}
-		}
-
-		if (QNAMES_TO_REWRITE.exists(qname)) {
-			qname = QNAMES_TO_REWRITE.get(qname);
 		}
 
 		var foundImportMapping = false;
