@@ -1,0 +1,14 @@
+{
+	"compilerOptions": {
+		"target": "ES2015",
+		"module": "CommonJS",
+		"moduleResolution": "node",
+		"declaration": true,
+		"emitDeclarationOnly": true,
+	},
+	"include": [
+		"../lib/**/*.d.ts",
+		
+	],
+	"exclude": ["node_modules"]
+}
