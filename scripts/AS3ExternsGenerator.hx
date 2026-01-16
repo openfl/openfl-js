@@ -6,7 +6,6 @@ import haxe.macro.Type;
 import haxe.macro.Type.BaseType;
 import haxe.macro.Type.AbstractType;
 import haxe.macro.Context;
-using StringTools;
 
 class AS3ExternsGenerator {
 	private static final ALWAYS_ALLOWED_REFERENCE_TYPES = [
@@ -1218,57 +1217,6 @@ class AS3ExternsGenerator {
 		var fileOutput = File.write(outputFilePath);
 		fileOutput.writeString(generated);
 		fileOutput.close();
-		if (options != null && options.remapPackages != null) {
-			var shouldWriteAgain = false;
-			var remapPackages = options.remapPackages;
-			var i = 0;
-			while (i < remapPackages.length) {
-				var originalName = remapPackages[i];
-				i++;
-				var newName = remapPackages[i];
-				i++;
-				if (outputFilePath.contains("/lib/" + originalName + "/")) {
-					shouldWriteAgain = true;
-					outputFilePath = outputFilePath.replace("/lib/" + originalName + "/", "/lib/" + newName + "/");
-				}
-				var packageMatchRegex = new EReg("package\\s+" + originalName + "(?=\\.|\\s*{)", "g");
-				if (packageMatchRegex.match(generated)) {
-					shouldWriteAgain = true;
-					generated = packageMatchRegex.replace(generated, "package " + newName);
-				}
-				var importMatchRegex = new EReg("import\\s+" + originalName + "(?=\\.)", "g");
-				if (importMatchRegex.match(generated)) {
-					shouldWriteAgain = true;
-					generated = importMatchRegex.replace(generated, "import " + newName);
-				}
-				var extendsMatchRegex = new EReg("extends\\s+" + originalName + "(?=\\.)", "g");
-				if (extendsMatchRegex.match(generated)) {
-					shouldWriteAgain = true;
-					generated = extendsMatchRegex.replace(generated, "extends " + newName);
-				}
-				var implementsMatchRegex = new EReg("implements\\s+" + originalName + "(\\.\\w+)+(,\\s*" + originalName + "(\\.\\w+)+)*", "g");
-				if (implementsMatchRegex.match(generated)) {
-					shouldWriteAgain = true;
-					generated = implementsMatchRegex.map(generated, 
-						function (reg:EReg):String { 
-							return reg.matched(0).replace(originalName, newName); 
-						}
-					);
-				}
-				var typeMatchRegex = new EReg(":\\s*" + originalName + "(?=\\.\\w+)+", "g");
-				if (typeMatchRegex.match(generated)) {
-					shouldWriteAgain = true;
-					generated = typeMatchRegex.replace(generated, ":" + newName);
-				}
-			}
-			if(shouldWriteAgain)
-			{
-				FileSystem.createDirectory(Path.directory(outputFilePath));
-				fileOutput = File.write(outputFilePath);
-				fileOutput.writeString(generated);
-				fileOutput.close();
-			}
-		}
 	}
 
 	private function getFileOutputPath(dirPath:String, baseType:BaseType):String {
@@ -1342,12 +1290,6 @@ typedef AS3GeneratorOptions = {
 		name and its new name.
 	**/
 	?renameSymbols:Array<String>,
-
-	/**
-		Remaps a package to another one. Alternates between the original package
-		name and its new name.
-	**/
-	?remapPackages:Array<String>,
 
 	/**
 		Optionally exclude specific symbols.
