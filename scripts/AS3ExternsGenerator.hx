@@ -206,7 +206,7 @@ class AS3ExternsGenerator {
 			return true;
 		}
 		final qname = baseTypeToQname(baseType, [], false);
-		if (qname == QNAME_VECTOR) {
+		if (options != null && options.vectorEmulationClass != null && qname == QNAME_VECTOR) {
 			return false;
 		}
 		if ((options == null || options.renameSymbols == null || options.renameSymbols.indexOf(qname) == -1)
@@ -1042,6 +1042,23 @@ class AS3ExternsGenerator {
 
 	private function rewriteQname(qname:String):String {
 		if (options != null) {
+			if (options.renamePackages != null) {
+				var renamePackages = options.renamePackages;
+				var i = 0;
+				while (i < renamePackages.length) {
+					var originalName = renamePackages[i];
+					if (originalName.indexOf(".") != -1) {
+						throw "renamePackages is available for top-level packages only";
+					}
+					i++;
+					var newName = renamePackages[i];
+					i++;
+					if (StringTools.startsWith(qname, originalName + ".")) {
+						qname = newName + "." + qname.substr(originalName.length + 1);
+						break;
+					}
+				}
+			}
 			if (options.renameSymbols != null) {
 				var renameSymbols = options.renameSymbols;
 				var i = 0;
@@ -1287,5 +1304,11 @@ typedef AS3GeneratorOptions = {
 	/**
 		Specify a class that will be used for Vector emulation.
 	**/
-	?vectorEmulationClass:String
+	?vectorEmulationClass:String,
+
+	/**
+		Gives specific top-level packages new names. Alternates between the
+		original package name and its new name.
+	**/
+	?renamePackages:Array<String>
 }
