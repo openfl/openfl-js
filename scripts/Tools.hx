@@ -699,7 +699,11 @@ class Tools
 		displayInfo(true);
 
 		Log.println("");
+#if commonjs
+		Log.println(" " + Log.accentColor + "Usage:\x1b[0m \x1b[1mopenfljs (command)\x1b[0m \x1b[3;37m[path] [destination] [flags]\x1b[0m");
+#else
 		Log.println(" " + Log.accentColor + "Usage:\x1b[0m \x1b[1mhaxelib run swf (command)\x1b[0m \x1b[3;37m[path] [destination] [flags]\x1b[0m");
+#endif
 
 		Log.println("");
 		Log.println(" " + Log.accentColor + "Commands:" + Log.resetColor);
@@ -756,7 +760,11 @@ class Tools
 
 		if (showHint)
 		{
+#if commonjs
+			Log.println("Use \x1b[3mopenfljs help\x1b[0m for instructions");
+#else
 			Log.println("Use \x1b[3mhaxelib run swf help\x1b[0m for instructions");
+#end
 		}
 	}
 
