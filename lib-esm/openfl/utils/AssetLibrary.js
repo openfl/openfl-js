@@ -15,6 +15,21 @@ import { default as SWFSymbol } from "../../_gen/swf/exporters/swflite/SWFSymbol
 import { default as Frame } from "../../_gen/swf/exporters/swflite/timeline/Frame";
 import { default as FrameObject } from "../../_gen/swf/exporters/swflite/timeline/FrameObject";
 import { default as FrameObjectType } from "../../_gen/swf/exporters/swflite/timeline/FrameObjectType";
+import { default as AnimateBitmapSymbol } from "../../_gen/swf/exporters/animate/AnimateBitmapSymbol";
+import { default as AnimateButtonSymbol } from "../../_gen/swf/exporters/animate/AnimateButtonSymbol";
+import { default as AnimateDynamicTextSymbol } from "../../_gen/swf/exporters/animate/AnimateDynamicTextSymbol";
+import { default as AnimateFontSymbol } from "../../_gen/swf/exporters/animate/AnimateFontSymbol";
+import { default as AnimateFrame } from "../../_gen/swf/exporters/animate/AnimateFrame";
+import { default as AnimateFrameObject } from "../../_gen/swf/exporters/animate/AnimateFrameObject";
+import { default as AnimateFrameObjectType } from "../../_gen/swf/exporters/animate/AnimateFrameObjectType";
+import { default as AnimateLibrary } from "../../_gen/swf/exporters/animate/AnimateLibrary";
+import { default as AnimateLoader } from "../../_gen/swf/exporters/animate/AnimateLoader";
+import { default as AnimateShapeCommand } from "../../_gen/swf/exporters/animate/AnimateShapeCommand";
+import { default as AnimateShapeSymbol } from "../../_gen/swf/exporters/animate/AnimateShapeSymbol";
+import { default as AnimateSpriteSymbol } from "../../_gen/swf/exporters/animate/AnimateSpriteSymbol";
+import { default as AnimateStaticTextSymbol } from "../../_gen/swf/exporters/animate/AnimateStaticTextSymbol";
+import { default as AnimateSymbol } from "../../_gen/swf/exporters/animate/AnimateSymbol";
+import { default as AnimateTimeline } from "../../_gen/swf/exporters/animate/AnimateTimeline";
 
 // Apart from adding this file to the sideEffects array in package.json, we also need
 // to list each class out here so that it is included in the webpack bundle
@@ -33,3 +48,18 @@ SWFSymbol;
 Frame;
 FrameObject;
 FrameObjectType;
+AnimateBitmapSymbol;
+AnimateButtonSymbol;
+AnimateDynamicTextSymbol;
+AnimateFontSymbol;
+AnimateFrame;
+AnimateFrameObject;
+AnimateFrameObjectType;
+AnimateLibrary;
+AnimateLoader;
+AnimateShapeCommand;
+AnimateShapeSymbol;
+AnimateSpriteSymbol;
+AnimateStaticTextSymbol;
+AnimateSymbol;
+AnimateTimeline;

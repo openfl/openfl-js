@@ -1,6 +1,7 @@
 -js ../lib/_gen/_.js
 --macro include('openfl', true)
 --macro include('swf.exporters.swflite', true)
+--macro include('swf.exporters.animate', true)
 #-lib lime
 -cp ../node_modules/lime/src
 -D lime=8.3.0
