@@ -703,7 +703,7 @@ class Tools
 		Log.println(" " + Log.accentColor + "Usage:\x1b[0m \x1b[1mopenfljs (command)\x1b[0m \x1b[3;37m[path] [destination] [flags]\x1b[0m");
 #else
 		Log.println(" " + Log.accentColor + "Usage:\x1b[0m \x1b[1mhaxelib run swf (command)\x1b[0m \x1b[3;37m[path] [destination] [flags]\x1b[0m");
-#endif
+#end
 
 		Log.println("");
 		Log.println(" " + Log.accentColor + "Commands:" + Log.resetColor);
