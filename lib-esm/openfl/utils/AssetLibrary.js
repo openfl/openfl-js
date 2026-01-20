@@ -21,7 +21,7 @@ import { default as AnimateDynamicTextSymbol } from "../../_gen/swf/exporters/an
 import { default as AnimateFontSymbol } from "../../_gen/swf/exporters/animate/AnimateFontSymbol";
 import { default as AnimateFrame } from "../../_gen/swf/exporters/animate/AnimateFrame";
 import { default as AnimateFrameObject } from "../../_gen/swf/exporters/animate/AnimateFrameObject";
-import { default as AnimateFrameObjectType } from "../../_gen/swf/exporters/animate/AnimateFrameObjectType";
+//import { default as AnimateFrameObjectType } from "../../_gen/swf/exporters/animate/AnimateFrameObjectType";
 import { default as AnimateLibrary } from "../../_gen/swf/exporters/animate/AnimateLibrary";
 import { default as AnimateLoader } from "../../_gen/swf/exporters/animate/AnimateLoader";
 import { default as AnimateShapeCommand } from "../../_gen/swf/exporters/animate/AnimateShapeCommand";
@@ -54,7 +54,7 @@ AnimateDynamicTextSymbol;
 AnimateFontSymbol;
 AnimateFrame;
 AnimateFrameObject;
-AnimateFrameObjectType;
+//AnimateFrameObjectType;
 AnimateLibrary;
 AnimateLoader;
 AnimateShapeCommand;
