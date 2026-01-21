@@ -214,6 +214,13 @@ class AS3ExternsGenerator {
 			return true;
 		}
 		if (options != null) {
+			if (options.includedSymbols != null) {
+				for (includedSymbol in options.includedSymbols) {
+					if (qname == includedSymbol) {
+						return false;
+					}
+				}
+			}
 			if (options.includedPackages != null) {
 				final qnameLastDotIndex = qname.lastIndexOf(".");
 				final qnamePack = qnameLastDotIndex != -1 ? qname.substr(0, qnameLastDotIndex).split(".") : [];
@@ -965,10 +972,39 @@ class AS3ExternsGenerator {
 			return true;
 		}
 		var qname = baseTypeToQname(baseType, []);
-		if (qname.indexOf(".") == -1) {
+		if (qname.indexOf(".") == -1 && ALWAYS_ALLOWED_REFERENCE_TYPES.indexOf(baseType.name) != -1) {
 			return true;
 		}
-		if (isInPackage(currentPackage, baseType.pack, true)) {
+		var baseTypePack = baseType.pack;
+		var i = 0;
+		if (options != null && options.renameSymbols != null) {
+			var renameSymbols = options.renameSymbols;
+			while (i < renameSymbols.length) {
+				var originalName = renameSymbols[i];
+				i++;
+				var newName = renameSymbols[i];
+				i++;
+				if (baseTypePack.indexOf(originalName) != -1) {
+					baseTypePack[baseTypePack.indexOf(originalName)] = newName;
+					break;
+				}
+			}
+		}
+		if (options != null && options.renamePackages != null) {
+			i = 0;
+			var renamePackages = options.renamePackages;
+			while (i < renamePackages.length) {
+				var originalName = renamePackages[i];
+				i++;
+				var newName = renamePackages[i];
+				i++;
+				if (baseTypePack.indexOf(originalName) != -1) {
+					baseTypePack[baseTypePack.indexOf(originalName)] = newName;
+					break;
+				}
+			}
+		}
+		if (isInPackage(currentPackage, baseTypePack, true)) {
 			return true;
 		}
 		return false;
@@ -1272,6 +1308,14 @@ typedef AS3GeneratorOptions = {
 		signatures. Use `allowedPackageReferences` to restrict those too.
 	**/
 	?includedPackages:Array<String>,
+
+	/**
+		Externs will be generated for symbols specified.
+
+		Types from other packages may still be referenced by fields or method
+		signatures. Use `allowedPackageReferences` to restrict those too.
+	**/
+	?includedSymbols:Array<String>,
 
 	/**
 		When `includedPackages` is not empty, `allowedPackageReferences` may

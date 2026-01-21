@@ -198,6 +198,13 @@ class TSExternsGenerator {
 			return true;
 		}
 		if (options != null) {
+			if (options.includedSymbols != null) {
+				for (includedSymbol in options.includedSymbols) {
+					if (qname == includedSymbol) {
+						return false;
+					}
+				}
+			}
 			if (options.includedPackages != null) {
 				final qnameLastDotIndex = qname.lastIndexOf(".");
 				final qnamePack = qnameLastDotIndex != -1 ? qname.substr(0, qnameLastDotIndex).split(".") : [];
@@ -1575,6 +1582,14 @@ typedef TSGeneratorOptions = {
 		signatures. Use `allowedPackageReferences` to restrict those too.
 	**/
 	?includedPackages:Array<String>,
+
+	/**
+		Externs will be generated for symbols specified.
+
+		Types from other packages may still be referenced by fields or method
+		signatures. Use `allowedPackageReferences` to restrict those too.
+	**/
+	?includedSymbols:Array<String>,
 
 	/**
 		When `includedPackages` is not empty, `allowedPackageReferences` may
