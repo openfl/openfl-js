@@ -34,6 +34,6 @@
 -D commonjs
 -D howlerjs
 -D webgl1
---macro AS3ExternsGenerator.generate({outputPath: "../lib", includedPackages: ["openfl"], allowedPackageReferences: [], renameSymbols: ["openfl.VectorData", "openfl.Vector", "openfl.utils.ByteArrayData", "openfl.utils.ByteArray", "lime.app.Future", "openfl.utils.Future"]})
---macro TSExternsGenerator.generate({outputPath: "../lib", includedPackages: ["openfl"], allowedPackageReferences: [], renameSymbols: ["openfl.VectorData", "openfl.Vector", "openfl.utils.ByteArrayData", "openfl.utils.ByteArray", "lime.app.Future", "openfl.utils.Future"]})
+--macro AS3ExternsGenerator.generate({outputPath: "../lib", includedPackages: ["openfl"], allowedPackageReferences: [], renameSymbols: ["openfl.VectorData", "openfl.Vector", "openfl.utils.ByteArrayData", "openfl.utils.ByteArray", "lime.app.Future", "openfl.utils.Future", "swf.exporters.animate.AnimateLibrary", "openfl.utils.AnimateLibrary"]})
+--macro TSExternsGenerator.generate({outputPath: "../lib", includedPackages: ["openfl"], allowedPackageReferences: [], renameSymbols: ["openfl.VectorData", "openfl.Vector", "openfl.utils.ByteArrayData", "openfl.utils.ByteArray", "lime.app.Future", "openfl.utils.Future", "swf.exporters.animate.AnimateLibrary", "openfl.utils.AnimateLibrary"]})
 --no-inline

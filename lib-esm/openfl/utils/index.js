@@ -1,5 +1,6 @@
 
 export { default as AGALMiniAssembler } from "./AGALMiniAssembler";
+export { default as AnimateLibrary } from "./AnimateLibrary";
 export { default as AssetCache } from "./AssetCache";
 export { default as AssetLibrary } from "./AssetLibrary";
 export { default as AssetManifest } from "./AssetManifest";
