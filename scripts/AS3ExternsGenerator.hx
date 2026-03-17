@@ -300,6 +300,16 @@ class AS3ExternsGenerator {
 				if (shouldSkipField(classField, includeFieldsFrom)) {
 					continue;
 				}
+				var isOverride = false;
+				for (current in includeFieldsFrom.overrides) {
+					if (current.get().name == classField.name) {
+						isOverride = true;
+						break;
+					}
+				}
+				if (isOverride) {
+					continue;
+				}
 				if (Lambda.exists(classType.fields.get(), item -> item.name == classField.name)) {
 					continue;
 				}
