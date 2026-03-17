@@ -262,6 +262,7 @@ class AS3ExternsGenerator {
 		}
 		result.add(' {\n');
 		result.add(generateClassTypeImports(classType));
+		result.add(generateExcludeMetadata(classType, ""));
 		result.add(generateDocs(classType.doc, true, ""));
 		var className = baseTypeToUnqualifiedName(classType, params, false);
 		result.add('public class $className');
@@ -682,6 +683,7 @@ class AS3ExternsGenerator {
 		}
 		result.add(' {\n');
 		result.add(generateClassTypeImports(interfaceType));
+		result.add(generateExcludeMetadata(interfaceType, ""));
 		result.add(generateDocs(interfaceType.doc, true, ""));
 		var interfaceName = baseTypeToUnqualifiedName(interfaceType, params, false);
 		result.add('public interface ${interfaceName}');
@@ -850,6 +852,36 @@ class AS3ExternsGenerator {
 		return result.toString();
 	}
 
+	private function generateExcludeMetadata(classType:ClassType, indent:String):String {
+		var result = new StringBuf();
+		if (classType.meta.has(":noCompletion")) {
+			result.add('$indent[ExcludeClass]\n');
+		}
+		
+		for (classField in classType.statics.get()) {
+			if (classField.isPublic && classField.meta.has(":noCompletion")) {
+				var fieldName = classField.name;
+				var kind = switch (classField.kind) {
+					case FMethod(k): "method";
+					default: "property";
+				};
+				result.add('$indent[Exclude(name="$fieldName",kind="$kind")]\n');
+			}
+		}
+		for (classField in classType.fields.get()) {
+			if (classField.isPublic && classField.meta.has(":noCompletion")) {
+				var fieldName = classField.name;
+				var kind = switch (classField.kind) {
+					case FMethod(k): "method";
+					default: "property";
+				};
+				result.add('$indent[Exclude(name="$fieldName",kind="$kind")]\n');
+			}
+		}
+
+		return result.toString();
+	}
+
 	private function generateDocs(doc:String, externs:Bool, indent:String):String {
 		if (doc == null || StringTools.trim(doc).length == 0) {
 			if (externs) {
@@ -891,7 +923,6 @@ class AS3ExternsGenerator {
 		if (classField.name != "new") {
 			if (!classField.isPublic
 				|| classField.isExtern
-				|| classField.meta.has(":noCompletion")
 				|| DISALLOWED_AS3_NAMES.indexOf(classField.name) != -1) {
 				return true;
 			}
