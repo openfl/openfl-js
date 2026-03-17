@@ -236,9 +236,12 @@ class TSExternsGenerator {
 	private function generateClass(classType:ClassType, params:Array<Type>):String {
 		var result = new StringBuf();
 		result.add(generateClassTypeImports(classType));
+		var qname = baseTypeToQname(classType, params, false);
+		var qnameParts = qname.split(".");
+		qnameParts.pop();
 		var packageName:String = null;
-		if (classType.pack.length > 0) {
-			packageName = classType.pack.join(".");
+		if (qnameParts.length > 0) {
+			packageName = qnameParts.join(".");
 			result.add('declare namespace $packageName {\n');
 		}
 		result.add(generateDocs(classType.doc, "\t"));
@@ -812,9 +815,12 @@ class TSExternsGenerator {
 	private function generateInterface(interfaceType:ClassType, params:Array<Type>):String {
 		var result = new StringBuf();
 		result.add(generateClassTypeImports(interfaceType));
+		var qname = baseTypeToQname(interfaceType, params, false);
+		var qnameParts = qname.split(".");
+		qnameParts.pop();
 		var packageName:String = null;
-		if (interfaceType.pack.length > 0) {
-			packageName = interfaceType.pack.join(".");
+		if (qnameParts.length > 0) {
+			packageName = qnameParts.join(".");
 			result.add('declare namespace $packageName {\n');
 		}
 		result.add(generateDocs(interfaceType.doc, "\t"));
@@ -966,9 +972,12 @@ class TSExternsGenerator {
 
 	private function generateEnum(enumType:EnumType, params:Array<Type>):String {
 		var result = new StringBuf();
+		var qname = baseTypeToQname(enumType, params, false);
+		var qnameParts = qname.split(".");
+		qnameParts.pop();
 		var packageName:String = null;
-		if (enumType.pack.length > 0) {
-			packageName = enumType.pack.join(".");
+		if (qnameParts.length > 0) {
+			packageName = qnameParts.join(".");
 			result.add('declare namespace $packageName {\n');
 		}
 		result.add(generateDocs(enumType.doc, "\t"));
@@ -1004,10 +1013,13 @@ class TSExternsGenerator {
 
 	private function generateAbstractEnum(abstractType:AbstractType, params:Array<Type>):String {
 		var result = new StringBuf();
+		var qname = baseTypeToQname(abstractType, params, false);
+		var qnameParts = qname.split(".");
+		qnameParts.pop();
 		var packageName:String = null;
-		if (abstractType.pack.length > 0) {
-			packageName = abstractType.pack.join(".");
-			result.add('declare namespace ${packageName} {\n');
+		if (qnameParts.length > 0) {
+			packageName = qnameParts.join(".");
+			result.add('declare namespace $packageName {\n');
 		}
 		result.add(generateDocs(abstractType.doc, "\t"));
 		result.add('\texport enum ${abstractType.name}');

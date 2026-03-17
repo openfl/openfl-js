@@ -675,8 +675,10 @@ class AS3ExternsGenerator {
 		var qname = baseTypeToQname(interfaceType, params, false);
 		var qnameParts = qname.split(".");
 		qnameParts.pop();
+		var packageName:String = null;
 		if (qnameParts.length > 0) {
-			result.add(' ${qnameParts.join(".")}');
+			packageName = qnameParts.join(".");
+			result.add(' $packageName');
 		}
 		result.add(' {\n');
 		result.add(generateClassTypeImports(interfaceType));
@@ -786,8 +788,10 @@ class AS3ExternsGenerator {
 		var qname = baseTypeToQname(enumType, params, false);
 		var qnameParts = qname.split(".");
 		qnameParts.pop();
+		var packageName:String = null;
 		if (qnameParts.length > 0) {
-			result.add(' ${qnameParts.join(".")}');
+			packageName = qnameParts.join(".");
+			result.add(' $packageName');
 		}
 		result.add(' {\n');
 		result.add(generateDocs(enumType.doc, true, ""));
@@ -822,8 +826,10 @@ class AS3ExternsGenerator {
 		var qname = baseTypeToQname(abstractType, params, false);
 		var qnameParts = qname.split(".");
 		qnameParts.pop();
+		var packageName:String = null;
 		if (qnameParts.length > 0) {
-			result.add(' ${qnameParts.join(".")}');
+			packageName = qnameParts.join(".");
+			result.add(' $packageName');
 		}
 		result.add(' {\n');
 		result.add(generateDocs(abstractType.doc, true, ""));
