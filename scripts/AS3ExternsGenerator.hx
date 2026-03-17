@@ -210,10 +210,6 @@ class AS3ExternsGenerator {
 		if (options != null && options.vectorEmulationClass != null && qname == QNAME_VECTOR) {
 			return false;
 		}
-		if ((options == null || options.renameSymbols == null || options.renameSymbols.indexOf(qname) == -1)
-				&& baseType.meta.has(":noCompletion")) {
-			return true;
-		}
 		if (options != null) {
 			if (options.includedPackages != null) {
 				final qnameLastDotIndex = qname.lastIndexOf(".");
@@ -264,7 +260,7 @@ class AS3ExternsGenerator {
 		result.add(' {\n');
 		result.add(generateClassTypeImports(classType));
 		result.add(generateMetadata(classType.meta, ""));
-		result.add(generateExcludeMetadata(classType, ""));
+		result.add(generateExcludeMetadata(classType, params, ""));
 		result.add(generateDocs(classType.doc, true, ""));
 		var className = baseTypeToUnqualifiedName(classType, params, false);
 		result.add('public class $className');
@@ -687,7 +683,7 @@ class AS3ExternsGenerator {
 		result.add(' {\n');
 		result.add(generateClassTypeImports(interfaceType));
 		result.add(generateMetadata(interfaceType.meta, ""));
-		result.add(generateExcludeMetadata(interfaceType, ""));
+		result.add(generateExcludeMetadata(interfaceType, params, ""));
 		result.add(generateDocs(interfaceType.doc, true, ""));
 		var interfaceName = baseTypeToUnqualifiedName(interfaceType, params, false);
 		result.add('public interface ${interfaceName}');
@@ -918,10 +914,13 @@ class AS3ExternsGenerator {
 		return result.toString();
 	}
 
-	private function generateExcludeMetadata(classType:ClassType, indent:String):String {
+	private function generateExcludeMetadata(classType:ClassType, params:Array<Type>, indent:String):String {
 		var result = new StringBuf();
 		if (classType.meta.has(":noCompletion")) {
-			result.add('$indent[ExcludeClass]\n');
+			var qname = baseTypeToQname(classType, params, false);
+			if (options == null || options.renameSymbols == null || options.renameSymbols.indexOf(qname) == -1) {
+				result.add('$indent[ExcludeClass]\n');
+			}
 		}
 		
 		for (classField in classType.statics.get()) {
