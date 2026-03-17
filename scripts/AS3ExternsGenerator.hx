@@ -5,6 +5,7 @@ import haxe.macro.Compiler;
 import haxe.macro.Type;
 import haxe.macro.Type.BaseType;
 import haxe.macro.Type.AbstractType;
+import haxe.macro.Type.MetaAccess;
 import haxe.macro.Context;
 
 class AS3ExternsGenerator {
@@ -262,6 +263,7 @@ class AS3ExternsGenerator {
 		}
 		result.add(' {\n');
 		result.add(generateClassTypeImports(classType));
+		result.add(generateMetadata(classType.meta, ""));
 		result.add(generateExcludeMetadata(classType, ""));
 		result.add(generateDocs(classType.doc, true, ""));
 		var className = baseTypeToUnqualifiedName(classType, params, false);
@@ -353,6 +355,7 @@ class AS3ExternsGenerator {
 	private function generateClassField(classField:ClassField, classType:ClassType, isStatic:Bool,
 			interfaces:Array<{t:Ref<ClassType>, params:Array<Type>}>):String {
 		var result = new StringBuf();
+		result.add(generateMetadata(classField.meta, "\t"));
 		result.add(generateDocs(classField.doc, false, "\t"));
 		result.add("\t");
 		var superClassType:ClassType = null;
@@ -683,6 +686,7 @@ class AS3ExternsGenerator {
 		}
 		result.add(' {\n');
 		result.add(generateClassTypeImports(interfaceType));
+		result.add(generateMetadata(interfaceType.meta, ""));
 		result.add(generateExcludeMetadata(interfaceType, ""));
 		result.add(generateDocs(interfaceType.doc, true, ""));
 		var interfaceName = baseTypeToUnqualifiedName(interfaceType, params, false);
@@ -796,6 +800,7 @@ class AS3ExternsGenerator {
 			result.add(' $packageName');
 		}
 		result.add(' {\n');
+		result.add(generateMetadata(enumType.meta, ""));
 		result.add(generateDocs(enumType.doc, true, ""));
 		var enumName = baseTypeToUnqualifiedName(enumType, params, false);
 		result.add('public class ${enumName}');
@@ -810,6 +815,7 @@ class AS3ExternsGenerator {
 
 	private function generateEnumField(enumField:EnumField, enumType:EnumType, enumTypeParams:Array<Type>):String {
 		var result = new StringBuf();
+		result.add(generateMetadata(enumField.meta, "\t"));
 		result.add(generateDocs(enumField.doc, false, "\t"));
 		result.add("\t");
 		result.add('public static ');
@@ -834,6 +840,7 @@ class AS3ExternsGenerator {
 			result.add(' $packageName');
 		}
 		result.add(' {\n');
+		result.add(generateMetadata(abstractType.meta, ""));
 		result.add(generateDocs(abstractType.doc, true, ""));
 		var abstractName = baseTypeToUnqualifiedName(abstractType, params, false);
 		result.add('public class ${abstractName}');
@@ -849,6 +856,65 @@ class AS3ExternsGenerator {
 		}
 		result.add('}\n');
 		result.add('}\n');
+		return result.toString();
+	}
+
+	private function generateMetadata(meta:MetaAccess, indent:String):String {
+		var result = new StringBuf();
+
+		for (metaEntry in meta.extract(":meta")) {
+			if (metaEntry.params.length != 1) {
+				break;
+			}
+			var param = metaEntry.params[0];
+			switch (param.expr) {
+				case EConst(CIdent(s)):
+					// [MetadataName]
+					result.add('$indent[$s]\n');
+				case ECall(e, params):
+					switch (e.expr) {
+						case EConst(CIdent(s)):
+							result.add('$indent[$s');
+							if (params.length > 0) {
+								result.add('(');
+								for (i in 0...params.length) {
+									var param = params[i];
+									if (i > 0) {
+										result.add(',');
+									}
+									switch (param.expr) {
+										case EConst(CString(s, kind)):
+											// [MetadataName("stringValue")]
+											result.add('"$s"');
+										case EBinop(OpAssign, e1, e2):
+											// [MetadataName(param1="value",param2="value")]
+											var paramName:String = null;
+											var paramValue:String = null;
+											switch (e1.expr) {
+												case EConst(CIdent(s)):
+													paramName = s;
+												default:
+											}
+											switch (e2.expr) {
+												case EConst(CString(s)):
+													paramValue = s;
+												default:
+											}
+											if (paramName != null && paramValue != null) {
+												result.add('$paramName="$paramValue"');
+											}
+										default:
+									}
+								}
+								result.add(')');
+							}
+							result.add(']\n');
+						default:
+					}
+				default:
+			}
+		}
+
 		return result.toString();
 	}
 
