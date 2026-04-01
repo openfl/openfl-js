@@ -13,7 +13,7 @@ export { default as Future } from "./Future";
 export { default as IAssetCache } from "./IAssetCache";
 export { default as IDataInput } from "./IDataInput";
 export { default as IDataOutput } from "./IDataOutput";
-// export { default as  IExternalizable } from "./IExternalizable";
+export { default as  IExternalizable } from "./IExternalizable";
 // export { default as  Object } from "./Object";
 export { default as Timer } from "./Timer";
 export { default as clearInterval } from "./clearInterval";
