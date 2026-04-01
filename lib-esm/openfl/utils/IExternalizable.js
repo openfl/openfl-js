@@ -1,1 +1,1 @@
-export { default } from "./../../_gen/openfl/utils/IExternablizable";
+export { default } from "./../../_gen/openfl/utils/IExternalizable";
