@@ -18,6 +18,7 @@ export { default as  IExternalizable } from "./IExternalizable";
 export { default as Timer } from "./Timer";
 export { default as clearInterval } from "./clearInterval";
 export { default as clearTimeout } from "./clearTimeout";
+export { default as describeType } from "./describeType";
 export { default as getDefinitionByName } from "./getDefinitionByName";
 export { default as getQualifiedClassName } from "./getQualifiedClassName";
 export { default as getQualifiedSuperclassName } from "./getQualifiedSuperclassName";
