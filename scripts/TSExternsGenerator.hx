@@ -478,16 +478,30 @@ class TSExternsGenerator {
 							if (i > 0) {
 								result.add(', ');
 							}
-							result.add(arg.name);
-							if (arg.opt || hadOpt) {
-								hadOpt = true;
-								result.add('?');
+							var isRest = false;
+							switch (arg.t) {
+								case TAbstract(t, params):
+									var abstractType = t.get();
+									if (abstractType.name == "Rest" && abstractType.pack.length == 1 && abstractType.pack[0] == "haxe") {
+										isRest = true;
+									}
+								default:
 							}
-							result.add(': ');
-							if (shouldSkipMacroType(arg.t, true)) {
-								result.add('any');
-							} else {
-								result.add(macroTypeToUnqualifiedName(arg.t));
+							if (isRest) {
+								result.add("...");
+							}
+							result.add(arg.name);
+							if (!isRest) {
+								if (arg.opt || hadOpt) {
+									hadOpt = true;
+									result.add('?');
+								}
+								result.add(': ');
+								if (shouldSkipMacroType(arg.t, true)) {
+									result.add('any');
+								} else {
+									result.add(macroTypeToUnqualifiedName(arg.t));
+								}
 							}
 						}
 						result.add(')');

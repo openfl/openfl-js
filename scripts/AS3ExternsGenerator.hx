@@ -407,16 +407,30 @@ class AS3ExternsGenerator {
 							if (i > 0) {
 								result.add(', ');
 							}
-							result.add(arg.name);
-							result.add(':');
-							if (shouldSkipMacroType(arg.t, true)) {
-								result.add('*');
-							} else {
-								result.add(macroTypeToQname(arg.t));
+							var isRest = false;
+							switch (arg.t) {
+								case TAbstract(t, params):
+									var abstractType = t.get();
+									if (abstractType.name == "Rest" && abstractType.pack.length == 1 && abstractType.pack[0] == "haxe") {
+										isRest = true;
+									}
+								default:
 							}
-							if (arg.opt || hadOpt) {
-								hadOpt = true;
-								result.add(' = undefined');
+							if (isRest) {
+								result.add("...");
+							}
+							result.add(arg.name);
+							if (!isRest) {
+								result.add(':');
+								if (shouldSkipMacroType(arg.t, true)) {
+									result.add('*');
+								} else {
+									result.add(macroTypeToQname(arg.t));
+								}
+								if (arg.opt || hadOpt) {
+									hadOpt = true;
+									result.add(' = undefined');
+								}
 							}
 						}
 						result.add(')');
