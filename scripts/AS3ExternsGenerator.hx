@@ -1277,6 +1277,10 @@ class AS3ExternsGenerator {
 		if (abstractType.name == "Function" && abstractType.pack.length == 1 && abstractType.pack[0] == "haxe") {
 			return "Function";
 		}
+		if (abstractType.name == "UInt") {
+			// if we follow the underlying type, we'll get int instead of uint
+			return "uint";
+		}
 		var underlyingType = abstractType.type;
 		switch (underlyingType) {
 			case TAbstract(t, underlyingParams):
