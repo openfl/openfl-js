@@ -5,6 +5,7 @@ export { default as FileReferenceList } from "./FileReferenceList";
 export { default as NetConnection } from "./NetConnection";
 export { default as NetStream } from "./NetStream";
 export { default as ObjectEncoding } from "./ObjectEncoding";
+export { default as Responder } from "./Responder";
 export { default as SharedObject } from "./SharedObject";
 export { default as SharedObjectFlushStatus } from "./SharedObjectFlushStatus";
 export { default as Socket } from "./Socket";
