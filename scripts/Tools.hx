@@ -147,10 +147,10 @@ class Tools {
 		}
 	}
 
-	private static function generateSWFClasses(project:HXProject, output:HXProject, swfAsset:Asset, prefix:String = ""):Array<String> {
-		var bitmapDataTemplate = File.getContent(Haxelib.getPath(new Haxelib("openfl"), true) + "/assets/templates/swf/BitmapData.mtt");
-		var movieClipTemplate = File.getContent(Haxelib.getPath(new Haxelib("openfl"), true) + "/assets/templates/swf/MovieClip.mtt");
-		var simpleButtonTemplate = File.getContent(Haxelib.getPath(new Haxelib("openfl"), true) + "/assets/templates/swf/SimpleButton.mtt");
+	private static function generateSWFClasses(project:HXProject, output:HXProject, swfAsset:Asset, prefix:String = "", language:String = "haxe"):Array<String> {
+		var bitmapDataTemplate = File.getContent(Haxelib.getPath(new Haxelib("openfl"), true) + "/assets/templates/swf/" + language + "/BitmapData.mtt");
+		var movieClipTemplate = File.getContent(Haxelib.getPath(new Haxelib("openfl"), true) + "/assets/templates/swf/" + language + "/MovieClip.mtt");
+		var simpleButtonTemplate = File.getContent(Haxelib.getPath(new Haxelib("openfl"), true) + "/assets/templates/swf/" + language + "/SimpleButton.mtt");
 
 		var swf = new SWF(ByteArray.fromBytes(File.getBytes(swfAsset.sourcePath)));
 
@@ -286,7 +286,11 @@ class Tools {
 
 				// }
 
-				var templateFile = new Asset("", Path.combine(targetPath, Path.directory(className.split(".").join("/"))) + "/" + prefix + name + ".hx",
+				var languageExtension:String = ".hx";
+				if(language == "es5" || language == "es6") languageExtension = ".js";
+				if(language == "as3") languageExtension = ".as";
+
+				var templateFile = new Asset("", Path.combine(targetPath, Path.directory(className.split(".").join("/"))) + "/" + prefix + name + languageExtension,
 					AssetType.TEMPLATE);
 				templateFile.data = template.execute(context);
 				output.assets.push(templateFile);
@@ -298,15 +302,15 @@ class Tools {
 		return generatedClasses;
 	}
 
-	private static function generateSWFLiteClasses(targetPath:String, output:Array<Asset>, swfLite:SWFLite, swfID:String, prefix:String = ""):Array<String> {
+	private static function generateSWFLiteClasses(targetPath:String, output:Array<Asset>, swfLite:SWFLite, swfID:String, prefix:String = "", language:String = "haxe"):Array<String> {
 		#if commonjs
-		var bitmapDataTemplate = File.getContent(Path.combine(js.Node.__dirname, "../assets/templates/swf/BitmapData.mtt"));
-		var movieClipTemplate = File.getContent(Path.combine(js.Node.__dirname, "../assets/templates/swf/MovieClip.mtt"));
-		var simpleButtonTemplate = File.getContent(Path.combine(js.Node.__dirname, "../assets/templates/swf/SimpleButton.mtt"));
+		var bitmapDataTemplate = File.getContent(Path.combine(js.Node.__dirname, "../assets/templates/swf/" + language + "/BitmapData.mtt"));
+		var movieClipTemplate = File.getContent(Path.combine(js.Node.__dirname, "../assets/templates/swf/" + language + "/MovieClip.mtt"));
+		var simpleButtonTemplate = File.getContent(Path.combine(js.Node.__dirname, "../assets/templates/swf/" + language + "/SimpleButton.mtt"));
 		#else
-		var bitmapDataTemplate = File.getContent(Haxelib.getPath(new Haxelib("openfl"), true) + "/assets/templates/swf/BitmapData.mtt");
-		var movieClipTemplate = File.getContent(Haxelib.getPath(new Haxelib("openfl"), true) + "/assets/templates/swf/MovieClip.mtt");
-		var simpleButtonTemplate = File.getContent(Haxelib.getPath(new Haxelib("openfl"), true) + "/assets/templates/swf/SimpleButton.mtt");
+		var bitmapDataTemplate = File.getContent(Haxelib.getPath(new Haxelib("openfl"), true) + "/assets/templates/swf/" + language + "/BitmapData.mtt");
+		var movieClipTemplate = File.getContent(Haxelib.getPath(new Haxelib("openfl"), true) + "/assets/templates/swf/" + language + "/MovieClip.mtt");
+		var simpleButtonTemplate = File.getContent(Haxelib.getPath(new Haxelib("openfl"), true) + "/assets/templates/swf/" + language + "/SimpleButton.mtt");
 		#end
 
 		var generatedClasses = [];
@@ -409,7 +413,11 @@ class Tools {
 				};
 				var template = new Template(templateData);
 
-				var templateFile = new Asset("", Path.combine(targetPath, Path.directory(symbol.className.split(".").join("/"))) + "/" + name + ".hx",
+				var languageExtension:String = ".hx";
+				if(language == "es5" || language == "es6") languageExtension = ".js";
+				if(language == "as3") languageExtension = ".as";
+
+				var templateFile = new Asset("", Path.combine(targetPath, Path.directory(symbol.className.split(".").join("/"))) + "/" + name + languageExtension,
 					AssetType.TEMPLATE);
 				templateFile.data = template.execute(context);
 				output.push(templateFile);
@@ -498,6 +506,7 @@ class Tools {
 
 			var inputPath = words[1];
 			var outputPath = words.length > 2 ? words[2] : null;
+			var language = words.length > 3 ? words[3] : null;
 
 			if (words.length == 1 || Path.extension(inputPath) == "swf") {
 				if (words.length > 3) {
@@ -506,7 +515,7 @@ class Tools {
 				}
 
 				Log.info("", Log.accentColor + "Running command: PROCESS" + Log.resetColor);
-				processFile(inputPath, outputPath, filePrefix);
+				processFile(inputPath, outputPath, filePrefix, language);
 			} else if (words.length > 2) {
 				try {
 					var projectData = File.getContent(inputPath);
@@ -527,7 +536,7 @@ class Tools {
 		}
 	}
 
-	private static function processFile(sourcePath:String, targetPath:String, prefix:String = null):Bool {
+	private static function processFile(sourcePath:String, targetPath:String, prefix:String = null, language:String = "haxe"):Bool {
 		var bytes:ByteArray = File.getBytes(sourcePath);
 		var swf = new SWF(bytes);
 		var exporter = new SWFLiteExporter(swf.data);
@@ -626,14 +635,12 @@ class Tools {
 		var prefix = "";
 		var uuid = StringTools.generateUUID(20);
 
-		#if !commonjs
-		generateSWFLiteClasses(srcPath, exportedClasses, swfLite, uuid, prefix);
+		generateSWFLiteClasses(srcPath, exportedClasses, swfLite, uuid, prefix, language);
 
 		for (file in exportedClasses) {
 			System.mkdir(Path.directory(file.targetPath));
 			File.saveContent(file.targetPath, file.data);
 		}
-		#end
 
 		var data = AssetHelper.createManifest(project);
 		data.libraryType = "swf.exporters.swflite.SWFLiteLibrary";
@@ -720,7 +727,7 @@ class Tools {
 					output.assets.push(asset);
 
 					if (true || library.generate) {
-						var generatedClasses = generateSWFClasses(project, output, swf, library.prefix);
+						var generatedClasses = generateSWFClasses(project, output, swf, library.prefix, "haxe");
 
 						for (className in generatedClasses) {
 							output.haxeflags.push(className);
@@ -903,7 +910,7 @@ class Tools {
 								targetPath = Path.tryFullPath(targetDirectory) + "/haxe/_generated";
 							}
 
-							var generatedClasses = generateSWFLiteClasses(targetPath, output.assets, swfLite, uuid, library.prefix);
+							var generatedClasses = generateSWFLiteClasses(targetPath, output.assets, swfLite, uuid, library.prefix, "haxe");
 
 							for (className in generatedClasses) {
 								output.haxeflags.push(className);
