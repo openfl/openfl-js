@@ -1,4 +1,5 @@
 
+export { default as BevelFilter } from "./BevelFilter";
 export { default as BitmapFilter } from "./BitmapFilter";
 export { default as BitmapFilterQuality } from "./BitmapFilterQuality";
 export { default as BitmapFilterShader } from "./BitmapFilterShader";
